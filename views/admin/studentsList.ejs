@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Students Registry | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-teal: #008080;
+    }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    .focus-ring-teal:focus { 
+      --tw-ring-color: var(--primary-teal); 
+      border-color: var(--primary-teal); 
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen p-4 md:p-10 font-sans">
+<%- include('../partials/adminSidebar')%>
+<main class="ml-20 p-8">
+  <div class="max-w-7xl mx-auto bg-white shadow-2xl shadow-teal-900/5 rounded-[2.5rem] overflow-hidden border border-slate-100">
+
+    <div class="px-8 py-8 border-b border-slate-50 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div>
+        <h2 class="text-3xl font-black text-slate-800 tracking-tight">
+          Student <span class="text-teal-600">Records</span>
+        </h2>
+        <p class="text-[11px] text-slate-400 font-black uppercase tracking-[0.2em] mt-1">
+          Manage student accounts and permissions
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            id="searchInp"
+            placeholder="Filter by name..."
+            class="w-full sm:w-64 pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal transition-all"
+          />
+        </div>
+
+       
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-slate-50/50">
+          <tr>
+            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">UID</th>
+            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Full Name</th>
+            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Code</th>
+            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Department</th>
+            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Semester</th>
+            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-slate-50">
+          <% if (users.length === 0) { %>
+            <tr>
+              <td colspan="7" class="text-center py-20">
+                <p class="text-slate-400 text-sm font-bold uppercase tracking-widest">No student records found</p>
+              </td>
+            </tr>
+          <% } %>
+
+          <% users.forEach((user) => { %>
+            <tr class="student-row group hover:bg-teal-50/30 transition-colors">
+              
+              <td class="px-6 py-4 text-xs font-bold text-slate-400">
+                #<%= user.id %>
+              </td>
+
+              <td class="px-6 py-4">
+                <a href="/admin/student/<%= user.id %>" class="student-name group-hover:text-teal-600 transition-colors">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-[10px] uppercase">
+                      <%= user.username.charAt(0) %>
+                    </div>
+                    <span class="text-sm font-bold text-slate-700"><%= user.username %></span>
+                  </div>
+                </a>
+              </td>
+
+              <td class="px-6 py-4 text-sm font-medium text-slate-600 font-mono">
+                <%= user.code %>
+              </td>
+
+              <td class="px-6 py-4">
+                <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md tracking-tight uppercase">
+                  <%= user.department %>
+                </span>
+              </td>
+
+              <td class="px-6 py-4 text-sm text-slate-600">
+                Sem <%= user.semester %>
+              </td>
+
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full border 
+                  <%= user.status === 'Active' 
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
+                    : 'bg-red-50 text-red-700 border-red-100' %>">
+                  <span class="w-1 h-1 rounded-full <%= user.status === 'Active' ? 'bg-emerald-500' : 'bg-red-500' %>"></span>
+                  <%= user.status %>
+                </span>
+              </td>
+
+              <!-- <td class="px-6 py-4">
+                <div class="flex items-center justify-end gap-2">
+                  <a href="/admin/editStd/<%= user.id %>" class="p-2 text-slate-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-all" title="Edit Profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </a>
+                  <a href="/admin/deleteStd/<%= user.id %>" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" title="Delete Record">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a1 1 0 011 1v1H9V4a1 1 0 011-1z" />
+                    </svg>
+                  </a>
+                </div>
+              </td> -->
+
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!---pagination-->
+
+  <%if(totalPages>1){%>
+<div class="flex justify-center items-center gap-2 py-10">
+
+
+  <!--prev button-->
+  <%if(currentPage>1){%>
+      <a href="/admin/studentsList?page=<%=currentPage -1 %>"  class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Prev</a>
+
+ <% }%>
+
+ <!--page number-->
+ <%for(let i=1;i<=totalPages;i++){%>
+   <a href="/admin/studentsList?page=<%=i%>"class="px-4 py-2 rounded-xl text-sm font-bold
+         <%= i === currentPage 
+            ? 'bg-teal-600 text-white' 
+            : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>"><%=i%></a>
+
+ <%}%>
+
+
+ <!--next button-->
+ <%if(currentPage< totalPages){%>
+      <a href="/admin/studentsList?page=<%=currentPage+1%>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Next</a>
+
+ <%}%>
+</div>
+  <%}%>
+</main>
+
+  <script>
+    const searchInp = document.getElementById('searchInp');
+    const rows = document.querySelectorAll('.student-row');
+
+    searchInp.addEventListener('keyup', function () {
+      const val = searchInp.value.toLowerCase().trim();
+      rows.forEach(row => {
+        const name = row.querySelector('.student-name').textContent.toLowerCase();
+        row.style.display = name.includes(val) ? '' : 'none';
+      });
+    });
+  </script>
+
+</body>
+</html>

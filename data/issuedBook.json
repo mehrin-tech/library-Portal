@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1766214070324,
+    "studentId": 1,
+    "bookId": 1,
+    "issuedate": "2025-12-20",
+    "returnDate": "2025-12-22",
+    "status": "returned"
+  },
+  {
+    "id": 1766216500684,
+    "studentId": 1,
+    "bookId": 2,
+    "issuedate": "2025-12-20",
+    "returnDate": "2025-12-22",
+    "status": "returned",
+    "returnRequested": true
+  },
+  {
+    "id": 1767767398760,
+    "studentId": 2,
+    "bookId": 1,
+    "issuedate": "2026-01-07",
+    "returnDate": "2026-01-08",
+    "status": "returned"
+  },
+  {
+    "id": 1767785646156,
+    "studentId": 5,
+    "bookId": 1,
+    "issuedate": "2026-01-07",
+    "returnDate": "2026-01-08",
+    "status": "returned"
+  },
+  {
+    "id": 1767940762569,
+    "studentId": 1,
+    "bookId": 3,
+    "issuedate": "2026-01-09",
+    "returnDate": "2026-01-10",
+    "status": "returned",
+    "returnRequested": true
+  },
+  {
+    "id": 1768195407302,
+    "studentId": 1,
+    "bookId": 1,
+    "issuedate": "2026-01-12",
+    "returnDate": "2026-01-12",
+    "status": "issued",
+    "returnRequested": true
+  }
+]

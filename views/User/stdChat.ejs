@@ -1,0 +1,319 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Support | Student Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --primary-teal: #008080; }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    
+    .chat-bubble-me {
+      background: var(--primary-teal);
+      color: white;
+      border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
+      box-shadow: 0 4px 15px -3px rgba(0, 128, 128, 0.2);
+    }
+    
+    .chat-bubble-them {
+      background: white;
+      color: #334155;
+      border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+
+<body class="h-screen bg-slate-50 flex items-center justify-center p-4">
+
+  <div class="w-full max-w-lg h-[85vh] bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 flex flex-col overflow-hidden animate-slide-up">
+
+    <header class="bg-slate-900 text-white px-8 py-6 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <div class="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center border border-teal-500/30 text-teal-400 font-black">
+            <%= adminName ? adminName.charAt(0).toUpperCase() : 'A' %>
+          </div>
+          <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-slate-900 rounded-full"></span>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-black tracking-tight uppercase">
+            <%= adminName || 'Librarian Support' %>
+          </h3>
+          <div class="flex items-center gap-1.5">
+            <span class="text-[10px] font-bold text-teal-400 uppercase tracking-widest">Online</span>
+          </div>
+        </div>
+      </div>
+
+      <button id="closeChatBtn" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800 text-slate-400 hover:text-white hover:bg-rose-500/20 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </header>
+
+    <main id="chatBox" class="flex-1 overflow-y-auto px-8 py-8 space-y-6 bg-[#fcfcfd] scroll-smooth scrollbar-hide">
+      <div id="empty-chat" class="flex flex-col items-center justify-center h-full text-center opacity-50">
+        <div class="w-16 h-16 bg-slate-100 rounded-3xl flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+        </div>
+        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Initialize conversation...</p>
+      </div>
+    </main>
+
+    <footer class="p-6 bg-white border-t border-slate-50">
+      <div class="relative flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-[1.5rem] p-2 pr-3 focus-within:border-teal-500/50 transition-all">
+        <input
+          id="msg"
+          type="text"
+          placeholder="Describe your issue..."
+          class="flex-1 bg-transparent px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none"
+          onkeydown="if(event.key==='Enter') sendMsg()"
+        />
+        <button
+          onclick="sendMsg()"
+          class="bg-teal-primary text-white p-3 rounded-2xl shadow-lg shadow-teal-900/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const fromUser = "<%= studentId %>";
+    const toUser = "<%= adminId %>";
+    const fromRole = "student";
+    const toRole = "admin";
+  </script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let joined = false;
+
+    socket.on("connect", () => {
+      socket.emit("chat:join", { fromUser, toUser, fromRole, toRole });
+      joined = true;
+    });
+
+    function sendMsg() {
+      if (!joined) return;
+      const input = document.getElementById("msg");
+      const txt = input.value.trim();
+      if (!txt) return;
+
+      socket.emit("chat:msg", { fromUser, toUser, fromRole, toRole, txt });
+      input.value = "";
+    }
+
+    socket.on("room:history", (messages) => {
+      const box = document.getElementById("chatBox");
+      if(messages.length > 0) document.getElementById('empty-chat').style.display = 'none';
+      box.innerHTML = "";
+      messages.forEach(showMsg);
+    });
+
+    socket.on("chat:newMsg", (msg) => {
+      document.getElementById('empty-chat').style.display = 'none';
+      showMsg(msg);
+    });
+
+    function showMsg(msg) {
+      const box = document.getElementById("chatBox");
+      const isMe = msg.fromUser === fromUser;
+
+      const wrapper = document.createElement("div");
+      wrapper.className = `flex w-full ${isMe ? "justify-end" : "justify-start animate-fade-in"}`;
+
+      const bubble = document.createElement("div");
+      bubble.className = `max-w-[80%] px-5 py-3 text-sm font-medium tracking-tight ${isMe ? "chat-bubble-me" : "chat-bubble-them"}`;
+      bubble.textContent = msg.txt;
+
+      wrapper.appendChild(bubble);
+      box.appendChild(wrapper);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    document.getElementById("closeChatBtn").addEventListener("click", () => {
+      window.location.href = `/User/dashboard/${fromUser}`;
+    });
+  </script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Support | Student Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --primary-teal: #008080; }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    .border-teal-primary { border-color: var(--primary-teal); }
+    
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    
+    /* Teal Gradient for Header */
+    .teal-header {
+      background: linear-gradient(135deg, #008080 0%, #004d4d 100%);
+    }
+
+    .chat-bubble-me {
+      background: var(--primary-teal);
+      color: white;
+      border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
+      box-shadow: 0 4px 15px -3px rgba(0, 128, 128, 0.3);
+    }
+    
+    .chat-bubble-them {
+      background: #f0fdfa; /* Extremely light teal tint */
+      color: #004d4d;
+      border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
+      border: 1px solid #ccecec;
+      box-shadow: 0 4px 6px -1px rgba(0, 128, 128, 0.05);
+    }
+
+    .animate-slide-up {
+      animation: slideUp 0.4s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+
+<body class="h-screen bg-[#f0fdfa] flex items-center justify-center p-4">
+
+  <div class="w-full max-w-lg h-[85vh] bg-white rounded-[2.5rem] shadow-2xl shadow-teal-900/10 border border-teal-100 flex flex-col overflow-hidden animate-slide-up">
+
+    <header class="teal-header text-white px-8 py-6 flex items-center justify-between shadow-lg">
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white font-black">
+            <%= adminName ? adminName.charAt(0).toUpperCase() : 'A' %>
+          </div>
+          <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-[#004d4d] rounded-full"></span>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-black tracking-tight uppercase">
+            <%= adminName || 'Librarian Support' %>
+          </h3>
+          <!-- <div class="flex items-center gap-1.5">
+            <span class="text-[10px] font-bold text-teal-200 uppercase tracking-widest">Active Session</span>
+          </div> -->
+        </div>
+      </div> 
+
+      <button id="closeChatBtn" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all border border-white/10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </header>
+
+    <main id="chatBox" class="flex-1 overflow-y-auto px-8 py-8 space-y-6 bg-white scroll-smooth scrollbar-hide">
+      <div id="empty-chat" class="flex flex-col items-center justify-center h-full text-center">
+        <!-- <div class="w-16 h-16 bg-teal-50 rounded-3xl flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+        </div> -->
+        <!-- <p class="text-[10px] font-black uppercase tracking-widest text-teal-300">Start a new secure session</p> -->
+      </div>
+    </main>
+
+    <footer class="p-6 bg-white border-t border-teal-50">
+      <div class="relative flex items-center gap-3 bg-teal-50/50 border border-teal-100 rounded-[1.5rem] p-2 pr-3 focus-within:border-teal-500 focus-within:bg-white transition-all">
+        <input
+          id="msg"
+          type="text"
+          placeholder="Type your message..."
+          class="flex-1 bg-transparent px-4 py-2 text-sm text-slate-700 placeholder:text-teal-300 focus:outline-none"
+          onkeydown="if(event.key==='Enter') sendMsg()"
+        />
+        <button
+          onclick="sendMsg()"
+          class="bg-teal-primary text-white p-3 rounded-2xl shadow-lg shadow-teal-900/30 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const fromUser = "<%= studentId %>";
+    const toUser = "<%= adminId %>";
+    const fromRole = "student";
+    const toRole = "admin";
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let joined = false;
+
+   // socket.on("connect", () => {
+      socket.emit("chat:join", { fromUser, toUser, fromRole, toRole });
+      joined = true;
+    //});
+
+    function sendMsg() {
+      if (!joined) return;
+      const input = document.getElementById("msg");
+      const txt = input.value.trim();
+      if (!txt) return;
+      socket.emit("chat:msg", { fromUser, toUser, fromRole, toRole, txt });
+      input.value = "";
+    }
+
+    socket.on("room:history", (messages) => {
+      const box = document.getElementById("chatBox");
+      if(messages.length > 0) document.getElementById('empty-chat').style.display = 'none';
+      box.innerHTML = "";
+      messages.forEach(showMsg);
+    });
+
+    socket.on("chat:newMsg", (msg) => {
+      document.getElementById('empty-chat').style.display = 'none';
+      showMsg(msg);
+    });
+
+    function showMsg(msg) {
+      const box = document.getElementById("chatBox");
+      const isMe = msg.fromUser === fromUser;
+      const wrapper = document.createElement("div");
+      wrapper.className = `flex w-full ${isMe ? "justify-end" : "justify-start"}`;
+      const bubble = document.createElement("div");
+      bubble.className = `max-w-[80%] px-5 py-3 text-sm font-medium tracking-tight ${isMe ? "chat-bubble-me" : "chat-bubble-them"}`;
+      bubble.textContent = msg.txt;
+      wrapper.appendChild(bubble);
+      box.appendChild(wrapper);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    document.getElementById("closeChatBtn").addEventListener("click", () => {
+      window.location.href = `/User/dashboard/${fromUser}`;
+    });
+  </script>
+</body>
+</html>

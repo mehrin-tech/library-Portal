@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= b.bookname %> Details | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-teal: #008080;
+    }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    .border-teal-soft { border-color: rgba(0, 128, 128, 0.1); }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans">
+
+  <div class="bg-white shadow-2xl shadow-teal-900/10 rounded-[3rem] p-10 w-full max-w-4xl border border-slate-100 flex flex-col md:flex-row gap-12 relative overflow-hidden">
+    
+    <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
+
+    <div class="flex-shrink-0 flex flex-col items-center gap-6">
+      <div class="relative group">
+        <img
+          src="<%= b.image %>"
+          alt="<%= b.bookname %>"
+          class="w-64 h-80 object-cover rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border-4 border-white transition-transform duration-500 group-hover:scale-[1.02]"
+        />
+        <div class="absolute top-4 right-4 shadow-lg">
+          <% if (b.quantity > 0) { %>
+            <span class="bg-emerald-500 text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">In Stock</span>
+          <% } else { %>
+            <span class="bg-rose-500 text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">Out of Stock</span>
+          <% } %>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em]">Book ID</p>
+        <p class="text-lg font-black text-slate-700 font-mono">#<%= b.id %></p>
+      </div>
+    </div>
+
+    <div class="flex-1">
+      <header class="mb-8 border-b border-slate-50 pb-6">
+        <h1 class="text-4xl font-black text-slate-800 tracking-tight leading-tight mb-2">
+          <%= b.bookname %>
+        </h1>
+        <div class="flex items-center gap-2">
+          <div class="h-1 w-12 bg-teal-primary rounded-full"></div>
+          <p class="text-xs font-bold text-teal-600 uppercase tracking-widest">Full Publication Data</p>
+        </div>
+      </header>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        
+        <div class="bg-slate-50/80 p-4 rounded-2xl border border-slate-100">
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Author / Writer</p>
+          <p class="text-sm font-bold text-slate-800"><%= b.author %></p>
+        </div>
+
+        <div class="bg-slate-50/80 p-4 rounded-2xl border border-slate-100">
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ISBN Number</p>
+          <p class="text-sm font-bold text-slate-800 font-mono"><%= b.isbn %></p>
+        </div>
+
+        <div class="bg-slate-50/80 p-4 rounded-2xl border border-slate-100">
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Copies</p>
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-slate-800"><%= b.quantity %></span>
+            <span class="text-[10px] text-slate-400 italic font-medium">Available for issue</span>
+          </div>
+        </div>
+
+        <div class="bg-slate-50/80 p-4 rounded-2xl border border-slate-100">
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Arrival Date</p>
+          <p class="text-sm font-bold text-slate-800"><%= b.date %></p>
+        </div>
+
+      </div>
+
+      <div class="mt-10 pt-8 border-t border-slate-50 flex items-center justify-between gap-4">
+        <a href="/admin/booksList" class="flex items-center gap-2 text-[11px] font-black text-slate-400 hover:text-teal-600 transition-colors uppercase tracking-widest">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Dashboard
+        </a>
+
+        <div class="flex gap-3">
+          <!-- <a href="/admin/editBook/<%= b.id %>" class="bg-white border border-slate-200 text-slate-600 px-6 py-3 rounded-2xl hover:bg-slate-50 transition-all font-bold text-xs uppercase tracking-widest shadow-sm">
+            Modify
+          </a> -->
+          <a href="/admin/issue-book" class="bg-teal-primary text-white px-8 py-3 rounded-2xl hover:bg-teal-700 transition-all font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-900/10">
+            Issue Book
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= category.category %> - Subcategories | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --primary-teal: #008080; }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    .focus-ring-teal:focus { --tw-ring-color: var(--primary-teal); border-color: var(--primary-teal); }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen font-sans">
+<%- include('../../partials/adminSidebar')%>
+<main class="ml-20 p-8">
+<div class="max-w-7xl mx-auto px-6 py-12">
+
+  <div class="bg-slate-900 rounded-[2.5rem] p-8 mb-10 shadow-2xl shadow-slate-900/20 relative overflow-hidden">
+    <div class="absolute -top-24 -left-24 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl"></div>
+    
+    <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+      <div class="flex items-center gap-6">
+        <div class="h-16 w-16 bg-teal-primary/20 rounded-2xl flex items-center justify-center border border-teal-500/30">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl font-black text-white tracking-tight leading-none">
+            <%= category.category %>
+          </h1>
+          <p class="text-teal-400 text-[10px] font-black uppercase tracking-[0.3em] mt-3">Sub-Classification Registry</p>
+        </div>
+      </div>
+
+      <div class="flex-1 max-w-md">
+        <div class="relative">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Filter sub-assets..."
+            class="w-full pl-12 pr-4 py-3.5 bg-slate-800/50 border border-slate-700 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus-ring-teal transition-all backdrop-blur-sm"
+          >
+          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <a href="/admin/category/<%= category.id %>/sub/add" class="bg-teal-primary text-white px-6 py-4 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-lg shadow-teal-900/40 flex items-center gap-2 active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Add Subcategory
+      </a>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+    
+    <% if (sub && sub.length > 0) { %>
+    <div class="overflow-x-auto custom-scrollbar">
+      <table class="w-full text-left border-separate border-spacing-0">
+        <thead>
+          <tr class="bg-slate-50/50">
+            <!-- <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Reference ID</th> -->
+            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Cover Artwork</th>
+            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Sub-Classification</th>
+            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Book Title</th>
+            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Brief Overview</th>
+            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 text-center">Control</th>
+          </tr>
+        </thead>
+        <tbody id="subTableBody" class="divide-y divide-slate-50">
+          <% sub.forEach((s, index) => { %>
+          <tr class="subRow group hover:bg-teal-50/30 transition-colors">
+            
+            <!-- <td class="px-8 py-6 font-mono text-xs text-slate-400">#<%= s.id %></td> -->
+            
+            <td class="px-8 py-6">
+              <% if (s.image) { %>
+                <img src="/uploads/<%= s.image %>" class="w-14 h-20 object-cover rounded-xl shadow-md border border-white transform group-hover:rotate-2 transition-transform">
+              <% } else { %>
+                <div class="w-14 h-20 bg-slate-100 rounded-xl flex items-center justify-center text-[10px] font-black text-slate-300 uppercase italic">Empty</div>
+              <% } %>
+            </td>
+
+            <td class="px-8 py-6">
+              <span class="text-sm font-bold text-slate-800"><%= s.subcategory %></span>
+            </td>
+
+            <td class="px-8 py-6">
+              <span class="text-sm font-medium text-slate-600"><%= s.bookTitle %></span>
+            </td>
+
+            <td class="px-8 py-6 max-w-xs">
+              <p class="text-xs text-slate-400 leading-relaxed italic">
+                "<%= s.description ? (s.description.length > 60 ? s.description.substring(0, 60) + "..." : s.description) : 'No context provided' %>"
+              </p>
+            </td>
+
+            <td class="px-8 py-6 text-center">
+              <div class="flex items-center justify-center gap-2">
+                <a href="/admin/category/edit-subcategory/<%= category.id %>/<%= index %>" 
+                   class="p-2.5 bg-slate-50 text-slate-400 hover:text-teal-600 hover:bg-teal-50 rounded-xl transition-all" title="Edit Entry">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </a>
+                <a href="/admin/category/<%= category.id %>/sub/delete/<%= index %>" 
+                   class="p-2.5 bg-slate-50 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all" 
+                   onclick="return confirm('Remove this subcategory permanently?')" title="Delete Entry">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a1 1 0 011 1v1H9V4a1 1 0 011-1z" />
+                  </svg>
+                </a>
+              </div>
+            </td>
+
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <% } else { %>
+    <div class="py-24 text-center">
+      <div class="bg-slate-50 h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-6 border border-slate-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <p class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Zero subcategories indexed for this branch</p>
+    </div>
+    <% } %>
+
+  </div>
+
+  <div id="noResults" class="hidden py-12 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">No matching sub-records found.</div>
+
+  <div class="mt-12 flex justify-center border-t border-slate-100 pt-10">
+    <a href="/admin/category/categoryList" class="flex items-center gap-3 text-[11px] font-black text-slate-400 hover:text-teal-600 transition-all uppercase tracking-[0.3em] group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Return to Master Categories
+    </a>
+  </div>
+
+</div>
+</main>
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const rows = document.querySelectorAll(".subRow");
+  const noResults = document.getElementById("noResults");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase();
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      const match = text.includes(query);
+      row.style.display = match ? "" : "none";
+      if (match) visibleCount++;
+    });
+
+    noResults.style.display = (visibleCount === 0 && query !== "") ? "block" : "none";
+  });
+</script>
+
+</body>
+</html>

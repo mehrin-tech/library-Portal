@@ -1,0 +1,69 @@
+[
+  {
+    "categoryId": 1,
+    "subcategories": [
+      {
+        "subcategory": "Detectives",
+        "bookTitle": "Sherlock Holmes",
+        "description": "Sherlock Holmes is a world-famous fictional detective created by Sir Arthur Conan Doyle. First appearing in 1887, Holmes quickly became one of literature’s most iconic characters, known for his razor-sharp intellect,",
+        "image": "1765439371301-sherolck.jpg"
+      }
+    ]
+  },
+  {
+    "categoryId": 2,
+    "subcategories": [
+      {
+        "id": 1,
+        "subcategory": "Science Fiction",
+        "bookTitle": "Robotics & AI",
+        "description": "Robotics is the branch of science and engineering focused on designing, building, programming, and operating robots.",
+        "image": "1766382967269-robotics.jpg"
+      },
+      {
+        "id": 2,
+        "subcategory": "Science",
+        "bookTitle": "Space Opera",
+        "description": "Space opera is a subgenre of science fiction that focuses on epic adventures set in outer space.",
+        "image": "1766392080919-space opera.jpg"
+      }
+    ]
+  },
+  {
+    "categoryId": 3,
+    "subcategories": [
+      {
+        "subcategory": "Psychological",
+        "bookTitle": "Sharp Objects",
+        "description": "The story follows Camille Preaker, a troubled journalist who returns to her small hometown to investigate the murder of two young girls—while confronting her own traumatic past.",
+        "image": "1766383543187-psychological.jpg"
+      }
+    ]
+  },
+  {
+    "categoryId": 4,
+    "subcategories": [
+      {
+        "id": 1,
+        "subcategory": "BA Arabic Language & Literature ",
+        "bookTitle": "Arabic Grammer & Morphology (Core)",
+        "description": "Amanullah Vadakkangara — Arabic Grammar (Goodword Books)\r\nCovers basic structures of Arabic grammar including sentence types, noun-verb agreement, verbal forms, cases, and syntax rules — essential for foundational grammar.",
+        "image": "1767940389144-arabic 1.jpg"
+      },
+      {
+        "id": 2,
+        "subcategory": "BA Arabic Language & Literature ",
+        "bookTitle": "Arabic Prose",
+        "description": "This part of the syllabus builds reading, writing, and speaking skills through selected prose texts, dialogues, and structured exercises. The goal is to develop familiarity with everyday Arabic expressions and basic communication skills.",
+        "image": "1767940446303-arabic 1.jpg"
+      },
+      {
+        "id": 3,
+        "subcategory": "BA Arabic Language & Literature ",
+        "bookTitle": "Introductory Language / Communication Skills",
+        "description": "These books improve communicative competence in real-life Arabic interactions such as greetings, traveling, marketplace conversations, and workplace language",
+        "image": "1767940478936-arabic 1.jpg"
+      }
+    ]
+  }
+]

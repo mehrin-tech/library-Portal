@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex items-center justify-center h-screen font-sans">
+
+  <div class="text-center p-6 max-w-sm">
+    <h1 class="text-8xl font-black text-teal-600 tracking-tighter mb-2">
+      <%= status %>
+    </h1>
+
+    <p class="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-6">
+      <% if (status == 404) { %> Page Not Found 
+      <% } else if (status == 500) { %> Internal Server Error
+      <% } else { %> Unexpected Error <% } %>
+    </p>
+
+    <p class="text-slate-600 text-sm mb-8 leading-relaxed">
+      <%= message || "We couldn't find the resource you requested. Please check the URL or return home." %>
+    </p>
+
+    <a href="/" class="inline-block bg-teal-600 text-white text-[10px] font-black uppercase tracking-widest px-8 py-4 rounded-lg shadow-lg hover:bg-teal-700 transition-all">
+      Return Home
+    </a>
+  </div>
+
+</body>
+</html>

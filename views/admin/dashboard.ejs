@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Library System</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-teal: #008080;
+      --dark-teal: #004D4D;
+      --soft-mint: #F0F8F8;
+    }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    .hover-bg-mint:hover { background-color: var(--soft-mint); }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800 font-sans">
+
+  <%- include('../partials/adminSidebar') %>
+
+  <main class="ml-20 p-8">
+
+    <header class="bg-teal-primary text-white p-8 rounded-3xl mb-10 flex items-center justify-between shadow-xl shadow-teal-900/20">
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <!-- <p class="text-teal-50/80 text-sm mt-1 font-medium italic">Standard Library Management Portal</p> -->
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 rounded-2xl text-sm font-semibold">
+         Welcome, Administrator
+        </div>
+      </div>
+    </header>
+
+    <a href="/admin/chatList"
+       class="fixed bottom-8 right-8 z-50 w-16 h-16 rounded-2xl bg-teal-primary text-white flex items-center justify-center shadow-2xl shadow-teal-900/40 hover:-translate-y-2 transition-all duration-300 group">
+      <div class="absolute -top-2 -right-2 w-5 h-5 bg-red-500 border-2 border-white rounded-full animate-bounce"></div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 group-hover:scale-110 transition-transform">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    </a>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      
+      <a href="/admin/booksList" class="group bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-teal-200 transition-all">
+        <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-primary group-hover:text-white transition-colors">
+            📚
+        </div>
+        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Total Books</p>
+        <h3 class="text-3xl font-black mt-1 text-slate-800"><%= totalBooks %></h3>
+      </a>
+
+      <a href="/admin/studentsList" class="group bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-teal-200 transition-all">
+        <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-primary group-hover:text-white transition-colors">
+            👥
+        </div>
+        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Total Students</p>
+        <h3 class="text-3xl font-black mt-1 text-slate-800"><%= totalStudents %></h3>
+      </a>
+
+      <a href="/admin/issued-list" class="group bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-teal-200 transition-all">
+        <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-primary group-hover:text-white transition-colors">
+            🔄
+        </div>
+        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Books Issued</p>
+        <h3 class="text-3xl font-black mt-1 text-slate-800"><%= issuedCount %></h3>
+      </a>
+
+      <div class="group bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-red-100 transition-all">
+        <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-4">
+            ⚠️
+        </div>
+        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Pending Returns</p>
+        <h3 class="text-3xl font-black mt-1 text-red-600"><%= pendingReturns %></h3>
+      </div>
+    </div>
+
+    <div class="mb-10">
+        <h2 class="text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-6 pl-1">Quick Operations</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <a href="/admin/addBook" class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover-bg-mint transition-all group">
+            <span class="text-2xl mb-2 group-hover:scale-110 transition-transform">➕</span>
+            <span class="text-sm font-bold text-slate-700">Add Book</span>
+          </a>
+
+          <!-- <a href="/admin/addstd" class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover-bg-mint transition-all group">
+            <span class="text-2xl mb-2 group-hover:scale-110 transition-transform">🎓</span>
+            <span class="text-sm font-bold text-slate-700">Add Student</span>
+          </a> -->
+
+          <a href="/admin/issue-book" class="flex flex-col items-center justify-center p-6 bg-teal-primary text-white rounded-3xl hover:bg-teal-700 transition-all shadow-lg shadow-teal-900/20 group">
+            <span class="text-2xl mb-2 group-hover:rotate-12 transition-transform">📖</span>
+            <span class="text-sm font-bold">Issue Book</span>
+          </a>
+
+          <a href="/admin/category/categoryList" class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover-bg-mint transition-all group">
+            <span class="text-2xl mb-2 group-hover:scale-110 transition-transform">📁</span>
+            <span class="text-sm font-bold text-slate-700">Categories</span>
+          </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+      <div class="px-8 py-6 border-b border-slate-50 flex justify-between items-center">
+        <h2 class="text-lg font-bold text-slate-800">Recent Records</h2>
+        <a href="/admin/issued-list" class="text-xs font-bold text-teal-600 hover:underline underline-offset-4 tracking-wider uppercase">View All</a>
+      </div>
+
+      <div class="p-4">
+        <% if (recentIssued.length === 0) { %>
+          <div class="py-12 text-center">
+            <p class="text-slate-400 font-medium">No recent activity recorded.</p>
+          </div>
+        <% } else { %>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="text-[10px] text-slate-400 uppercase tracking-[0.2em]">
+                  <th class="px-4 py-3">Book Reference</th>
+                  <th class="px-4 py-3">Issue Date</th>
+                  <th class="px-4 py-3">Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-50">
+                <% recentIssued.forEach(i => { %>
+                  <tr class="hover:bg-slate-50/50 transition-colors">
+                    <td class="px-4 py-4 text-sm font-bold text-slate-700">#<%= i.bookId %></td>
+                    <td class="px-4 py-4 text-sm text-slate-500 font-medium"><%= i.issuedate %></td>
+                    <td class="px-4 py-4">
+                      <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase rounded-full">Success</span>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>

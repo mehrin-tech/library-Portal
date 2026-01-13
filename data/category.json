@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "category": "Detective",
+    "author": "Arthur Conan Doyle",
+    "image": "1765439135873-sherolck.jpg",
+    "name": "Detective"
+  },
+  {
+    "id": 2,
+    "category": "Science ",
+    "author": "Isaac Asimov",
+    "image": "1766382483243-science.jpg"
+  },
+  {
+    "id": 3,
+    "category": "Psychological",
+    "author": "Gillian Flynn",
+    "image": "1766383449791-psychological.jpg"
+  },
+  {
+    "id": 4,
+    "category": "Arabic Literature",
+    "author": "Dr.VM Ummer",
+    "image": "1767940224270-literature.jpg"
+  },
+  {
+    "id": 5,
+    "category": "English Literature",
+    "author": "John",
+    "image": "1767940585329-literature.jpg"
+  }
+]

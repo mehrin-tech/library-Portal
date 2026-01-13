@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Category | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-teal: #008080;
+    }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    .focus-ring-teal:focus { 
+      --tw-ring-color: var(--primary-teal); 
+      border-color: var(--primary-teal); 
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans">
+
+  <div class="w-full max-w-xl bg-white shadow-2xl shadow-teal-900/10 rounded-[2.5rem] p-10 border border-slate-100 relative overflow-hidden">
+    
+    <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
+
+    <div class="text-center mb-10">
+      <div class="inline-block p-4 bg-teal-50 rounded-2xl mb-4 text-teal-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+      </div>
+      <h1 class="text-3xl font-black text-slate-800 tracking-tight">Create <span class="text-teal-600">Category</span></h1>
+      <p class="text-[11px] text-slate-400 font-black uppercase tracking-[0.2em] mt-2">Classify your book collection</p>
+    </div>
+
+    <form
+      action="/admin/category/add"
+      method="POST"
+      enctype="multipart/form-data"
+      class="space-y-6"
+    >
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-1">
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Cat. ID</label>
+          <input
+            type="number"
+            name="id"
+            placeholder="00"
+            required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all font-mono"
+          />
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Classification Name</label>
+          <input
+            type="text"
+            name="category"
+            placeholder="e.g. Computer Science"
+            required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Department Head / Lead Author</label>
+        <input
+          type="text"
+          name="author"
+          placeholder="Enter supervisor or primary author"
+          required
+          class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all"
+        />
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Cover Illustration</label>
+        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+          <div class="space-y-1 text-center">
+            <svg class="mx-auto h-12 w-12 text-slate-300" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="flex text-sm text-slate-600">
+              <label for="file-upload" class="relative cursor-pointer bg-transparent rounded-md font-bold text-teal-600 hover:text-teal-700 focus-within:outline-none">
+                <span>Upload a file</span>
+                <input id="file-upload" name="image" type="file" accept="image/*" class="sr-only">
+              </label>
+              <p class="pl-1">or drag and drop</p>
+            </div>
+            <p class="text-xs text-slate-400 font-medium">PNG, JPG up to 10MB</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 flex flex-col items-center gap-4">
+        <button
+          type="submit"
+          class="w-full bg-teal-primary text-white py-4 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-lg shadow-teal-900/20 active:scale-[0.98] flex items-center justify-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          Register Category
+        </button>
+        <a href="/admin/categories" class="text-[11px] font-black text-slate-400 hover:text-teal-600 transition-colors uppercase tracking-[0.2em]">
+          Cancel and Return
+        </a>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>

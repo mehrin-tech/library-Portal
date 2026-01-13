@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Book | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-teal: #008080;
+      --dark-teal: #004D4D;
+    }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .focus-ring-teal:focus { 
+      --tw-ring-color: var(--primary-teal); 
+      border-color: var(--primary-teal); 
+    }
+    .file-input-custom::-webkit-file-upload-button {
+      background-color: var(--primary-teal);
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans">
+
+  <div class="bg-white shadow-2xl shadow-teal-900/10 rounded-[2.5rem] p-10 w-full max-w-2xl border border-slate-100 relative overflow-hidden">
+    
+    <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
+
+    <div class="text-center mb-10">
+      <div class="inline-block p-3 bg-teal-50 rounded-2xl mb-4 text-teal-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+      </div>
+      <h2 class="text-3xl font-black text-slate-800 tracking-tight">Modify <span class="text-teal-600">Book</span></h2>
+      <p class="text-[11px] text-slate-400 font-black uppercase tracking-[0.2em] mt-2">Update Book information</p>
+    </div>
+
+    <form action="/admin/update/<%= books.id %>" method="POST" enctype="multipart/form-data" class="space-y-6">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        
+        <div class="md:col-span-2">
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Book Name</label>
+          <input type="text" name="bookname" value="<%= books.bookname %>" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Author</label>
+          <input type="text" name="author" value="<%= books.author %>" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">ISBN</label>
+          <input type="text" name="isbn" value="<%= books.isbn %>" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Quantity</label>
+          <input type="text" name="quantity" value="<%= books.quantity %>" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Date</label>
+          <input type="text" name="date" value="<%= books.date %>" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all">
+        </div>
+
+        <div class="md:col-span-2 flex items-center gap-6 p-5 bg-teal-50/30 rounded-2xl border border-dashed border-teal-200">
+          <div class="relative group">
+            <img src="<%= books.image %>" alt="Current Cover" class="w-20 h-24 rounded-lg object-cover shadow-md border border-white">
+            <div class="absolute -top-2 -right-2 bg-white text-teal-600 rounded-full p-1 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1">
+            <label class="block text-[11px] font-black text-teal-700 uppercase tracking-widest mb-2">Change Cover Image</label>
+            <input type="file" name="image" class="file-input-custom w-full text-[10px] text-slate-400">
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-slate-50 flex flex-col gap-3">
+        <button type="submit"
+          class="w-full bg-teal-primary text-white py-4 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-lg shadow-teal-900/20 active:scale-[0.98]">
+          Update Records
+        </button>
+        <a href="/admin/booksList" class="text-center text-[11px] font-black text-slate-400 hover:text-teal-600 transition-colors uppercase tracking-widest">
+          Discard Changes
+        </a>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>

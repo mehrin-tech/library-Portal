@@ -1,0 +1,133 @@
+[
+  {
+    "id": 1,
+    "username": "Shanu shahanas",
+    "password": "1234",
+    "rollNo": "2078",
+    "department": "BSc Computer Science",
+    "email": "shanu@gmail.com",
+    "semester": "6",
+    "status": "Active",
+    "image": "1768296934000-avatar img1.jpg",
+    "code": "2078"
+  },
+  {
+    "id": 2,
+    "username": "Marseena ",
+    "password": "1234",
+    "rollNo": "103",
+    "department": "BSc Chemistry",
+    "email": "marseena@gmail.com",
+    "semester": "3",
+    "status": "Active",
+    "image": "/uploads/1765860817019-avatar img1.jpg",
+    "code": "103"
+  },
+  {
+    "id": 3,
+    "username": "Resmina",
+    "password": "1234",
+    "rollNo": "104",
+    "department": "BA Sociology",
+    "email": "resmina@gmail.com",
+    "semester": "6",
+    "status": "Active",
+    "image": "/uploads/1765860789427-avatar img1.jpg",
+    "code": "104"
+  },
+  {
+    "id": 4,
+    "username": "Mehrin T",
+    "password": "1234",
+    "code": "105",
+    "department": "BA Economics",
+    "email": "mehrin@gmail.com",
+    "semester": "3",
+    "status": "Active",
+    "image": "/uploads/1765859907707-avatar img1.jpg"
+  },
+  {
+    "id": 5,
+    "username": "Hiba ",
+    "password": "1234",
+    "code": "102",
+    "department": "BSc Physics",
+    "email": "hibaFiroz@gmail.com",
+    "semester": "5",
+    "status": "Active",
+    "image": "/uploads/1765860885173-avatar img1.jpg"
+  },
+  {
+    "id": 6,
+    "username": "Aisha",
+    "code": "108",
+    "department": "BCom Cooperation",
+    "email": "aisha@gmail.com",
+    "semester": "3",
+    "status": "Inactive",
+    "image": "/uploads/1767767243271-avatar img1.jpg"
+  },
+  {
+    "id": 7,
+    "username": "Hamna kk",
+    "code": "2001",
+    "department": "BCom Finance",
+    "email": "hamna@gmail.com",
+    "semester": "3",
+    "status": "Inactive",
+    "image": "/uploads/1767785509439-avatar img1.jpg"
+  },
+  {
+    "id": 8,
+    "firstname": "Hamna",
+    "lastname": "Fathima",
+    "username": "HamnaFathima",
+    "email": "hamna@gmail.com",
+    "number": "9061842078",
+    "Dob": "2002-09-21",
+    "password": "hamna123",
+    "department": "BSc Computer Science",
+    "semester": "3",
+    "status": "Active",
+    "image": "/uploads/1767868603855-avatar img1.jpg",
+    "code": "1120"
+  },
+  {
+    "id": 9,
+    "username": "AishaNada",
+    "code": "20012",
+    "department": "BSc Mathematics",
+    "email": "nada@gmail.com",
+    "semester": "2",
+    "status": "Active",
+    "image": "/uploads/1767940852069-avatar img1.jpg"
+  },
+  {
+    "id": 10,
+    "firstname": "Aisha",
+    "lastname": "vahid",
+    "username": "Aishavahid PK",
+    "email": "aishavahid@gmail.com",
+    "number": "9846232982",
+    "Dob": "2004-05-20",
+    "password": "aishavahid123",
+    "department": "BSc Chemistry",
+    "semester": "2",
+    "status": "Active",
+    "image": ""
+  },
+  {
+    "id": 11,
+    "firstname": "Fathima",
+    "lastname": "Shafna",
+    "username": "FathimaShafna",
+    "email": "shafna@gmail.com",
+    "number": "4567890123",
+    "Dob": "22004-03-22",
+    "password": "shafna123",
+    "department": "BCom Finance",
+    "semester": "3",
+    "status": "Active",
+    "image": "1768291359460-avatar img1.jpg"
+  }
+]

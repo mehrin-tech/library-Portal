@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Book | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-teal: #008080;
+      --dark-teal: #004D4D;
+      --soft-mint: #F0F8F8;
+    }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    .focus-ring-teal:focus { --tw-ring-color: var(--primary-teal); border-color: var(--primary-teal); }
+    .file-input-custom::-webkit-file-upload-button {
+      background-color: var(--primary-teal);
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 12px;
+      transition: background 0.3s;
+    }
+    .file-input-custom::-webkit-file-upload-button:hover {
+      background-color: var(--dark-teal);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans">
+
+  <div class="bg-white shadow-2xl shadow-teal-900/10 rounded-[2rem] p-10 w-full max-w-lg border border-slate-100 relative overflow-hidden">
+    
+    <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
+
+    <div class="text-center mb-8">
+      <div class="inline-block p-3 bg-teal-50 rounded-2xl mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
+      <h1 class="text-3xl font-black text-slate-800 tracking-tight">Add New <span class="text-teal-600">Book</span></h1>
+    </div>
+
+    <form  id='form'action="/admin/addBook" method="POST" enctype="multipart/form-data" class="space-y-6">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Book Title</label>
+          <input id="bookname" type="text" name="bookname" placeholder="e.g. The Great Gatsby" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all placeholder:text-slate-300">
+        <p id="bookerr" class="text-xs mt-1 hidden"></p>
+          </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Author</label>
+          <input id="author" type="text" name="author" placeholder="F. Scott Fitzgerald" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all">
+        <p id="authorerr" class="text-xs mt-1 hidden"></p>
+          </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">ISBN Number</label>
+          <input id="isbn" type="number" name="isbn" placeholder="9783161484100" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all">
+       <p id="isbnErr" class="text-xs mt-1 hidden"></p>
+          </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Quantity</label>
+          <input id="quantity" type="number" name="quantity" placeholder="00" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all">
+        <p id="quantityErr" class="text-xs mt-1 hidden"></p>
+          </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Entry Date</label>
+          <input id="date" type="date" name="date" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all text-slate-500">
+        <p id="date" class="text-xs mt-1 hidden"></p>
+          </div>
+      </div>
+
+      <div class="bg-teal-50/50 p-4 rounded-2xl border border-dashed border-teal-200">
+        <label class="block text-xs font-bold text-teal-700 uppercase tracking-wider mb-3 ml-1">Cover Image</label>
+        <input id="image" type="file" name="image" accept="image/*" required
+          class="file-input-custom w-full text-xs text-slate-500">
+      </div>
+
+      <div class="flex flex-col gap-3 pt-2">
+        <button type="submit"
+          class="w-full bg-teal-primary text-white py-4 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-lg shadow-teal-900/20 active:scale-[0.98]">
+           Add to Library
+        </button>
+        <a href="/admin/dashboard" class="text-center text-xs font-bold text-slate-400 hover:text-teal-600 transition-colors uppercase tracking-widest">
+           Go Back
+        </a>
+      </div>
+
+    </form>
+  </div>
+
+<script>
+  const form=document.getElementById('form')
+const bookInp=document.getElementById('bookname')
+const bookerr=document.getElementById('bookerr')
+
+const authorInp=document.getElementById('author')
+const authorerr=document.getElementById('authorerr')
+
+const isbnInp=document.getElementById('isbn')
+const isbnErr=document.getElementById('isbnErr')
+
+const quantityInp=document.getElementById('quantity')
+const quantityErr=document.getElementById('quantityErr')
+form.addEventListener('submit',(e)=>{
+  e.preventDefault()
+  //
+  let isValid=true;
+  if(bookInp.value.trim().length<3 ||/\d/.test(bookInp.value)){
+ bookerr.textContent='Invalid name'
+bookerr.className='text-red-600 text-sm mt-1'
+bookInp.classList.remove('border-green-600')
+bookInp.classList.add('border-red-600')
+isValid=false
+
+  }else{
+     bookerr.textContent='valid name'
+bookerr.className='text-green-600 text-sm mt-1'
+bookInp.classList.remove('border-red-600')
+bookInp.classList.add('border-green-600')
+  }
+  if(authorInp.value.trim().length<3 ||/\d/.test(authorInp.value)){
+     authorerr.textContent='Invalid name'
+authorerr.className='text-red-600 text-sm mt-1'
+authorInp.classList.remove('border-green-600')
+authorInp.classList.add('border-red-600')
+isValid=false
+  }else{
+       authorerr.textContent='valid name'
+authorerr.className='text-green-600 text-sm mt-1'
+authorInp.classList.remove('border-red-600')
+authorInp.classList.add('border-green-600')
+  }
+  if(!/^\d{10,13}$/.test(isbnInp.value.trim())){
+     isbnErr.textContent = 'ISBN must be 10–13 digits only';
+  isbnErr.className = 'text-red-600 text-sm mt-1';
+  isbnInp.classList.remove('border-green-600');
+  isbnInp.classList.add('border-red-600');
+  isValid = false;
+  }else{
+      isbnErr.textContent = 'Valid ISBN';
+  isbnErr.className = 'text-green-600 text-sm mt-1';
+  isbnInp.classList.remove('border-red-600');
+  isbnInp.classList.add('border-green-600');
+
+  }
+  if(quantityInp.value.trim()==='' || isNaN(quantityInp.value) || Number(quantityInp.value)<=0){
+      quantityErr.textContent = 'Quantity must be greater than 0';
+  quantityErr.className = 'text-red-600 text-sm mt-1';
+  quantityInp.classList.remove('border-green-600');
+  quantityInp.classList.add('border-red-600');
+  isValid = false;
+  }else{
+     quantityErr.textContent = 'Valid quantity';
+  quantityErr.className = 'text-green-600 text-sm mt-1';
+  quantityInp.classList.remove('border-red-600');
+  quantityInp.classList.add('border-green-600');
+  }
+  if(isValid){
+    form.submit()
+  }
+  
+})
+
+
+</script>
+</body>
+</html>

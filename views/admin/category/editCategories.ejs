@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Category | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --primary-teal: #008080; }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    .focus-ring-teal:focus { 
+      --tw-ring-color: var(--primary-teal); 
+      border-color: var(--primary-teal); 
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans">
+
+  <div class="w-full max-w-xl bg-white shadow-2xl shadow-teal-900/10 rounded-[2.5rem] p-10 border border-slate-100 relative overflow-hidden">
+    
+    <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
+
+    <div class="mb-10">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-black text-slate-800 tracking-tight">
+            Modify <span class="text-teal-600">Category</span>
+          </h1>
+          <p class="text-[11px] text-slate-400 font-black uppercase tracking-[0.2em] mt-1">Update classification details</p>
+        </div>
+        
+        <div class="text-right">
+          <span class="text-[10px] font-black text-slate-300 uppercase block tracking-widest">Entry ID</span>
+          <span class="text-lg font-black text-slate-400 font-mono">#<%= category.id %></span>
+        </div>
+      </div>
+    </div>
+
+    <form
+      action="/admin/category/edit/<%= category.id %>"
+      method="POST"
+      class="space-y-8"
+    >
+
+      <div class="space-y-2">
+        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">
+          Classification Name
+        </label>
+        <div class="relative group">
+          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-300 group-focus-within:text-teal-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            name="category"
+            value="<%= category.category %>"
+            required
+            placeholder="e.g. Science Fiction"
+            class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all shadow-sm"
+          />
+        </div>
+        <p class="text-[10px] text-slate-400 italic ml-1 italic">Note: Changing this will affect all books under this classification.</p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-slate-50">
+
+        <a
+          href="/admin/category/categoryList"
+          class="group flex items-center gap-2 text-[11px] font-black text-slate-400 hover:text-teal-600 transition-all uppercase tracking-widest"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Cancel Changes
+        </a>
+
+        <button
+          type="submit"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-teal-primary hover:bg-teal-700 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-teal-900/20 active:scale-95"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Save Changes
+        </button>
+
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>

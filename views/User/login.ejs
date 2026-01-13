@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Login | Library Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --primary-teal: #008080; }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+    
+    /* Smooth mesh gradient background */
+    .bg-mesh {
+      background-color: #0f172a;
+      background-image: 
+        radial-gradient(at 0% 0%, hsla(180, 100%, 25%, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, hsla(180, 100%, 25%, 0.1) 0px, transparent 50%);
+    }
+
+    .login-input {
+      width: 100%;
+      background-color: rgba(248, 250, 252, 0.8);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+    }
+
+    .login-input:focus {
+      background-color: #ffffff;
+      border-color: var(--primary-teal);
+      box-shadow: 0 0 0 4px rgba(0, 128, 128, 0.1);
+      outline: none;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slideUp { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  </style>
+</head>
+
+<body class="bg-mesh min-h-screen flex items-center justify-center p-6 font-sans">
+
+  <div class="fixed top-8 left-8 flex items-center gap-3">
+    <div class="w-10 h-10 bg-teal-primary/20 rounded-xl flex items-center justify-center border border-teal-500/30">
+        <a href="/home"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        </a>
+    </div>
+    <!-- <span class="text-white text-sm font-black uppercase tracking-[0.3em]">LMS Portal</span> -->
+  </div>
+
+  <div class="w-full max-w-md animate-slideUp">
+    <form
+      action="/User/login"
+      method="POST"
+      class="bg-white/95 backdrop-blur-xl rounded-[2.5rem] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] border border-white/20 p-10 md:p-12"
+    >
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-black text-slate-800 tracking-tight leading-tight">
+          Welcome <span class="text-teal-600">Back.</span>
+        </h2>
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-3">
+          Enter credentials to access library
+        </p>
+      </div>
+
+      <div class="mb-6 space-y-2">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
+         Username
+        </label>
+        <div class="relative">
+            <input
+              type="email"
+              name="email"
+              placeholder="user@email.com"
+              required
+              class="login-input"
+            />
+        </div>
+      </div>
+
+      <div class="mb-10 space-y-2">
+        <div class="flex justify-between items-center px-1">
+            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+               Password
+            </label>
+            <!-- <a href="#" class="text-[9px] font-bold text-teal-600 uppercase tracking-tighter hover:underline">Lost access?</a> -->
+        </div>
+        <input
+          type="password"
+          name="password"
+          placeholder="••••••••"
+          required
+          class="login-input"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-teal-primary text-white text-[11px] font-black uppercase tracking-[0.2em] py-4 rounded-2xl shadow-xl shadow-teal-900/20 hover:bg-teal-700 hover:-translate-y-1 active:scale-95 transition-all"
+      >
+         Login
+      </button>
+
+     
+    </form>
+
+    <div class="mt-8 text-center">
+        <a href="/home" class="text-slate-400 text-xs font-bold hover:text-teal-400 transition-colors inline-flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Return to Landing Page
+        </a>
+    </div>
+  </div>
+
+</body>
+</html>

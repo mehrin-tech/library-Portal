@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-teal: #008080;
+      --soft-mint: #F0F8F8;
+    }
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+  </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-8 font-sans">
+
+  <div class="w-full max-w-2xl bg-white shadow-2xl shadow-teal-900/10 rounded-[2.5rem] overflow-hidden border border-slate-100">
+    
+    <div class="h-3 bg-teal-primary w-full"></div>
+
+    <div class="p-10">
+      
+      <div class="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-50">
+        <div class="relative">
+          <img
+            src="<%= student.image %>"
+            alt="Student Photo"
+            class="w-32 h-32 rounded-3xl border-4 border-white shadow-xl object-cover"
+          />
+          <div class="absolute -bottom-2 -right-2 bg-teal-primary text-white p-2 rounded-xl shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="text-center md:text-left">
+          <p class="text-[10px] font-black text-teal-600 uppercase tracking-[0.3em] mb-1">Student Profile</p>
+          <h2 class="text-4xl font-black text-slate-800 tracking-tight mb-2">
+            <%= student.username %>
+          </h2>
+          <div class="flex items-center justify-center md:justify-start gap-2">
+             <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-200">
+                <%= student.status %>
+             </span>
+             <span class="text-slate-300">|</span>
+             <span class="text-xs font-bold text-slate-400">Joined Library System</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+        
+        <div class="space-y-1">
+          <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Student ID</label>
+          <p class="text-base font-bold text-slate-700 font-mono"><%= student.code %></p>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Department</label>
+          <p class="text-base font-bold text-slate-700"><%= student.department %></p>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Email</label>
+          <p class="text-base font-bold text-slate-700 underline decoration-teal-100 underline-offset-4"><%= student.email %></p>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Semester</label>
+          <div class="flex items-center gap-2">
+            <div class="h-2 w-2 rounded-full bg-teal-500"></div>
+            <p class="text-base font-bold text-slate-700"><%= student.semester %></p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-slate-50 flex items-center justify-between">
+        <a href="/admin/studentsList" class="flex items-center gap-2 text-[11px] font-black text-slate-400 hover:text-teal-600 transition-colors uppercase tracking-widest">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Records
+        </a>
+
+        <a href="/admin/editStd/<%= student.id %>" 
+           class="bg-teal-primary text-white px-8 py-3 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-lg shadow-teal-900/10 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          Modify Profile
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
