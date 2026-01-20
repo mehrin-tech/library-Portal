@@ -18,13 +18,15 @@ const server = http.createServer(app)
 const io = new Server(server)
 
 app.set('view engine', 'ejs')
+app.set('views','views')
 app.set('views', path.join(__dirname, 'views'))
 //global middlwares
 app.use(helmet({
   contentSecurityPolicy:{
     directives:{
       "default-src": ["'self'"],
-        "script-src": ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"], 
+        "script-src": ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com","https://cdn.jsdelivr.net" ], 
+     
         "script-src-attr": ["'self'", "'unsafe-inline'"],
         "style-src": ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
         "img-src": ["'self'", "data:", "https://*"],
@@ -55,6 +57,8 @@ app.use(express.static(path.join(__dirname, 'public')))//css,js.images serve chy
 const userRouter = require('./Routes/userRoutes')
 const adminRouter = require('./Routes/adminRoutes')
 const categoryRouter = require('./Routes/categoryRoutes')
+const userCategoryRouter=require('./Routes/userCategoryRoutes')
+//const resourceRouter=require('./Routes/resourceRoutes')
 //err hndler mddlwre
 const { errorHandler } = require('./Middlewares/errHandling')
 const { preventStdLogin } = require('./Utils/stdMiddleware')
@@ -64,6 +68,8 @@ const { preventStdLogin } = require('./Utils/stdMiddleware')
 app.use('/User', userRouter)
 app.use('/admin', adminRouter)
 app.use('/admin/category', categoryRouter)
+app.use('/User/category',userCategoryRouter)
+
 
 
 
@@ -76,6 +82,8 @@ app.get('/',preventStdLogin, (req, res) => {
  
 
 })
+
+
 //create room
 function createRoom(a, b) {
   return [String(a), String(b)].sort().join('-')

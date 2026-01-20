@@ -1,97 +1,124 @@
-<!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Category | Library System</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Category | College Library</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    :root { --primary-teal: #008080; }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
-    .focus-ring-teal:focus { 
-      --tw-ring-color: var(--primary-teal); 
-      border-color: var(--primary-teal); 
+    :root {
+      --primary-emerald: #2D8B75;
+      --deep-navy: #0D1B2A;
+    }
+
+    .wave-bg {
+      background-color: #F9FBFB;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232D8B75' fill-opacity='0.05' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,181.3C1248,149,1344,107,1392,85.3L1440,64L1440,0L0,0Z'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   </style>
 </head>
 
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans">
+<body class="wave-bg min-h-screen font-sans text-[#0D1B2A]">
 
-  <div class="w-full max-w-xl bg-white shadow-2xl shadow-teal-900/10 rounded-[2.5rem] p-10 border border-slate-100 relative overflow-hidden">
+  <div class="relative min-h-screen flex items-center justify-center p-6">
+
     
-    <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
+    <div class="absolute top-0 right-0 w-1/2 h-1/2 opacity-20 pointer-events-none">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#2D8B75"
+          d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,76.4,-44.7C83.6,-31.3,86.9,-15.7,85.1,-0.9C83.4,13.8,76.5,27.7,68.2,41.1C59.8,54.5,49.9,67.5,36.9,74.5C23.9,81.5,7.9,82.5,-8.1,81.2C-24.1,79.9,-40.1,76.3,-53.8,68.2C-67.5,60.1,-78.9,47.5,-84.3,33.1C-89.7,18.7,-89.2,2.5,-85.4,-12.7C-81.6,-27.9,-74.6,-42.1,-63.9,-51.7C-53.1,-61.3,-38.7,-66.4,-25.2,-73.4C-11.8,-80.4,0.6,-89.3,13.6,-88.7C26.7,-88.1,31.3,-83.5,44.7,-76.4Z"
+          transform="translate(100 100)" />
+      </svg>
+    </div>
 
-    <div class="mb-10">
-      <div class="flex items-center justify-between">
-        <div>
-          <h1 class="text-3xl font-black text-slate-800 tracking-tight">
-            Modify <span class="text-teal-600">Category</span>
-          </h1>
-          <p class="text-[11px] text-slate-400 font-black uppercase tracking-[0.2em] mt-1">Update classification details</p>
-        </div>
+  
+    <div class="relative z-10 w-full max-w-xl">
+      <div class="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-12
+                  shadow-[0_32px_64px_-15px_rgba(13,27,42,0.15)]
+                  border border-white">
+
         
-        <div class="text-right">
-          <span class="text-[10px] font-black text-slate-300 uppercase block tracking-widest">Entry ID</span>
-          <span class="text-lg font-black text-slate-400 font-mono">#<%= category.id %></span>
+        <div class="mb-10 flex items-center justify-between">
+          <div>
+            <h1 class="text-3xl font-bold tracking-tight">
+              Edit <span class="text-[#2D8B75]">Category</span>
+            </h1>
+            <p class="text-slate-500 text-sm mt-2">
+              Update classification details
+            </p>
+          </div>
+
+          <div class="text-right">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              ID
+            </span>
+            <div class="text-lg font-mono font-bold text-[#2D8B75]">
+              #<%= category.id %>
+            </div>
+          </div>
         </div>
+
+    
+        <form
+          action="/admin/category/edit/<%= category.id %>"
+          method="POST"
+          class="space-y-8"
+        >
+
+         
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
+              Category Name
+            </label>
+            <input
+              type="text"
+              name="category"
+              value="<%= category.category %>"
+              required
+              placeholder="e.g. Science Fiction"
+              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+            />
+            <p class="text-[11px] text-slate-400 mt-2 italic">
+              Changing this will affect all books under this category.
+            </p>
+          </div>
+
+          
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-6 pt-6 border-t border-slate-100">
+
+           
+            <a
+              href="/admin/category/categoryList"
+              class="flex items-center gap-2 text-xs font-bold text-slate-400
+                     hover:text-[#2D8B75] uppercase tracking-widest transition-all"
+            >
+              ← Cancel
+            </a>
+
+           
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center gap-2
+                     px-8 py-4 bg-[#2D8B75] text-white
+                     hover:bg-[#246f5e] rounded-2xl
+                     text-xs font-bold uppercase tracking-widest
+                     shadow-lg shadow-[#2D8B75]/30 active:scale-[0.98]"
+            >
+              Save Changes
+            </button>
+
+          </div>
+
+        </form>
       </div>
     </div>
 
-    <form
-      action="/admin/category/edit/<%= category.id %>"
-      method="POST"
-      class="space-y-8"
-    >
-
-      <div class="space-y-2">
-        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest ml-1">
-          Classification Name
-        </label>
-        <div class="relative group">
-          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-300 group-focus-within:text-teal-500 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-            </svg>
-          </span>
-          <input
-            type="text"
-            name="category"
-            value="<%= category.category %>"
-            required
-            placeholder="e.g. Science Fiction"
-            class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all shadow-sm"
-          />
-        </div>
-        <p class="text-[10px] text-slate-400 italic ml-1 italic">Note: Changing this will affect all books under this classification.</p>
-      </div>
-
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-slate-50">
-
-        <a
-          href="/admin/category/categoryList"
-          class="group flex items-center gap-2 text-[11px] font-black text-slate-400 hover:text-teal-600 transition-all uppercase tracking-widest"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Cancel Changes
-        </a>
-
-        <button
-          type="submit"
-          class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-teal-primary hover:bg-teal-700 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-teal-900/20 active:scale-95"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          Save Changes
-        </button>
-
-      </div>
-
-    </form>
   </div>
 
 </body>
-</html>
+</html> 

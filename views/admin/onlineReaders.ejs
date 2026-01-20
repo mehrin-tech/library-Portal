@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Readers</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#f6faf9] text-slate-800 font-sans">
+<%- include('../partials/adminSidebar') %>
+
+<main class="ml-20 p-8">
+  <div class="max-w-6xl mx-auto p-8">
+
+    <!-- Page Title -->
+    <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+      📖 Online Readers
+    </h2>
+
+    <% if (readers.length === 0) { %>
+      <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center text-slate-500 shadow-sm">
+        No students are reading online right now.
+      </div>
+    <% } else { %>
+
+      <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+        <table class="w-full text-left">
+          <thead class="bg-[#E8F2EE] text-slate-600 text-xs uppercase tracking-wider">
+            <tr>
+              <th class="px-6 py-4">Student</th>
+              <th class="px-6 py-4">Department</th>
+              <th class="px-6 py-4">Book</th>
+              <th class="px-6 py-4">Started At</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-slate-100">
+            <% readers.forEach(r => { %>
+              <tr class="hover:bg-[#F8FBFA] transition">
+                <td class="px-6 py-4 font-semibold text-slate-700">
+                  <%= r.studentname %>
+                </td>
+
+                <td class="px-6 py-4 text-slate-600">
+                  <%= r.department %>
+                </td>
+
+                <td class="px-6 py-4 text-slate-700">
+                  <%= r.bookName %>
+                </td>
+
+                <td class="px-6 py-4 text-sm text-slate-500">
+                  <%= new Date(r.startTime).toLocaleString() %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+      </div>
+
+    <% } %>
+
+  </div>
+</main>
+</body>
+</html>

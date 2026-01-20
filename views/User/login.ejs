@@ -5,120 +5,126 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Login | Library Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --primary-teal: #008080; }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
+    :root { 
+      --primary-teal: #2d8a75; /* JobPortal Theme Teal */
+    }
     
-    /* Smooth mesh gradient background */
-    .bg-mesh {
-      background-color: #0f172a;
-      background-image: 
-        radial-gradient(at 0% 0%, hsla(180, 100%, 25%, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, hsla(180, 100%, 25%, 0.1) 0px, transparent 50%);
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    
+    /* The "Network" pattern matching your landing page */
+    .network-pattern {
+      background-image: radial-gradient(circle, #2d8a75 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(circle at center, black, transparent 80%);
+      opacity: 0.15;
     }
 
     .login-input {
       width: 100%;
-      background-color: rgba(248, 250, 252, 0.8);
+      background-color: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 12px 16px;
+      border-radius: 8px; /* Slightly sharper corners to match theme */
+      padding: 14px 16px;
       font-size: 0.875rem;
       transition: all 0.3s ease;
     }
 
     .login-input:focus {
-      background-color: #ffffff;
       border-color: var(--primary-teal);
-      box-shadow: 0 0 0 4px rgba(0, 128, 128, 0.1);
+      box-shadow: 0 0 0 4px rgba(45, 138, 117, 0.1);
       outline: none;
     }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .animate-slideUp { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .animate-fadeIn { animation: fadeIn 0.6s ease-out forwards; }
   </style>
 </head>
 
-<body class="bg-mesh min-h-screen flex items-center justify-center p-6 font-sans">
+<body class="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-[#f3f8f6]">
 
-  <div class="fixed top-8 left-8 flex items-center gap-3">
-    <div class="w-10 h-10 bg-teal-primary/20 rounded-xl flex items-center justify-center border border-teal-500/30">
-        <a href="/home"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+  <div class="absolute inset-0 network-pattern pointer-events-none"></div>
+
+  <div class="fixed top-8 left-8">
+    <a href="/" class="flex items-center gap-2 group">
+      <div class="w-10 h-10 bg-white shadow-sm border border-slate-200 rounded-lg flex items-center justify-center text-teal-600 transition-all group-hover:border-teal-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        </a>
-    </div>
-    <!-- <span class="text-white text-sm font-black uppercase tracking-[0.3em]">LMS Portal</span> -->
+      </div>
+      <span class="text-slate-800 font-bold tracking-tight opacity-0 group-hover:opacity-100 transition-opacity">Back Home</span>
+    </a>
   </div>
 
-  <div class="w-full max-w-md animate-slideUp">
-    <form
-      action="/User/login"
-      method="POST"
-      class="bg-white/95 backdrop-blur-xl rounded-[2.5rem] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] border border-white/20 p-10 md:p-12"
-    >
-      <div class="text-center mb-10">
-        <h2 class="text-3xl font-black text-slate-800 tracking-tight leading-tight">
-          Welcome <span class="text-teal-600">Back.</span>
+  <div class="w-full max-w-[440px] animate-fadeIn relative z-10">
+    <div class="bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100 p-8 md:p-12">
+      
+      <div class="mb-10 text-left"> <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Welcome <span class="text-teal-600">Back</span>
         </h2>
-        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-3">
-          Enter credentials to access library
+       
+      </div>
+  
+      <form action="/User/login" method="POST" class="space-y-6">
+        
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-slate-700 uppercase tracking-wider ml-1">
+            Email Address
+          </label>
+          <input
+            type="email"
+            name="email"
+            placeholder="name@university.edu"
+            required
+            class="login-input"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex justify-between items-center px-1">
+            <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+              Password
+            </label>
+           
+          </div>
+          <input
+            type="password"
+            name="password"
+            placeholder="••••••••"
+            required
+            class="login-input"
+          />
+        </div>
+
+        <div class="pt-2">
+          <button
+            type="submit"
+            class="w-full bg-teal-primary text-white font-bold py-4 rounded-lg shadow-lg shadow-teal-900/10 hover:bg-[#236e5d] hover:-translate-y-0.5 active:scale-[0.98] transition-all"
+          >
+            Sign In
+          </button>
+        </div>
+
+      </form>
+
+      <div class="mt-10 pt-8 border-t border-slate-50 text-center">
+        <p class="text-slate-500 text-sm">
+          New student? 
+          <a href="/" class="text-teal-600 font-bold hover:underline ml-1">Create an account</a>
         </p>
       </div>
-
-      <div class="mb-6 space-y-2">
-        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-         Username
-        </label>
-        <div class="relative">
-            <input
-              type="email"
-              name="email"
-              placeholder="user@email.com"
-              required
-              class="login-input"
-            />
-        </div>
-      </div>
-
-      <div class="mb-10 space-y-2">
-        <div class="flex justify-between items-center px-1">
-            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-               Password
-            </label>
-            <!-- <a href="#" class="text-[9px] font-bold text-teal-600 uppercase tracking-tighter hover:underline">Lost access?</a> -->
-        </div>
-        <input
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
-          class="login-input"
-        />
-      </div>
-
-      <button
-        type="submit"
-        class="w-full bg-teal-primary text-white text-[11px] font-black uppercase tracking-[0.2em] py-4 rounded-2xl shadow-xl shadow-teal-900/20 hover:bg-teal-700 hover:-translate-y-1 active:scale-95 transition-all"
-      >
-         Login
-      </button>
-
-     
-    </form>
-
-    <div class="mt-8 text-center">
-        <a href="/home" class="text-slate-400 text-xs font-bold hover:text-teal-400 transition-colors inline-flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Return to Landing Page
-        </a>
     </div>
+
+  
   </div>
 
 </body>

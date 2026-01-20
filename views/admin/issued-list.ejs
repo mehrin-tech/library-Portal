@@ -46,12 +46,24 @@
             <th class="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Borrower</th>
             <th class="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Book Title</th>
             <th class="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-            <th class="px-8 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Management</th>
+            <th class="px-8 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Fine</th>
+           <th class="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">
+  Payment
+</th>
+<th class="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">
+  Management
+</th>
           </tr>
         </thead>
 
         <tbody class="divide-y divide-slate-50">
           <% issued.forEach(i => { %>
+            <%let delayDays=0
+            if(i.actualReturnDate && i.actualReturnDate>i.returnDate){
+              const due=new Date(i.returnDate);
+              const returned=new Date(i.actualReturnDate)
+              delayDays=Math.ceil((returned-due)/(1000*60*60*24))
+            }%>
             <tr class="group hover:bg-teal-50/30 transition-colors">
 
               <td class="px-8 py-5">
@@ -97,6 +109,43 @@
                 <% } %>
               </td>
 
+              
+              <td  class="px-8 py-5">
+                <%if(i.fine >0){%>
+                  <p>
+                     ₹<%= i.fine %>
+                     <span class="block text-[10px] text-slate-400">
+        (<%= delayDays %> days late)
+      </span>
+                  </p>
+
+               <% }else{%>
+                    <span class="text-xs font-bold text-emerald-600">No Fine</span>
+
+              <% }%>
+              </td>
+              <td class="px-8 py-5 text-right">
+
+  <% if (i.fine > 0 && i.finePaid === false) { %>
+    <span class="inline-flex items-center gap-2 text-[11px] font-black text-rose-600 uppercase mb-2">
+      ❌ Not Paid
+    </span>
+<!-- 
+     <form method="POST" action="/admin/mark-fine-paid/<%= i.id %>">
+      <button type="submit"
+        class="mt-2 px-4 py-2 rounded-xl text-xs font-black uppercase
+        bg-rose-100 text-rose-600 hover:bg-rose-600 hover:text-white transition">
+        Mark Paid
+      </button>
+    </form>  -->
+
+
+  <% } else if (i.fine > 0 && i.finePaid === true) { %>
+    <span class="inline-flex items-center gap-2 text-[11px] font-black text-emerald-600 uppercase">
+      ✅ Paid
+    </span>
+  <%}%>
+              </td>
               <td class="px-8 py-5 text-right">
                 <% if (i.status === "issued") { %>
                   <form method="POST" action="/admin/return-book/<%= i.id %>">

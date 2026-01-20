@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --primary-teal: #008080;
+            --primary-teal: #2d8a78;
             --dark-teal: #004D4D;
             --sidebar-width: 80px;
         }
@@ -37,11 +37,11 @@
 
 <aside
   class="fixed left-0 top-0 z-50
-         h-screen w-20
+         h-screen w-28
          bg-dark-teal
          flex flex-col items-center
          py-8 gap-6
-         rounded-r-[2.5rem] shadow-2xl shadow-teal-950/50 border-r border-white/5">
+          shadow-2xl shadow-teal-950/50 border-r border-white/5">
 
  
 <a href="/">
@@ -195,14 +195,7 @@
   <!-- modal box -->
   <div class="relative bg-white w-full max-w-sm rounded-3xl shadow-2xl p-8 text-center animate-scale">
 
-    <!-- icon -->
-    <div class="mx-auto mb-4 w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-600"
-           fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M17 16l4-4m0 0l-4-4m4 4H7" />
-      </svg>
-    </div>
+   
 
     <!-- text -->
    
@@ -218,14 +211,14 @@
         class="px-5 py-2 text-sm font-bold rounded-xl
                bg-slate-100 text-slate-600
                hover:bg-slate-200 transition-all">
-        No
+        cancel
       </button>
 
       <a href="/admin/logout"
          class="px-5 py-2 text-sm font-bold rounded-xl
                 bg-teal-600 text-white
                 hover:bg-teal-700 transition-all">
-        Logout
+        logout
       </a>
     </div>
 

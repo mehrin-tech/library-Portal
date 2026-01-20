@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= category.category %> - Subcategories</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 min-h-screen font-sans">
+
+
+<main class="ml-20 p-8">
+<div class="max-w-7xl mx-auto px-6 py-12">
+
+  <!-- HEADER -->
+
+  <div class="bg-slate-900 rounded-3xl p-8 mb-10 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+  
+  <!-- Title -->
+  <div>
+    <h1 class="text-3xl font-black"><%= category.category %></h1>
+    <p class="text-teal-400 text-xs uppercase tracking-widest mt-2">
+      Sub-Classification Registry
+    </p>
+  </div>
+
+ 
+  
+
+</div>
+
+
+  <!-- TABLE -->
+  <div class="bg-white rounded-3xl shadow border overflow-hidden">
+
+    <% if (sub && sub.length > 0) { %>
+    <table class="w-full">
+      <thead class="bg-slate-50">
+        <tr>
+          <th class="px-6 py-4 text-xs text-slate-400">ID</th>
+          <th class="px-6 py-4 text-xs text-slate-400">Cover</th>
+          <th class="px-6 py-4 text-xs text-slate-400">Author</th>
+          <th class="px-6 py-4 text-xs text-slate-400">Book Title</th>
+          <th class="px-6 py-4 text-xs text-slate-400">Overview</th>
+          <th class="px-6 py-4 text-xs text-slate-400 text-center">Control</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% sub.forEach(s => { %>
+        <tr class="border-t hover:bg-slate-50">
+
+          <td class="px-6 py-5 text-sm text-slate-500">#<%= s.id %></td>
+
+          <td class="px-6 py-5">
+            <% if (s.image) { %>
+             <a href="/User/category/<%=category.id%>/book/<%=s.id%>"><img
+                src="/uploads/<%= s.image %>"
+                class="w-14 h-20 object-cover rounded-xl shadow cursor-pointer"
+                data-image="/uploads/<%= s.image %>"
+                data-title="<%= s.bookTitle %>"
+                data-description="<%= s.description || 'No description available' %>"
+            
+              ></a>
+            <% } else { %>
+              <div class="w-14 h-20 bg-slate-100 rounded-xl flex items-center justify-center text-xs text-slate-400">
+                Empty
+              </div>
+            <% } %>
+          </td>
+
+          <td class="px-6 py-5 text-sm font-semibold"><%= s.author %></td>
+          <td class="px-6 py-5 text-sm"><%= s.bookTitle %></td>
+            <!-- <td class="px-6 py-5 text-sm"><%= s.author %></td> -->
+          <td class="px-6 py-5 text-xs text-slate-500 max-w-xs italic">
+            "<%= s.description ? s.description.substring(0, 60) + '...' : 'No description' %>"
+          </td>
+
+          <td class="px-6 py-5 text-center">
+            <a href="/admin/category/<%= category.id %>/sub/<%= s.id %>/edit"
+               class="text-teal-600 text-sm mr-3">Edit</a>
+           <!----> <a href="/admin/category/<%= category.id %>/sub/<%= s.id %>/delete"></a>
+            <button  
+           class="text-rose-600 text-sm"
+               onclick="deleteModal('/admin/category/<%=category.id%>/sub/<%=s.id%>/delete')">
+             Delete
+            </button>
+          </td>
+
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+    <% } else { %>
+      <p class="p-10 text-center text-slate-400">No subcategories found</p>
+    <% } %>
+
+  </div>
+
+</div>
+</main>
+
+
+
+
+
+
+
+</body>
+</html>

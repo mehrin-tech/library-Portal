@@ -29,5 +29,11 @@
     "category": "English Literature",
     "author": "John",
     "image": "1767940585329-literature.jpg"
+  },
+  {
+    "id": 6,
+    "category": "Novel",
+    "author": "M.T.Vasudevan Nair",
+    "image": "1768574485100-nalukettu.jpg"
   }
 ]

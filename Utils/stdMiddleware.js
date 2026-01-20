@@ -9,7 +9,7 @@ const student=[{id:0,username:'Hanah',password:'1234',role:'student',name:'Hanah
 function tokenCreate(student){
     return jwt.sign({id:student.id,username:student.username,role:'student'},
         JWT_SECRET,
-        {expiresIn:'20m'}
+        {expiresIn:'1hr'}
     )
 }
 function requireStdAuth(req,res,next){

@@ -7,7 +7,7 @@ const user={id:'ADMIN001',username:'admin123',password:bcrypt.hashSync('12345',1
 function signToken(user){
     return jwt.sign({id:user.id,username:user.username,name:user.name,role:'admin'},
         JWT_SECRET,
-        {expiresIn:'20min'}
+        {expiresIn:'1hr'}
     )
 }
 

@@ -1,10 +1,12 @@
 const express=require('express')
 const path=require('path')
-const { signupUser,loginForm, loggedForm, getDashboard, editStd, updated, viewBooks, issued, returnRqst,getChat, getUsedBooks,getProfile,logout } = require('../Controllers/userController')
+const { signupUser,loginForm, loggedForm, getDashboard, editStd, updated, viewBooks, issued, returnRqst,getChat, getUsedBooks,getProfile,logout, payFine } = require('../Controllers/userController')
 const router=express.Router()
 const fs=require('fs').promises
 const multer=require('multer')
 const {requireStdAuth,preventStdLogin,student}=require('../Utils/stdMiddleware')
+
+const {sendContactMessage}=require('../Controllers/userController')
 
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
@@ -29,5 +31,10 @@ router.post('/update/:id',requireStdAuth,upload.single('image'),updated)
 router.get('/viewBooks/:id',requireStdAuth,viewBooks)
 router.get('/issued/:id',requireStdAuth,issued)
 router.post('/request-return/:id',requireStdAuth,returnRqst)
+
+router.get('/pay-fine',requireStdAuth,payFine)
 router.get('/logout',requireStdAuth,logout)
+
+
+router.post('/contact',sendContactMessage)
 module.exports=router

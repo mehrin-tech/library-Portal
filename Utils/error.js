@@ -26,6 +26,11 @@ class UnauthorizedError extends AppError{
         super(message,401)
     }
 }
+class BadRequestError extends AppError{
+    constructor(message){
+        super(message,400)
+    }
+}
 class InternalServerError extends AppError{
     constructor(message){
         super(message,500)

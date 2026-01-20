@@ -1,117 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Subcategory | Library System</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Book | College Library</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
     :root {
-      --primary-teal: #008080;
+      --primary-emerald: #2D8B75;
+      --deep-navy: #0D1B2A;
     }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
-    .focus-ring-teal:focus { 
-      --tw-ring-color: var(--primary-teal); 
-      border-color: var(--primary-teal); 
+
+    .wave-bg {
+      background-color: #F9FBFB;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232D8B75' fill-opacity='0.05' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,181.3C1248,149,1344,107,1392,85.3L1440,64L1440,0L0,0Z'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   </style>
 </head>
 
-<body class="bg-slate-50 min-h-screen p-6 md:p-12 font-sans">
+<body class="wave-bg min-h-screen font-sans text-[#0D1B2A]">
 
-  <div class="max-w-2xl mx-auto mb-10 flex items-center justify-between">
-    <div>
-      <h1 class="text-3xl font-black text-slate-800 tracking-tight">
-        Add <span class="text-teal-600">Subcategory</span>
-      </h1>
-      <div class="mt-2 flex items-center gap-2">
-        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Parent Category:</span>
-        <span class="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-black uppercase tracking-widest rounded-full border border-teal-100">
-          <%= category.category %>
-        </span>
+  <div class="relative min-h-screen flex items-center justify-center p-6">
+
+    <!-- Decorative Blob -->
+    <div class="absolute top-0 right-0 w-1/2 h-1/2 opacity-20 pointer-events-none">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#2D8B75"
+          d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,76.4,-44.7C83.6,-31.3,86.9,-15.7,85.1,-0.9C83.4,13.8,76.5,27.7,68.2,41.1C59.8,54.5,49.9,67.5,36.9,74.5C23.9,81.5,7.9,82.5,-8.1,81.2C-24.1,79.9,-40.1,76.3,-53.8,68.2C-67.5,60.1,-78.9,47.5,-84.3,33.1C-89.7,18.7,-89.2,2.5,-85.4,-12.7C-81.6,-27.9,-74.6,-42.1,-63.9,-51.7C-53.1,-61.3,-38.7,-66.4,-25.2,-73.4C-11.8,-80.4,0.6,-89.3,13.6,-88.7C26.7,-88.1,31.3,-83.5,44.7,-76.4Z"
+          transform="translate(100 100)" />
+      </svg>
+    </div>
+
+    <!-- Form Card -->
+    <div class="relative z-10 w-full max-w-2xl">
+      <div class="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-12 shadow-[0_32px_64px_-15px_rgba(13,27,42,0.15)] border border-white">
+
+        <!-- Header -->
+        <div class="mb-10">
+          <h1 class="text-3xl font-bold tracking-tight">
+            Add <span class="text-[#2D8B75]">Book</span>
+          </h1>
+          <p class="text-slate-500 text-sm mt-2">
+            Category:
+            <span class="font-semibold text-[#2D8B75]">
+              <%= category.category %>
+            </span>
+          </p>
+        </div>
+
+        <!-- Form -->
+        <form id="form"
+          action="/admin/category/<%= category.id %>/sub/add"
+          method="POST"
+          enctype="multipart/form-data"
+          class="space-y-6"
+        >
+
+          <!-- Book Title -->
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
+              Book Title
+            </label>
+            <input id="titleInp"
+              type="text"
+              name="bookTitle"
+              required
+              placeholder="e.g. Sherlock Holmes"
+              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+            />
+            <p id="titleError" class="text-red-500 text-xs mt-1 hidden"></p>
+          </div>
+
+          <!-- Author -->
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
+              Author / Genre
+            </label>
+            <input id="authorInp"
+              type="text"
+              name="author"
+              required
+              placeholder="e.g. Arthur Conan Doyle"
+              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+            />
+            <p id="authorError" class="text-red-500 text-xs mt-1 hidden"></p>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
+              Description
+            </label>
+            <textarea id="descInp"
+              name="description"
+              rows="4"
+              required
+              placeholder="Brief overview of the book..."
+              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+            ></textarea>
+            <p id="descError" class="text-red-500 text-xs mt-1 hidden"></p>
+          </div>
+
+          <!-- Image -->
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
+              Book Cover Image
+            </label>
+            <input id="imgInp"
+              type="file"
+              name="image"
+              accept="image/*"
+              class="w-full text-sm" required
+            />
+            
+          </div>
+
+          <!-- PDF -->
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
+              Book PDF
+            </label>
+            <input id="pdfInp"
+              type="file"
+              name="pdf"
+              accept="application/pdf"
+              required
+              class="w-full text-sm" required
+            />
+            <p id="pdfError" class="text-red-500 text-xs mt-1 hidden"></p>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="w-full bg-[#2D8B75] text-white py-4 rounded-2xl
+                   hover:bg-[#246f5e] transition-all font-bold
+                   shadow-lg shadow-[#2D8B75]/30 active:scale-[0.98]"
+          >
+            Save Book
+          </button>
+
+        </form>
+
       </div>
     </div>
-    
-    <a href="/admin/categories" class="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-teal-600 transition-colors shadow-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </a>
+
   </div>
 
-  <form
-    action="/admin/category/<%= category.id %>/sub/add"
-    method="POST"
-    enctype="multipart/form-data"
-    class="max-w-2xl mx-auto bg-white p-10 rounded-[2.5rem] shadow-2xl shadow-teal-900/5 border border-slate-100 space-y-8 relative overflow-hidden"
-  >
-    <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
+  <script>
+  const form = document.getElementById("form");
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="md:col-span-1">
-        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Subcategory Name</label>
-        <input
-          type="text"
-          name="subcategory"
-          placeholder="e.g. Fantasy"
-          required
-          class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all shadow-sm placeholder:text-slate-300"
-        />
-      </div>
+  const titleInp = document.getElementById("titleInp");
+  const authorInp = document.getElementById("authorInp");
+  const descInp = document.getElementById("descInp");
+  const imgInp = document.getElementById("imgInp");
+  const pdfInp = document.getElementById("pdfInp");
 
-      <div class="md:col-span-1">
-        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Featured Book Title</label>
-        <input
-          type="text"
-          name="bookTitle"
-          placeholder="e.g. Peter Pan"
-          required
-          class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all shadow-sm placeholder:text-slate-300"
-        />
-      </div>
-    </div>
+  const titleError = document.getElementById("titleError");
+  const authorError = document.getElementById("authorError");
+  const descError = document.getElementById("descError");
+  const imgError = document.getElementById("imgError");
+  const pdfError = document.getElementById("pdfError");
 
-    <div>
-      <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Classification Description</label>
-      <textarea
-        name="description"
-        rows="4"
-        placeholder="Provide a brief overview of what this subcategory covers..."
-        required
-        class="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all shadow-sm placeholder:text-slate-300"
-      ></textarea>
-    </div>
+  // Regex
+  const titleRegex = /^[a-zA-Z ]{3,}$/;
+  const authorRegex = /^[a-zA-Z ]{2,}$/;
 
-    <div>
-      <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Visual Identifier (Image)</label>
-      <div class="mt-1 flex justify-center px-6 pt-6 pb-6 border-2 border-slate-200 border-dashed rounded-[2rem] bg-slate-50 hover:bg-teal-50/50 transition-colors group">
-        <div class="space-y-2 text-center">
-          <svg class="mx-auto h-10 w-10 text-slate-300 group-hover:text-teal-400 transition-colors" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <div class="flex text-sm text-slate-600 justify-center">
-            <label class="relative cursor-pointer font-black text-teal-600 hover:text-teal-700">
-              <span>Select Artwork</span>
-              <input name="image" type="file" accept="image/*" class="sr-only">
-            </label>
-          </div>
-          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">JPG, PNG up to 5MB</p>
-        </div>
-      </div>
-    </div>
+  form.addEventListener("submit", function (e) {
+    let isValid = true;
 
-    <button
-      type="submit"
-      class="w-full bg-teal-primary text-white py-4 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-xl shadow-teal-900/20 active:scale-[0.98] flex items-center justify-center gap-3"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-      </svg>
-      Commit Subcategory
-    </button>
+    // ---- Book Title ---- //
+    if (!titleRegex.test(titleInp.value.trim())) {
+      titleError.textContent = "Book title must be at least 3  only letters.";
+      titleError.classList.remove("hidden");
+      isValid = false;
+    } else {
+      titleError.classList.add("hidden");
+    }
 
-  </form>
+    // ---- Author ---- //
+    if (!authorRegex.test(authorInp.value.trim())) {
+      authorError.textContent = "Author must contain only letters.";
+      authorError.classList.remove("hidden");
+      isValid = false;
+    } else {
+      authorError.classList.add("hidden");
+    }
+
+    // ---- Description ---- //
+    if (descInp.value.trim().length < 10) {
+      descError.textContent = "Description must be at least 10 characters.";
+      descError.classList.remove("hidden");
+      isValid = false;
+    } else {
+      descError.classList.add("hidden");
+    }
+
+
+   
+
+     
+
+    // ---- Stop submit if invalid ---- 
+    if (!isValid) {
+      e.preventDefault();
+    }
+  });
+</script>
 
 </body>
 </html>

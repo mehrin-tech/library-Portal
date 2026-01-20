@@ -22,7 +22,7 @@
     <header class="flex justify-between items-center mb-10">
       <div class="space-y-1">
         <h1 class="text-3xl font-black text-slate-800 tracking-tight">Issued <span class="text-teal-600">Books List</span></h1>
-        <!-- <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Track your active and historical loans</p> -->
+       
       </div>
       
       <a href="/User/dashboard/<%=userId%>" 
@@ -106,13 +106,7 @@
                         Request Return
                       </button>
                     </form>
-                 <% } else if (i.returnRequested) { %>
-                    <div class="flex items-center justify-center gap-2 text-amber-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span class="text-[10px] font-black uppercase tracking-widest">Pending </span>
-                    </div>  
+               
                   <% } else { %>
                     <span class="text-slate-300 font-bold">—</span>
                   <% } %>
@@ -125,7 +119,7 @@
         </table>
       </div>
     </div>
-     <div class="flex items-center justify-between px-8 py-6 bg-white border-t border-slate-50">
+     <div class="flex items-center justify-between px-8 py-6  border-t border-slate-50">
   <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
     Page <%= currentPage %> of <%= totalPages %>
   </div>

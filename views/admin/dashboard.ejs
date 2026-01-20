@@ -3,147 +3,281 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | Library System</title>
+  <title>Admin Dashboard | CollegeLibrary</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --primary-teal: #008080;
-      --dark-teal: #004D4D;
-      --soft-mint: #F0F8F8;
+      /* Colors sampled from your image */
+      --primary-green: #348771;
+      --hover-green: #2a6d5a;
+      --bg-mint: #E8F2EE;
+      --text-dark: #2D3748;
     }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
-    .hover-bg-mint:hover { background-color: var(--soft-mint); }
+    
+    body {
+      background-color: #fcfdfd;
+      /* Mimics the soft organic shapes in your login background */
+      background-image: 
+        radial-gradient(circle at 100% 50%, #d9eae4 0%, transparent 40%),
+        radial-gradient(circle at 0% 100%, #eef6f3 0%, transparent 30%);
+      background-attachment: fixed;
+    }
+
+    .bg-sage-primary { background-color: var(--primary-green); }
+    .text-sage-primary { color: var(--primary-green); }
+    .border-sage { border-color: #e2ede9; }
+    
+    /* Smooth transition for buttons */
+    .btn-smooth {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
 
-<body class="bg-slate-50 min-h-screen text-slate-800 font-sans">
+<body class="min-h-screen text-slate-800 font-sans">
 
   <%- include('../partials/adminSidebar') %>
 
-  <main class="ml-20 p-8">
+  <main class="ml-24 p-8 max-w-7xl mx-auto">
 
-    <header class="bg-teal-primary text-white p-8 rounded-3xl mb-10 flex items-center justify-between shadow-xl shadow-teal-900/20">
+    <header class="mb-10 flex items-center justify-between bg-white border border-sage rounded-3xl px-8 py-5 shadow-sm">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <!-- <p class="text-teal-50/80 text-sm mt-1 font-medium italic">Standard Library Management Portal</p> -->
+        <h1 class="text-3xl font-bold tracking-tight text-[#1a1a1a]">
+            College<span class="text-sage-primary">Library</span>
+        </h1>
+        <p class="text-slate-500 font-medium mt-1">Welcome back, Administrator</p>
       </div>
 
-      <div class="flex items-center gap-4">
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 rounded-2xl text-sm font-semibold">
-         Welcome, Administrator
-        </div>
-      </div>
+     <div class="relative group">
+  <button class="flex items-center gap-3 bg-white border border-sage px-4 py-2 rounded-2xl shadow-sm hover:shadow-md transition-all">
+    
+    <!-- Avatar -->
+    <img 
+      src="https://ui-avatars.com/api/?name=Admin&background=348771&color=fff" 
+      alt="Admin"
+      class="w-10 h-10 rounded-full"
+    />
+
+    <!-- Name -->
+    <div class="text-left hidden sm:block">
+      <p class="text-sm font-bold text-slate-700">Admin</p>
+      <p class="text-xs text-slate-400">Administrator</p>
+    </div>
+
+   
+  </button>
+
+ 
+    
+   
+
+</div>
+
     </header>
-
-    <a href="/admin/chatList"
-       class="fixed bottom-8 right-8 z-50 w-16 h-16 rounded-2xl bg-teal-primary text-white flex items-center justify-center shadow-2xl shadow-teal-900/40 hover:-translate-y-2 transition-all duration-300 group">
-      <div class="absolute -top-2 -right-2 w-5 h-5 bg-red-500 border-2 border-white rounded-full animate-bounce"></div>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 group-hover:scale-110 transition-transform">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-      </svg>
-    </a>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
       
-      <a href="/admin/booksList" class="group bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-teal-200 transition-all">
-        <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-primary group-hover:text-white transition-colors">
+      <a href="/admin/booksList" class="group bg-white p-7 rounded-[24px] shadow-sm border border-sage hover:shadow-md transition-all">
+        <div class="w-12 h-10 bg-[#F0F7F4] text-sage-primary rounded-xl flex items-center justify-center mb-4 group-hover:bg-sage-primary group-hover:text-white transition-colors">
             📚
         </div>
-        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Total Books</p>
-        <h3 class="text-3xl font-black mt-1 text-slate-800"><%= totalBooks %></h3>
+        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.15em]">Total Books</p>
+        <h3 class="text-3xl font-bold mt-1 text-slate-800"><%= totalBooks %></h3>
       </a>
 
-      <a href="/admin/studentsList" class="group bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-teal-200 transition-all">
-        <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-primary group-hover:text-white transition-colors">
+      <a href="/admin/studentsList" class="group bg-white p-7 rounded-[24px] shadow-sm border border-sage hover:shadow-md transition-all">
+        <div class="w-12 h-12 bg-[#F0F7F4] text-sage-primary rounded-xl flex items-center justify-center mb-4 group-hover:bg-sage-primary group-hover:text-white transition-colors">
             👥
         </div>
-        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Total Students</p>
-        <h3 class="text-3xl font-black mt-1 text-slate-800"><%= totalStudents %></h3>
+        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.15em]">Total Students</p>
+        <h3 class="text-3xl font-bold mt-1 text-slate-800"><%= totalStudents %></h3>
       </a>
 
-      <a href="/admin/issued-list" class="group bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-teal-200 transition-all">
-        <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-primary group-hover:text-white transition-colors">
+      <a href="/admin/issued-list" class="group bg-white p-7 rounded-[24px] shadow-sm border border-sage hover:shadow-md transition-all">
+        <div class="w-12 h-12 bg-[#F0F7F4] text-sage-primary rounded-xl flex items-center justify-center mb-4 group-hover:bg-sage-primary group-hover:text-white transition-colors">
             🔄
         </div>
-        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Books Issued</p>
-        <h3 class="text-3xl font-black mt-1 text-slate-800"><%= issuedCount %></h3>
+        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.15em]">Books Issued</p>
+        <h3 class="text-3xl font-bold mt-1 text-slate-800"><%= issuedCount %></h3>
       </a>
 
-      <div class="group bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-red-100 transition-all">
-        <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-4">
+      <div class="group bg-white p-7 rounded-[24px] shadow-sm border border-sage hover:shadow-md transition-all">
+        <div class="w-12 h-12 bg-red-50 text-red-500 rounded-xl flex items-center justify-center mb-4">
             ⚠️
         </div>
-        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Pending Returns</p>
-        <h3 class="text-3xl font-black mt-1 text-red-600"><%= pendingReturns %></h3>
+        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.15em]">Pending Returns</p>
+        <h3 class="text-3xl font-bold mt-1 text-red-500"><%= pendingReturns %></h3>
       </div>
     </div>
 
     <div class="mb-10">
-        <h2 class="text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-6 pl-1">Quick Operations</h2>
+        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-6 pl-1">Quick Operations</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <a href="/admin/addBook" class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover-bg-mint transition-all group">
+          <a href="/admin/addBook" class="flex flex-col items-center justify-center p-6 bg-white border border-sage rounded-[20px] hover:bg-[#F8FBFA] transition-all group">
             <span class="text-2xl mb-2 group-hover:scale-110 transition-transform">➕</span>
             <span class="text-sm font-bold text-slate-700">Add Book</span>
           </a>
 
-          <!-- <a href="/admin/addstd" class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover-bg-mint transition-all group">
-            <span class="text-2xl mb-2 group-hover:scale-110 transition-transform">🎓</span>
-            <span class="text-sm font-bold text-slate-700">Add Student</span>
-          </a> -->
-
-          <a href="/admin/issue-book" class="flex flex-col items-center justify-center p-6 bg-teal-primary text-white rounded-3xl hover:bg-teal-700 transition-all shadow-lg shadow-teal-900/20 group">
-            <span class="text-2xl mb-2 group-hover:rotate-12 transition-transform">📖</span>
+          <a href="/admin/issue-book" class="flex flex-col items-center justify-center p-6 bg-sage-primary text-white rounded-[20px] hover:bg-[#2a6d5a] transition-all shadow-lg shadow-emerald-900/10 group">
+            <span class="text-2xl mb-2 group-hover:rotate-6 transition-transform">📖</span>
             <span class="text-sm font-bold">Issue Book</span>
           </a>
 
-          <a href="/admin/category/categoryList" class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover-bg-mint transition-all group">
+          <a href="/admin/category/categoryList" class="flex flex-col items-center justify-center p-6 bg-white border border-sage rounded-[20px] hover:bg-[#F8FBFA] transition-all group">
             <span class="text-2xl mb-2 group-hover:scale-110 transition-transform">📁</span>
             <span class="text-sm font-bold text-slate-700">Categories</span>
           </a>
+           <a href="/admin/online-readers" class="flex flex-col items-center justify-center p-6 bg-white border border-sage rounded-[20px] hover:bg-[#F8FBFA] transition-all group">
+                       <!-- <h3 class="text-sm font-bold text-slate-700"> <%= onlineReadersCount %></h3> -->
+            <span class="text-2xl mb-2 group-hover:scale-110 transition-transform">
+                               🧑‍💻</span>
+            <span class="text-xl mb-2 group-hover:scale-110 transition-transform">E-Book Readers</span>
+          </a>
         </div>
     </div>
+ 
+  
 
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-      <div class="px-8 py-6 border-b border-slate-50 flex justify-between items-center">
-        <h2 class="text-lg font-bold text-slate-800">Recent Records</h2>
-        <a href="/admin/issued-list" class="text-xs font-bold text-teal-600 hover:underline underline-offset-4 tracking-wider uppercase">View All</a>
-      </div>
 
-      <div class="p-4">
-        <% if (recentIssued.length === 0) { %>
-          <div class="py-12 text-center">
-            <p class="text-slate-400 font-medium">No recent activity recorded.</p>
-          </div>
-        <% } else { %>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="text-[10px] text-slate-400 uppercase tracking-[0.2em]">
-                  <th class="px-4 py-3">Book Reference</th>
-                  <th class="px-4 py-3">Issue Date</th>
-                  <th class="px-4 py-3">Status</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-50">
-                <% recentIssued.forEach(i => { %>
-                  <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="px-4 py-4 text-sm font-bold text-slate-700">#<%= i.bookId %></td>
-                    <td class="px-4 py-4 text-sm text-slate-500 font-medium"><%= i.issuedate %></td>
-                    <td class="px-4 py-4">
-                      <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase rounded-full">Success</span>
-                    </td>
-                  </tr>
-                <% }) %>
-              </tbody>
-            </table>
-          </div>
-        <% } %>
-      </div>
+      
+             
+          
+         <!-- ================== CHART SECTION ================== -->
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+
+  <!-- BAR CHART (LEFT) -->
+  <div class="bg-white rounded-[15px] shadow-sm border border-sage p-6 lg:col-span-2">
+    <h2 class="text-sm font-bold text-slate-600 uppercase tracking-[0.2em] mb-6">
+      Department-wise Issued Books
+    </h2>
+    <div class="w-full h-[300px]">
+      <canvas id="deptChart"></canvas>
     </div>
+  </div>
+   
+    <!-- PIE CHART (RIGHT) -->
+  <div class="bg-white rounded-[24px] shadow-sm border border-sage p-6">
+    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-6">
+      Library Overview
+    </h2>
+    <div class="w-full h-[260px]">
+      <canvas id="libraryPieChart"></canvas>
+    </div>
+  </div>
 
+</div>
   </main>
+<!---chatList start-->
+  <a href="/admin/chatList" class="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-sage-primary text-white flex items-center justify-center shadow-xl shadow-emerald-900/20 hover:-translate-y-1 transition-all group">
+    <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </a>
 
+  <!---chatlist end-->
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx=document.getElementById('deptChart').getContext('2d')
+
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:JSON.parse('<%- JSON.stringify(deptLabels)%>'),
+      datasets:[{
+        label:'Books Issued',
+        data:JSON.parse('<%-JSON.stringify(deptValues)%>'),
+        backgroundColor:'#348771',
+        borderRadius:5,
+        barThickness:20,
+        maxBarThickness:32
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          display:false
+        },
+      
+  
+        
+      },
+      scales:{
+        y:{
+          beginAtZero:true,
+          min:0,
+          max:6,
+          ticks:{
+            stepSize:1,
+            precision:0
+          }
+        
+        },
+        x:{
+          ticks:{
+            autoSkip:false,
+            maxRotation:0,
+            minRotation:0,
+            font:{
+              size:8
+            }
+          }
+        }
+      }
+    }
+  })
+</script>
+<script>
+  const pieCtx=document.getElementById('libraryPieChart').getContext('2d')
+
+  new Chart(pieCtx,{
+    type:'doughnut',
+    data:{
+      labels:[
+        'Total books',
+        'Online Readers',
+        'Total Students',
+        'Issued Book Count',
+      'Fine paid',
+    'Fine unpaid'
+  ],
+      datasets:[{
+        data:[
+         Number('<%= totalBooks %>'),
+          Number('<%= onlineReadersCount %>'),
+          Number('<%= totalStudents %>'),
+          Number('<%= issuedCount %>'),
+          Number('<%= finePaidCount %>'),
+          Number('<%= fineUnpaidCount %>')
+        ],
+         backgroundColor: [
+          '#348771',
+          '#3B82F6',
+          '#F59E0B',
+          '#14B8A6',
+          '#22C55E',
+          '#DC2626'
+        ],
+          borderWidth: 1
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          position:'bottom'
+        }
+      }
+    }
+  })
+</script>
 </body>
 </html>

@@ -17,7 +17,7 @@ const upload = multer({ storage });
 
 
 const {requireAuth,preventLogin}=require('../Utils/adminMiddleware');
-const { getCategoryList, getCategoryForm, postAdd, getEditCategory, postUpdate, deleteCategory, getSubCategory, subCategoryForm, addSubCategory, editSub, updateSub, deleteSub } = require('../Controllers/categoryController');
+const { getCategoryList, getCategoryForm, postAdd, getEditCategory, postUpdate, deleteCategory, getSubCategory, subCategoryForm, addSubCategory, editSub, updateSub, deleteSub ,getBookDetails} = require('../Controllers/categoryController');
 const filePath=path.join(__dirname,'../data/category.json')
 const subPath=path.join(__dirname,'../data/subCategory.json')
 
@@ -34,22 +34,31 @@ router.get('/edit/:id',requireAuth,getEditCategory)
 router.post('/edit/:id',requireAuth,postUpdate)
 //delete category
 router.get('/delete/:id',requireAuth,deleteCategory)
+
+
 //get sub category
 router.get('/view/:id',requireAuth,getSubCategory)
 //show  subcategory  form
 router.get('/:id/sub/add',requireAuth,subCategoryForm)
 //add subcategory
-router.post('/:id/sub/add',upload.single('image'),requireAuth,addSubCategory)
+router.post('/:id/sub/add',requireAuth,upload.fields([
+  {name:'image',maxCount:1},
+  {name:'pdf',maxCount:1}
+]),addSubCategory)
 //edit subcategory
-router.get('/edit-subcategory/:catId/:subId',requireAuth,editSub);
-
-
-
-
+router.get('/:catId/sub/:subId/edit',requireAuth,editSub);
 //update subcategory
-router.post('/edit-subcategory/:catId/:subId',requireAuth,updateSub)
+router.post('/edit-subcategory/:catId/:subId',requireAuth,
+  upload.fields([
+    {name:'image',maxCount:1},
+    {name:'pdf',maxCount:1}
 
+  ]),updateSub)
 //delte subcategory
-router.get('/:catId/sub/delete/:subId',requireAuth,deleteSub)
+router.get('/:catId/sub/:subId/delete',requireAuth,deleteSub)
+
+router.get('/:catId/book/:subId',requireAuth,getBookDetails)
+
+
 
 module.exports=router

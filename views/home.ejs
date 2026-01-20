@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,106 +6,186 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>College Library | Gateway</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-teal: #008080;
+      --primary-teal: #2d8a75;
     }
 
-    .bg-teal-primary {
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .bg-teal-primary { background-color: var(--primary-teal); }
+    .text-teal-primary { color: var(--primary-teal); }
+
+    /* The "Network" node pattern from the reference image */
+    .network-pattern {
+      background-image: radial-gradient(circle, #2d8a75 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(circle at center, black, transparent 80%);
+      opacity: 0.15;
+    }
+
+    /* Modern button styling to match image */
+    .btn-primary {
       background-color: var(--primary-teal);
+      transition: all 0.3s ease;
     }
+    .btn-primary:hover {
+      background-color: #236e5d;
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      border: 1px solid #d1d5db;
+      transition: all 0.3s ease;
+    }
+    .btn-outline:hover {
+      background-color: #f9fafb;
+      transform: translateY(-2px);
+    }
+    /* Job portal style hero background */
+.hero-bg {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(45,139,117,0.15), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(45,139,117,0.12), transparent 45%),
+    linear-gradient(to right, #f8fbfb, #ffffff);
+}
 
-    .text-teal-primary {
-      color: var(--primary-teal);
-    }
+/* Network dots */
+.network-dots {
+  background-image: radial-gradient(circle, rgba(45,139,117,0.35) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.35;
+}
 
-    .bg-main {
-      background: radial-gradient(circle at top left, #f8fafc 0%, #e2e8f0 100%);
-    }
+/* Connecting lines illusion */
+.network-lines {
+  background-image:
+    linear-gradient(120deg, rgba(45,139,117,0.15) 1px, transparent 1px),
+    linear-gradient(60deg, rgba(45,139,117,0.15) 1px, transparent 1px);
+  background-size: 120px 120px;
+  opacity: 0.15;
+}
 
-    .teal-gradient-bg {
-      background: linear-gradient(135deg, #008080 0%, #006666 100%);
-    }
+    
   </style>
 </head>
 
-<body class="bg-main m-0 p-0 h-screen overflow-hidden font-sans">
+<body class="bg-white m-0 p-0  ">
 
-  <nav class="fixed top-0 left-0 w-full z-20 bg-white/80 backdrop-blur-md border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center">
+  <nav class="fixed top-0 left-0 w-full z-20 bg-white/90 backdrop-blur-md border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
       <div class="flex items-center gap-2">
-        <div class="w-8 h-8 bg-teal-primary rounded-lg flex items-center justify-center text-white text-lg shadow-lg">📚
-        </div>
-        <h1 class="text-xl font-black text-slate-800 tracking-tight uppercase">College <span
-            class="text-teal-600">Library</span></h1>
+        <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">
+          <span class="text-teal-primary italic">Library</span>Portal
+        </h1>
       </div>
 
-      <div class="flex gap-4">
-        <%if(!isLoggedIn){%>
+      <div class="flex items-center gap-8">
+        <div class="hidden md:flex gap-6 text-[14px] font-semibold text-slate-600">
+            <a href="#" class="hover:text-teal-600">Home</a>
+            <!-- <a href="#" class="hover:text-teal-600">Resources</a> -->
+            <div class="relative">
+  <button id="resourcesBtn"
+    class="hover:text-teal-600 font-semibold focus:outline-none">
+    Pages
+  </button>
+
+  <!-- Dropdown -->
+  <div id="resourcesMenu"
+    class="hidden absolute top-8 left-0 w-40 bg-white border border-slate-200 rounded-lg shadow-lg overflow-hidden">
+    
+    <a href="#about"
+      class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">
+      About us
+    </a>
+
+    <a href="#howItsWork"
+      class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">
+      How its work
+    </a>
+
+    <a href="#whyChooseUs"
+      class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">
+     Why Choose Us
+    </a>
+    
+     <a href="#faqs"
+      class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">
+     FAQs
+    </a>
+  </div>
+</div>
+
+            <a href="#contact" class="hover:text-teal-600">Contact</a>
+        </div>
+
+        <% if(!isLoggedIn) { %>
         <button onclick="document.getElementById('overlay').classList.remove('hidden')"
-          class="text-[10px] font-black uppercase tracking-widest text-white bg-[#008080] hover:bg-[#006666] py-3 px-6 rounded-xl transition-all shadow-lg shadow-teal-900/20 active:scale-95">
+          class="text-xs font-bold uppercase tracking-wider text-white bg-[#2d8a75] py-3 px-6 rounded-lg shadow-md hover:bg-[#236e5d] transition-all">
           Create Account
         </button>
-        <%}%>
-       <% if (isLoggedIn) { %>
-  <div class="flex items-center gap-3">
-    <span class="text-md font-bold text-teal-600">
-      <%= username %>
-    </span>
-      
-<% } %>
-
-
-
-        <!-- <button class="bg-rose-500 hover:bg-rose-600 text-white text-[10px] font-black uppercase tracking-widest py-2.5 px-6 rounded-xl shadow-lg transition-all active:scale-95">
-          Exit Portal
-        </button> -->
+        <% } else { %>
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-bold text-teal-600"></span>
+          </div>
+        <% } %>
       </div>
     </div>
   </nav>
-
-  <div class="relative h-screen flex items-center justify-center pt-20">
-    <div
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-500/5 rounded-full blur-[120px] pointer-events-none">
+<main class="relative min-h-screen flex items-center  pt-16 overflow-hidden bg-slate-50">
+    
+    <div class="absolute right-0 top-0 w-full lg:w-1/2 h-full opacity-20 pointer-events-none z-0">
+        <svg width="100%" height="100%" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0d9488" stroke-width="0.5"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+            <circle cx="600" cy="200" r="150" fill="#0d9488" filter="blur(100px)" opacity="0.3" />
+            <circle cx="400" cy="500" r="100" fill="#2dd4bf" filter="blur(80px)" opacity="0.2" />
+        </svg>
     </div>
 
-    <div class="relative z-10 max-w-2xl text-center px-8">
-      <!-- <div class="inline-block px-4 py-1.5 bg-teal-50 border border-teal-100 rounded-full mb-6">
-        <span class="text-[10px] font-black text-teal-600 uppercase tracking-[0.2em]">Academic Resource
-          Management</span>
-      </div> -->
+       <div class="relative z-10 max-w-3xl mx-auto px-8 text-center animate-fade-in-up">
 
-      <h1 class="text-6xl font-black text-slate-900 mb-6 tracking-tighter leading-none">
-        Knowledge <br />
-        <span class="text-teal-600">Hub</span>
-      </h1>
+    <h1 class="text-xl md:text-2xl lg:text-5xl font-extrabold text-slate-900 leading-[1.1] tracking-tight mb-6">
+      COLLEGE 
+      <span class="text-[#2d8a75]">LIBRARY</span>
+    </h1>
 
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a href="/User/login"
-          class="teal-gradient-bg text-white font-black text-[11px] uppercase tracking-[0.2em] py-5 px-10 rounded-2xl shadow-2xl shadow-teal-900/20 hover:-translate-y-1 transition-all">
-          Student Access
-        </a>
-        <a href="/admin/login"
-          class="bg-white text-slate-700 border border-slate-200 font-black text-[11px] uppercase tracking-[0.2em] py-5 px-10 rounded-2xl shadow-xl hover:bg-slate-50 transition-all">
-          Administrator
-        </a>
+            <p class="text-slate-500">Academic resources for students </p>
+
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/User/login"
+         class="bg-[#2d8a75] hover:bg-teal-700 text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-teal-900/20 transition-all transform hover:-translate-y-1">
+        Student Access
+      </a>
+
+      <a href="/admin/login"
+         class="border-2 border-slate-200 text-slate-700 hover:border-teal-600 hover:text-teal-600 font-bold py-4 px-10 rounded-xl transition-all">
+        Administrator
+      </a>
       </div>
+      
+       
+       
+     
+
     </div>
-  </div>
-
-  <div id="overlay"
-    class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-6">
-    <div id="signupModal"
-      class="bg-white shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] rounded-[2.5rem] w-full max-w-lg p-10 md:p-14 relative overflow-hidden transition-all transform">
-
-      <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
-
+</main>
+  
+ <!---signup modal-->
+  <div id="overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-6">
+    <div id="signupModal" class="bg-white rounded-3xl w-full max-w-md p-10 relative shadow-2xl border-t-8 border-teal-primary">
       <div class="mb-8 flex justify-between items-start">
         <div>
-          <h2 class="text-3xl font-black text-slate-800 tracking-tight leading-tight">Create <span
-              class="text-teal-600">Account</span></h2>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Register for full library
-            access</p>
+          <h2 class="text-2xl font-extrabold text-slate-800">Create Account</h2>
+          <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Join the community</p>
         </div>
         <button id="closeModal" class="text-slate-300 hover:text-rose-500 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -114,62 +194,568 @@
         </button>
       </div>
 
-      <form action="/User/signup" method="POST" class="grid grid-cols-2 gap-4">
-        <input type="text" name="firstname" placeholder="First Name"
-          class="col-span-1 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-          required />
-        <input type="text" name="lastname" placeholder="Last Name"
-          class="col-span-1 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-          required />
-        <input type="email" name="email" placeholder="Email"
-          class="col-span-2 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-          required />
-        <input type="text" name="number" placeholder="Contact"
-          class="col-span-1 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-          required />
-        <div class="col-span-1 relative">
-          <input type="date" name="Dob"
-            class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-            required />
-          <span
-            class="absolute -top-2 left-3 bg-white px-1 text-[8px] font-black text-slate-400 uppercase tracking-widest">Birth
-            Date</span>
-        </div>
-        <input type="password" name="password" placeholder="Secure Password"
-          class="col-span-2 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-          required />
+     
+     
+<form action="/User/signup" method="POST" enctype="multipart/form-data" class="space-y-4">
 
-        <button type="submit"
-          class="col-span-2 mt-4 bg-teal-primary text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-teal-900/20 hover:bg-teal-700 transition-all active:scale-95">
-          Create Account
-        </button>
-      </form>
-
-      <p class="text-center mt-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-        Existing Member? <a href="/User/login" class="text-teal-600 hover:underline">Sign In </a>
-      </p>
-    </div>
+  <!-- First & Last Name -->
+  <div class="grid grid-cols-2 gap-3">
+    <input
+      type="text"
+      name="firstname"
+      placeholder="First Name"
+      class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20"
+      required
+    />
+    <input
+      type="text"
+      name="lastname"
+      placeholder="Last Name"
+      class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20"
+      required
+    />
   </div>
+
+  <!-- Email -->
+  <input
+    type="email"
+    name="email"
+    placeholder="Email"
+    class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20"
+    required
+  />
+
+  <!-- Password -->
+  <input
+    type="password"
+    name="password"
+    placeholder="Password"
+    class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20"
+    required
+  />
+
+  <!-- Department & Semester -->
+  <div class="grid grid-cols-2 gap-3">
+    <select
+      name="department"
+      class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20"
+      required
+    >
+      <option value="" disabled selected>Select Department</option>
+
+      <optgroup label="BSc">
+        <option value="BSc_CS">Computer Science</option>
+        <option value="BSc_Chemistry">Chemistry</option>
+        <option value="BSc_Mathematics">Mathematics</option>
+        <option value="BSc_Physics">Physics</option>
+      </optgroup>
+
+      <optgroup label="BA">
+        <option value="BA_Sociology">Sociology</option>
+        <option value="BA_English">English</option>
+        <option value="BA_History">History</option>
+      </optgroup>
+
+      <optgroup label="BCom">
+        <option value="BCom_General">BCom General</option>
+        <option value="BCom_Cooperation">BCom Cooperation</option>
+        <option value="BCom_Finance">BCom Finance</option>
+      </optgroup>
+
+      <optgroup label="BBA">
+        <option value="BBA">Bachelor of Business Administration</option>
+      </optgroup>
+    </select>
+
+    <select
+      name="semester"
+      class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20"
+      required
+    >
+      <option value="" disabled selected>Select Semester</option>
+      <option value="1">Semester 1</option>
+      <option value="2">Semester 2</option>
+      <option value="3">Semester 3</option>
+      <option value="4">Semester 4</option>
+      <option value="5">Semester 5</option>
+      <option value="6">Semester 6</option>
+      <option value="7">Semester 7</option>
+      <option value="8">Semester 8</option>
+    </select>
+  </div>
+
+  <!-- Status & Image -->
+  <div class="grid grid-cols-2 gap-3">
+    <select
+      name="status"
+      class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20"
+      required
+    >
+      <option value="" disabled selected>Status</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
+
+    <input
+      type="file"
+      name="image"
+      accept="image/*"
+      class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20"
+    />
+  </div>
+
+  <!-- Submit -->
+  <button
+    type="submit"
+    class="w-full btn-primary text-white py-4 rounded-xl font-extrabold uppercase text-[11px] tracking-widest"
+  >
+    Create Account
+  </button>
+
+</form>
+</div>
+</div>
+
+  
+
+
+
+
+   
+
+
+ 
+
+ 
 
   <script>
     const overlay = document.getElementById("overlay");
     const close = document.getElementById("closeModal");
-
     close.onclick = () => overlay.classList.add("hidden");
     window.onclick = (e) => { if (e.target === overlay) overlay.classList.add("hidden"); };
-    document.onkeydown = (e) => { if (e.key === "Escape") overlay.classList.add("hidden"); };
+  </script>
+  <script>
+  const resourcesBtn = document.getElementById("resourcesBtn");
+  const resourcesMenu = document.getElementById("resourcesMenu");
+
+  resourcesBtn.addEventListener("click", () => {
+    resourcesMenu.classList.toggle("hidden");
+  });
+
+  // Close dropdown when clicking outside
+  window.addEventListener("click", (e) => {
+    if (!resourcesBtn.contains(e.target) && !resourcesMenu.contains(e.target)) {
+      resourcesMenu.classList.add("hidden");
+    }
+  });
+</script>
+ <section id="about" class="relative bg-[#ECFDF5] py-28">
+  <div class="max-w-5xl mx-auto px-6 text-center">
+
+
+    <!-- Main heading -->
+    <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+     About <span class="text-[#2d8a75]">Library</span>
+    </h2>
+
+    <!-- Divider -->
+    <div class="mx-auto mb-8 h-1 w-20 rounded-full bg-teal-600"></div>
+
+    <!-- Description -->
+    <p class="text-slate-600 text-lg leading-relaxed max-w-3xl mx-auto">
+      CollegeLibrary is a modern digital library platform designed to empower
+      students and educators with seamless access to academic resources,
+      research materials, and digital learning tools — all in one intuitive
+      and secure environment.
+    </p>
+
+  </div>
+</section>
+
+ 
+
+<section id="howItsWork" class="bg-[#D6EEE6] py-24">
+  
+  <div class="max-w-6xl mx-auto px-6">
+
+    <!-- Heading -->
+    <div class="text-center mb-14">
+      
+
+      <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+       How Its<span class="text-[#2d8a75]">Works</span>
+      </h2>
+
+     
+    </div>
+
+    <!-- Small Cards -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- Card 1 -->
+      <div class="bg-[#F8FFFC] border border-teal-100 rounded-2xl p-6 
+                  hover:shadow-md transition transition-all duration-300 ease-in-out hover:-translate-y-2  hover:shadow-2xl">
+        <div class="w-10 h-10 rounded-xl bg-teal-600 text-white 
+                    flex items-center justify-center font-bold mb-4">
+          01
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">
+          Create Account
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Sign up with your basic details to access library services.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-[#F8FFFC] border border-teal-100 rounded-2xl p-6 
+                  hover:shadow-md transition transition-all duration-300 ease-in-out hover:-translate-y-2  hover:shadow-2xl">
+        <div class="w-10 h-10 rounded-xl bg-teal-600 text-white 
+                    flex items-center justify-center font-bold mb-4">
+          02
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">
+          Issue or Read
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Borrow physical books or read e-books directly online.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-[#F8FFFC] border border-teal-100 rounded-2xl p-6 
+                  hover:shadow-md transition transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
+        <div class="w-10 h-10 rounded-xl bg-teal-600 text-white 
+                    flex items-center justify-center font-bold mb-4">
+          03
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">
+          Return & Track
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Track borrowed books and return them on time.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+ 
+      
+          
+<section id="whyChooseUs" class="bg-[#2d8a75] py-24">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <!-- Heading -->
+    <div class="text-center mb-12">
     
- 
- 
-        
+
+      <h2 class="text-3xl md:text-4xl font-extrabold text-slate-100 mb-4">
+        Why Choose Us
+      </h2>
+
+     
+    </div>
+
+    <!-- Cards -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+      <!-- Card 1 -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 transition-all duration-300 ease-in-out hover:-translate-y-2  hover:shadow-2xl">
+        <h3 class="font-bold text-slate-900 mb-2">
+          Easy to Use
+        </h3>
+        <p class="text-sm text-slate-600">
+          Simple interface that anyone can understand easily.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
+        <h3 class="font-bold text-slate-900 mb-2">
+          Quick Book Access
+        </h3>
+        <p class="text-sm text-slate-600">
+          Search, issue, and read books without delay.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
+        <h3 class="font-bold text-slate-900 mb-2">
+          Secure Accounts
+        </h3>
+        <p class="text-sm text-slate-600">
+          Keeps user data and borrowing history safe.
+        </p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
+        <h3 class="font-bold text-slate-900 mb-2">
+          Digital Reading
+        </h3>
+        <p class="text-sm text-slate-600">
+          Read available e-books anytime online.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       
 
+    
+    
+
+    
+                
+    
 
 
-  const bookSearch = document.getElementById('searchInp')
-  const rows = document.querySelectorAll('.book-row')
+     
+
+        
+         
+
+<!---Library rules section-->
+
+ 
+
+
+     <!---FAQS section-->
+<section id="faqs" class="bg-[#D6EEE6] py-24">
+  <div class="max-w-4xl mx-auto px-6">
+
+    <!-- Heading -->
+    <div class="text-center mb-12">
+     
+
+      <h2 class="text-4xl font-extrabold text-slate-900 mb-4">
+        Frequently <span class="text-[#2d8a75]">Asked Questions</span>
+      </h2>
+      
+    </div>
+
+    <!-- FAQ List -->
+    <div class="space-y-4">
+
+      <!-- FAQ Item -->
+      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+                      hover:shadow-md transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
+          How many books can I issue at a time?
+          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+        </summary>
+        <p class="mt-4 text-slate-500 leading-relaxed">
+          Students can issue a limited number of books at a time according to the library policy.
+        </p>
+      </details>
+
+      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+                      hover:shadow-md transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
+          What happens if I return a book late?
+          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+        </summary>
+        <p class="mt-4 text-slate-500 leading-relaxed">
+          Late returns may result in a fine based on the number of delayed days.
+        </p>
+      </details>
+
+      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+                      hover:shadow-md transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
+          How is the fine calculated?
+          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+        </summary>
+        <p class="mt-4 text-slate-500 leading-relaxed">
+          The fine is calculated per day after the due date and must be cleared before issuing new books.
+        </p>
+      </details>
+
+      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+                      hover:shadow-md transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
+          Can I read books online?
+          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+        </summary>
+        <p class="mt-4 text-slate-500 leading-relaxed">
+          Yes, students can read available e-books online through the library portal.
+        </p>
+      </details>
+
+      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+                      hover:shadow-md transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
+          Who can access the library?
+          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+        </summary>
+        <p class="mt-4 text-slate-500 leading-relaxed">
+          Only registered students and authorized users are allowed to access library resources.
+        </p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+
+     
+
+
+
+
+    
+
+
+
+<!---contact section-->
+
+
+<section id="contact" class="bg-slate-50 py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+      
+      <div class="space-y-6">
+        <h2 class="text-5xl font-extrabold text-slate-900 tracking-tight">
+          Get in <span class="text-[#2d8a75]">touch</span>
+        </h2>
+        <p class="text-slate-600 text-lg leading-relaxed">
+          Have a specific inquiry or just want to say hello? Our team is 
+          ready to help you scale your business. Fill out the form and 
+          we'll get back to you within 24 hours.
+        </p>
+        
+        <div class="space-y-4 pt-4">
+          <div class="flex items-center gap-4">
+            <div class="bg-teal-100 p-3 rounded-full text-teal-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <span class="text-slate-700 font-medium">support@company.com</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="bg-teal-100 p-3 rounded-full text-teal-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <span class="text-slate-700 font-medium">123 Business Plaza, Tech City</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
+        <form action="/User/contact" method="POST" class="space-y-5">
+          
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Full Name</label>
+            <input 
+              type="text" 
+              name="fullname" 
+              required
+              placeholder="John Doe"
+              class="w-full p-4 border border-slate-100 bg-slate-50 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Email Address</label>
+            <input 
+              type="email" 
+              name="email" 
+              required
+              placeholder="john@example.com"
+              class="w-full p-4 border border-slate-100 bg-slate-50 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Message</label>
+            <textarea 
+              name="message" 
+              rows="4" 
+              required
+              placeholder="How can we help you?"
+              class="w-full p-4 border border-slate-100 bg-slate-50 rounded-xl text-sm outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 resize-none transition-all"
+            ></textarea>
+          </div>
+
+          <button 
+            type="submit"
+            class="w-full hover:bg-teal-600 bg-[#2d8a75] text-white py-4 rounded-xl font-bold uppercase text-xs tracking-widest transition-all shadow-lg hover:shadow-teal-500/20 active:scale-[0.98]"
+          >
+            Send Message
+          </button>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!---footer section-->
+<footer class="bg-[#2d8a75] text-slate-300">
+  <div class="max-w-7xl mx-auto px-6 py-16">
+
+    <div class="grid gap-10 md:grid-cols-3">
+
+      <!-- Brand -->
+      <div>
+        <h3 class="text-2xl font-extrabold text-white mb-4">
+          College<span class="text-slate-900">Library</span>
+        </h3>
+        <p class="text-sm leading-relaxed text-white">
+          A modern digital library platform designed to provide students
+          with easy access to academic resources and online reading materials.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-4">
+          Quick Links
+        </h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#about" class="text-white">About Us</a></li>
+          <li><a href="#howItsWork" class="text-white">How It Works</a></li>
+          <li><a href="#libraryRules" class="text-white">Why Choose Us</a></li>
+          <li><a href="#faqs" class="text-white">FAQs</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-4">
+          Contact
+        </h4>
+        <ul class="space-y-3 text-sm text-white">
+          <li>Email: support@collegelibrary.com</li>
+          <li>Phone: +91 9061842078</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Divider -->
+    <div class="border-t border-slate-700 mt-12 pt-6 text-center text-xs text-white">
+      © <span id="year"></span> CollegeLibrary. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
-</body>
 
-</html>
+
+</body>
+</html>   

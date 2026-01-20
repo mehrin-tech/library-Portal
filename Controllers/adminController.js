@@ -4,6 +4,7 @@ const bcrypt=require('bcrypt')
 const filePath=path.join(__dirname,'../data/books.json')
 const userPath=path.join(__dirname,'../data/users.json')
 const issuePath=path.join(__dirname,'../data/issuedBook.json')
+const onlinePath=path.join(__dirname,'../data/onlineReads.json')
 const {NotFoundError,ConflictError,InternalServerError,ForbiddenError,UnauthorizedError}=require('../Utils/error')
 const  {signToken,user}=require('../Utils/adminMiddleware')
 //================read and write  book=============
@@ -58,6 +59,33 @@ await fs.writeFile(issuePath,JSON.stringify(issuedBook,null,2))
 }catch(err){
     console.error('error  writing file:',err)
 }
+}
+//================read and write online readers============//
+async function readOnline(){
+    try{
+const data=await fs.readFile(onlinePath,'utf-8')
+return data?JSON.parse(data):[]
+    }catch(err){
+  return []
+    }
+}
+
+async function writeOnline(reads){
+    await fs.writeFile(onlinePath,JSON.stringify(reads,null,2))
+}
+
+///================calculateFine function=========//
+function calculateFine(dueDate,actualReturnDate){
+    const due=new Date(dueDate)
+    const returned=new Date(actualReturnDate)
+
+    if(returned>due){
+        const diffTime=returned-due
+        const lateDays=Math.ceil(diffTime/(1000*60*60*24))
+
+        return lateDays*10;//10rupee per day
+    }
+    return 0
 }
 
 ///================login=================//
@@ -137,6 +165,7 @@ const dashboard=async (req, res,next) => {
   const books = await readData();
   const users = await readUser();
   const issued = await readIssued();
+  const onlineReads=await readOnline()
 
   const totalBooks = books.length;
   const totalStudents = users.length;
@@ -144,15 +173,43 @@ const dashboard=async (req, res,next) => {
   const issuedBooks = issued.filter(i => i.status === 'issued');
   const issuedCount = issuedBooks.length;
 
+  const onlineReadersCount=onlineReads.filter(r=>r.isActive).length
   const pendingReturns = issued.filter(
-    i => i.status === 'issued' && i.returnRequested
+    i => i.status === 'issued'
   ).length;
 
+  //department -wise logic===//
+  const deptCount={}
+
+  issuedBooks.forEach(issue=>{
+    const student=users.find(u=>u.id===issue.studentId)
+
+
+    if(student){
+    const dept=student.department;
+   deptCount[dept]=(deptCount[dept] || 0)+1
+    }
+  })
+  const deptLabels=Object.keys(deptCount)
+  const deptValues=Object.values(deptCount)
+
+  //fine statistics
+  const finePaidCount=issued.filter(i=>
+    i.fine>0 && i.finePaid===true).length
+
+    const fineUnpaidCount=issued.filter(i=>
+        i.fine>0 && i.finePaid===false
+    ).length
   res.render('admin/dashboard', {
     totalBooks,
     totalStudents,
     issuedCount,
+    deptLabels,
+    deptValues,
     pendingReturns,
+    onlineReadersCount,
+    finePaidCount,
+    fineUnpaidCount,
     recentIssued: issuedBooks.slice(-5).reverse()
   });
 }
@@ -160,7 +217,7 @@ const dashboard=async (req, res,next) => {
 const getBooksList=async(req,res,next)=>{
     try{
         const page=Number(req.query.page)|| 1;
-        const limit=3
+        const limit=4
 
     const books=await readData()
     const users=await readUser()
@@ -264,34 +321,11 @@ const deleteBook=async(req,res)=>{
     
      res.redirect('/admin/booksList')
 }
-//============std in admin side=================
-// const addStdForm=async(req,res)=>{
-//     res.render('admin/addStudent')
-// }
-// const addStd=async(req,res)=>{
-//     const {username,code,department,email,semester,status}=req.body
-//     const users=await readUser()
-//     const image=req.file?'/uploads/'+req.file.filename:'/images/avatar.jpg'
-//     const newUser={
-//         id:users.length>0?users[users.length-1].id+1:1,
-//         username,
-       
-//         code,
-//         department,
-//         email,
-//         semester,
-//         status,
-//         image
-//     }
 
-//     users.push(newUser)
-//     await writeUser(users)
-//     res.redirect('/admin/studentsList')
-// }
 const StdList=async(req,res,next)=>{
 try{
     const page=Number(req.query.page) || 1;
-    const limit=3
+    const limit=4
 
     const users=await readUser()
 
@@ -311,41 +345,7 @@ try{
 
 }
 }
-// const editStd=async(req,res,next)=>{
-//     const userId=parseInt(req.params.id)
-//     const users=await readUser()
-//     const user=users.find(u=>u.id===userId)
 
-//     if(!user) return next(new NotFoundError('student not found'))
-//         res.render('admin/editStd',{user})
-// }
-// const updatedStd=async(req,res,next)=>{
-//     const userId=parseInt(req.params.id)
-//     const users=await readUser()
-//     const user=users.find(u=>u.id===userId)
-//     if(!user) return next(new NotFoundError('student not updated'))
-        
-//         user.username=req.body.username
-      
-//         user.code=req.body.code
-//         user.department=req.body.department
-//         user.email=req.body.email
-//         user.semester=req.body.semester
-//         user.status=req.body.status
-//         if(req.file){
-//             user.image='/uploads/'+req.file.filename
-//         }
-
-//         await writeUser(users)
-//         res.redirect('/admin/studentsList')
-// }
-// const deleteStd=async(req,res)=>{
-//     const userId=parseInt(req.params.id)
-//     const users=await readUser()
-//     const user=users.filter(u=>u.id!==userId)
-//     await writeUser(user)
-//     res.redirect('/admin/studentsList')
-// }
 const profileStd=async(req,res,next)=>{
     const userId=parseInt(req.params.id)
     const users=await readUser()
@@ -368,8 +368,7 @@ const issuedBook=async(req,res,next)=>{
         books,
         students,
        
-       // totalPages
-
+       
     })
     }catch(err){
         next(err)
@@ -391,8 +390,11 @@ const postIssuedBook=async(req,res,next)=>{
         studentId:Number(studentId),
         bookId:Number(bookId),
         issuedate:new Date().toISOString().split("T")[0],
-        returnDate:returnDate,
-        status:"issued"
+        returnDate:returnDate,//due date
+        actualReturnDate:null,
+        status:"issued",
+        fine:0,
+        finePaid:false
 
     }
     issues.push(newIssue)
@@ -407,7 +409,7 @@ const postIssuedBook=async(req,res,next)=>{
 const issuedList=async(req,res,next)=>{
     try{
      const page=Number(req.query.page)||1;
-        const limit=3
+        const limit=4
     const issued=await readIssued()
     const books=await readData()
     const students=await readUser()
@@ -441,7 +443,14 @@ const returnBook=async(req,res,next)=>{
     if(!issue){
         return next(new NotFoundError('issued'))
     }
-    issue.status='returned'
+ //actual return date
+ const today=new Date().toISOString().split('T')[0]
+ issue.actualReturnDate=today
+ const fineAmount=calculateFine(issue.returnDate,today)
+ issue.fine=fineAmount
+
+ issue.finePaid=false;
+ issue.status='returned';
     
 
     const book=books.find(b=>b.id===issue.bookId)
@@ -452,6 +461,52 @@ const returnBook=async(req,res,next)=>{
     await writeData(books)
     res.redirect('/admin/issued-list')
 }
+
+const markFinePaid=async(req,res,next)=>{
+    try{
+  const issued= await readIssued()
+
+  const issue=issued.find(i=>i.id===Number(req.params.id))
+
+  if(!issue){
+    return next(new NotFoundError('issue is not found'))
+  }
+  issue.finePaid=true
+  await writeIssued(issued)
+
+  res.redirect('/admin/issued-list')
+    }catch(err){
+
+    }
+}
+
+//============getOnline reader===========//
+const getOnelineReaders=async(req,res,next)=>{
+    try{
+  const onlineReads=await readOnline()
+  const users=await readUser()
+  const books=await readData()
+
+  //only active readers
+  const activeReaders=onlineReads.filter(r=>r.isActive)
+//admin kaanikkan readable data create cheyyunnu
+  const readers=activeReaders.map(read=>{
+    const student=users.find(u=>u.id===read.studentId)
+    const book=books.find(b=>b.id===read.bookId)
+
+    return{
+        studentname:student?student.username:'unknown',
+        department:student?student.department:'-',
+        bookName:book?book.bookname:'unknown',
+        startTime:read.startTime
+    }
+  })
+  res.render('admin/onlineReaders',{readers})
+    }catch(err){
+next(err)
+    }
+}
+//=============================//
 const logout=(req,res,next)=>{
     res.clearCookie('token')
     res.redirect('/admin/login')
@@ -477,7 +532,9 @@ module.exports={
     returnBook,
     getChatList,
     getChat,
-    logout
+    logout,
+    markFinePaid,
+    getOnelineReaders
 
 
 

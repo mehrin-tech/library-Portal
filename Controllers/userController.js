@@ -4,7 +4,7 @@ const filePath=path.join(__dirname,'../data/books.json')
 const userPath=path.join(__dirname,'../data/users.json')
 const issuedPath=path.join(__dirname,'../data/issuedBook.json')
 const {NotFoundError,UnauthorizedError,ConflictError,InternalServerError,ForbiddenError}=require('../Utils/error')
-
+const {sendContactEmail}=require('../Utils/emaillService')
 const { tokenCreate,preventStdLogin}=require('../Utils/stdMiddleware')
 //read data
 async function readData(){
@@ -57,6 +57,8 @@ async function writeIssued(issuedBook) {
      console.error('error writing file:',err)
     }
 }
+
+//================================//
 const signupUser=async(req,res,next)=>{
    
     try{
@@ -159,17 +161,33 @@ const paginated=usedBooks.slice(startIndex,endIndex)
 }
 const getDashboard=async(req,res,next)=>{
     try{
-        
+        const page=Number(req.query.page) ||1
+        const limit=2
+
    const userId=req.student.id
    const students=await readUser()
    const student=students.find(u=>u.id===userId)
    if(!student) return next(new NotFoundError('not found err'))
 
     const books=await readData()
-    const totalBooks=books.length
     const issued=await readIssued()
 
+    const totalBooks=books.length
+    const totalPages=Math.ceil(totalBooks/limit)
+
+    const startIndex=(page-1)*limit
+    const endIndex=startIndex+limit
+    const allBooks=books.slice(startIndex,endIndex)
+
+    
+
     const issuedCount=issued.filter(i=>i.studentId===userId && i.status==='issued').length
+    //studnt fine calculate 
+    const myFines=issued.filter(i=>i.studentId===userId &&
+        i.fine>0 &&
+        i.finePaid===false
+    );
+    const totalFine=myFines.reduce((sum,i)=>sum+i.fine,0)
 
     const totalUsedBooks=issued.filter(i=>i.studentId===userId).length
      const now=new Date()
@@ -188,11 +206,14 @@ const getDashboard=async(req,res,next)=>{
         date,
         time,
         totalBooks,
-        books,
+        books:allBooks,
+        currentPage:page,
+        totalPages,
         userId:student.id,
         status:student.status,
         issuedCount,
-        totalUsedBooks
+        totalUsedBooks,
+        totalFine
         
     })
 }catch(err){
@@ -307,10 +328,57 @@ const returnRqst=async(req,res,next)=>{
 
     res.redirect(`/User/issued/${issue.studentId}`)
 }
+
+//====pay fine====//
+const payFine=async(req,res,next)=>{
+    try{
+        const studentId=req.student.id;
+        const issued=await readIssued()
+
+        const myFines=issued.filter(i=>
+            i.studentId===studentId &&
+            i.fine > 0 &&
+            i.finePaid===false
+        )
+        //fines ellam paid aayi mark cheyyunnu
+
+        myFines.forEach(i=>{
+            i.finePaid=true
+        })
+        await writeIssued(issued)
+
+        res.redirect(`/User/dashboard/${studentId}`)
+    }catch(err){
+  next(err)
+    }
+}
+
+//===================Contact us-send email=============/
+
+const sendContactMessage=async(req,res,next)=>{
+    try{
+        const {fullname,email,message}=req.body
+console.log(req.body)
+        if(!fullname || !email || !message){
+return res.status(400).send('Bad request')
+        }
+
+        await sendContactEmail(fullname,email,message);
+
+        res.redirect('/?contact=success')
+    }catch(err){
+   console.error('contact email error:',err)
+   res.status(500).send('email failed')
+    }
+}
+
+
+//===========logout====//
 const logout=async(req,res)=>{
     res.clearCookie('token')
     res.redirect('/User/login')
 }
+
 module.exports={
     signupUser,
 loginForm,
@@ -324,6 +392,8 @@ updated,
 viewBooks,
 issued,
 returnRqst,
+payFine,
+sendContactMessage,
 logout
 
 }

@@ -4,7 +4,7 @@ const router=express.Router()
 const fs=require('fs').promises
 const multer=require('multer')
 
-const {  loginForm, loggedForm, dashboard, getBooksList, addBookForm, addBook, viewBook, editBook, updateBook, deleteBook, addStdForm, addStd, StdList, editStd, updatedStd, deleteStd, profileStd, issuedBook, postIssuedBook, issuedList, returnBook,getChatList,getChat,logout } = require('../Controllers/adminController')
+const {  loginForm, loggedForm, dashboard, getBooksList, addBookForm, addBook, viewBook, editBook, updateBook, deleteBook,  StdList,  profileStd, issuedBook, postIssuedBook, issuedList, returnBook,getChatList,getChat,logout,getOnelineReaders, markFinePaid } = require('../Controllers/adminController')
 
 const filePath=path.join(__dirname,'../data/books.json')
 const userPath=path.join(__dirname,'../data/users.json')
@@ -50,4 +50,7 @@ router.post('/issue-book',requireAuth,postIssuedBook)
 router.get('/issued-list',requireAuth,issuedList)
 router.post('/return-book/:id',requireAuth,returnBook)
 router.get('/logout',logout)
+
+router.get('/online-readers',getOnelineReaders)
+router.get('/mark-fine-paid',markFinePaid)
 module.exports=router
