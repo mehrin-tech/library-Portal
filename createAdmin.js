@@ -1,7 +1,9 @@
 import mongoose from "mongoose"
+import dotenv from 'dotenv'
 import Admin from "./models/Admin.js"
 
-mongoose.connect("mongodb://127.0.0.1:27017/libraryDB")
+dotenv.config()
+mongoose.connect(process.env.MONGO_URI)
 
 async function createAdmin() {
 
