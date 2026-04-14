@@ -21,7 +21,7 @@
 
     <header class="flex justify-between items-center mb-10">
       <div class="space-y-1">
-        <h1 class="text-3xl font-black text-slate-800 tracking-tight">Issued <span class="text-teal-600">Books List</span></h1>
+        <h1 class="text-3xl font-black text-slate-800 tracking-tight">Issued <span class="text-[#2d8a75]">Books List</span></h1>
        
       </div>
       
@@ -41,6 +41,8 @@
           
           <thead>
             <tr class="bg-slate-50/50">
+                            <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">ID</th>
+
               <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Book Name</th>
               <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Issue Date</th>
               <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Return Date</th>
@@ -66,24 +68,25 @@
               </tr>
             <% } %>
 
-            <% issued.forEach(i => { %>
+            <% issued.forEach((i ,d)=> { %>
               <tr class="group hover:bg-teal-50/30 transition-all">
-                
+                <td class="px-8 py-6">
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter mt-1">Ref ID: #<%= d+1 %></span>                </td>
                 <td class="px-8 py-6">
                   <div class="flex flex-col">
                     <span class="text-sm font-black text-slate-800 group-hover:text-teal-700 transition-colors">
-                      <%= books.find(b => b.id === i.bookId)?.bookname %>
+                      <%= i.book?.bookname || i.book?.title || 'Unknown Book' %>
                     </span>
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter mt-1">Ref ID: #<%= i.id %></span>
+                    
                   </div>
                 </td>
 
                 <td class="px-8 py-6">
-                  <span class="text-xs font-bold text-slate-600 tracking-tight"><%= i.issuedate %></span>
+                  <span class="text-xs font-bold text-slate-600 tracking-tight"><%=new Date(i.createdAt) .toLocaleDateString()%></span>
                 </td>
 
                 <td class="px-8 py-6">
-                  <span class="text-xs font-bold text-slate-600 tracking-tight"><%= i.returnDate %></span>
+                  <span class="text-xs font-bold text-slate-600 tracking-tight"> <%= i.returnDate ? new Date(i.returnDate).toLocaleDateString() : '-' %></span>
                 </td>
 
                 <td class="px-8 py-6">
@@ -102,7 +105,7 @@
                 <td class="px-8 py-6 text-center">
                   <% if (i.status === 'issued' && !i.returnRequested) { %>
                     <form action="/user/request-return/<%= i.id %>" method="post">
-                      <button class="bg-teal-primary text-white text-[10px] font-black uppercase tracking-widest px-5 py-2.5 rounded-xl shadow-lg shadow-teal-900/10 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all">
+                      <button class="bg-[#2d8a75] text-white text-[10px] font-black uppercase tracking-widest px-5 py-2.5 rounded-xl shadow-lg shadow-teal-900/10 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all">
                         Request Return
                       </button>
                     </form>
@@ -127,7 +130,7 @@
   <div class="flex items-center gap-2">
     <% if (currentPage > 1) { %>
       <a href="?page=<%= currentPage - 1 %>" 
-         class="flex items-center justify-center px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-50 border border-slate-200 rounded-xl hover:bg-teal-50 hover:text-teal-600 hover:border-teal-200 transition-all active:scale-95">
+         class="flex items-center justify-center px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 bg-[#2d8a75] border border-slate-200 rounded-xl  hover:text-teal-600 hover:border-teal-200 transition-all active:scale-95">
         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
         Prev
       </a>

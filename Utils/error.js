@@ -36,4 +36,4 @@ class InternalServerError extends AppError{
         super(message,500)
     }
 }
-module.exports={AppError,NotFoundError,UnauthorizedError,ForbiddenError,InternalServerError,ConflictError}
+export{AppError,NotFoundError,UnauthorizedError,ForbiddenError,InternalServerError,ConflictError,BadRequestError}

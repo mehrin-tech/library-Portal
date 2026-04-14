@@ -5,156 +5,151 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Directory | Admin Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { --primary-teal: #008080; }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
-    
-    /* Subtle Row Hover Effect */
-    .student-row { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .student-row:hover {
-      background-color: #f0fdfa; /* Very light teal tint */
-      transform: translateX(4px);
-    }
-  </style>
 </head>
 
-<body class="bg-slate-50 min-h-screen font-sans antialiased text-slate-900">
-<%- include('../partials/adminSidebar')%>
-<main class="ml-20 p-8">
-  <div class="max-w-6xl mx-auto px-6 py-10">
-    
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
-      <div>
-      
-        <h1 class="text-4xl font-black text-slate-900 tracking-tighter">
-          Student <span class="text-teal-600">Lists</span>
-        </h1>
-      </div>
-</div>
-      
+<body class="bg-slate-50 min-h-screen font-sans antialiased text-slate-900 overflow-hidden">
 
-    <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-      
-      <div class="px-10 py-8 bg-white border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="relative w-full md:w-96 group">
-          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-300 group-focus-within:text-teal-500 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+<%- include('../partials/adminSidebar') %>
+
+<main class="ml-20 px-8 pt-2 pb-8">
+
+  <div class="max-w-6xl mx-auto px-6 pt-0 pb-10">
+
+    <!-- HEADER -->
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-4xl font-black tracking-tighter text-slate-900">
+       Chat <span class="text-teal-600">Lists</span>
+      </h1>
+    </div>
+
+    <!-- CARD -->
+    <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50
+                border border-slate-100 overflow-hidden">
+
+      <!-- SEARCH BAR -->
+      <div class="px-10 py-8 border-b border-slate-100
+                  flex flex-col md:flex-row items-center gap-6">
+
+        <div class="relative w-full md:w-96">
+          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2.5"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </span>
+
           <input
             type="text"
             id="searchInp"
             placeholder="Search by name or student ID..."
-            class="w-full pl-12 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 focus:bg-white transition-all"
+            class="w-full pl-12 pr-6 py-4 bg-slate-50 border border-slate-200
+                   rounded-2xl text-sm font-semibold
+                   focus:outline-none focus:ring-4
+                   focus:ring-teal-500/10 focus:border-teal-500
+                   focus:bg-white transition-all"
           />
         </div>
-
-       
       </div>
 
-      <div class="divide-y divide-slate-50">
+      <!-- STUDENT LIST -->
+      <div class="divide-y divide-slate-100">
+
         <% if (users.length === 0) { %>
           <div class="py-32 text-center">
-            <p class="text-slate-300 font-black uppercase tracking-[0.3em] text-sm">No student records found</p>
+            <p class="text-slate-300 font-black uppercase tracking-[0.3em] text-sm">
+              No student records found
+            </p>
           </div>
         <% } %>
 
         <% users.forEach((user) => { %>
           <a href="/admin/adminChat/<%= user.id %>"
-             class="student-row flex items-center gap-6 px-10 py-6 group">
-            
-            <div class="w-14 h-14 rounded-2xl bg-teal-primary text-white flex items-center justify-center text-xl font-black shadow-lg shadow-teal-900/20 group-hover:scale-105 transition-transform">
+             class="flex items-center gap-6 px-10 py-6
+                    transition-all duration-200
+                    hover:bg-teal-50 hover:translate-x-1">
+
+            <!-- AVATAR -->
+            <div class="w-14 h-14 rounded-full bg-teal-600 text-white
+                        flex items-center justify-center
+                        text-xl font-semibold font-black shadow-lg
+                        shadow-teal-900/20
+                        transition-transform
+                        hover:scale-105">
               <%= user.username.charAt(0).toUpperCase() %>
             </div>
 
+            <!-- NAME -->
             <div class="flex-1">
-              <div class="flex items-center gap-3">
-                <h3 class="student-name text-lg font-black text-slate-800 tracking-tight group-hover:text-teal-700 transition-colors">
-                  <%= user.username %>
-                </h3>
-              </div>
-              
+              <h3 class="student-name text-md font-semibold font-black text-slate-800
+                         tracking-tight transition-colors
+                         hover:text-teal-700">
+                <%= user.username %>
+              </h3>
             </div>
 
-            <div class="flex items-center gap-8">
-              <div class="hidden lg:block text-right">
-                <p class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Last Interaction</p>
-                <p class="text-xs font-bold text-slate-600">Just now</p>
-              </div>
-              
-              <div class="w-12 h-12 rounded-2xl bg-slate-50 text-slate-300 flex items-center justify-center group-hover:bg-teal-primary group-hover:text-white group-hover:shadow-xl group-hover:shadow-teal-900/20 transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
-              </div>
-            </div>
           </a>
         <% }) %>
-      </div>
 
-      <div class="px-10 py-6 bg-slate-50/50 border-t border-slate-100 flex justify-between items-center">
-        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-          Showing <span class="text-teal-600"><%= users.length %></span> registered students
-        </p>
-        <div class="flex gap-2">
-            <div class="w-2 h-2 rounded-full bg-teal-200"></div>
-            <div class="w-2 h-2 rounded-full bg-teal-400"></div>
-            <div class="w-2 h-2 rounded-full bg-teal-600"></div>
-        </div>
       </div>
+    </div>
+     <!-- PAGINATION -->
+  <% if (totalPages > 1) { %>
+    <div class="flex justify-center items-center gap-2 py-10">
+
+      <% if (currentPage > 1) { %>
+        <a href="/admin/chatList?page=<%= currentPage - 1 %>"
+           class="px-4 py-2 rounded-xl text-sm font-bold
+                  bg-slate-100 text-slate-600
+                  hover:bg-teal-100">
+          Prev
+        </a>
+      <% } %>
+
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="/admin/chatList?page=<%= i %>"
+           class="px-4 py-2 rounded-xl text-sm font-bold
+           <%= i === currentPage
+                ? 'bg-teal-600 text-white'
+                : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>">
+          <%= i %>
+        </a>
+      <% } %>
+
+      <% if (currentPage < totalPages) { %>
+        <a href="/admin/chatList?page=<%= currentPage + 1 %>"
+           class="px-4 py-2 rounded-xl text-sm font-bold
+                  bg-slate-100 text-slate-600
+                  hover:bg-teal-100">
+          Next
+        </a>
+      <% } %>
 
     </div>
+  <% } %>
   </div>
 
+ 
 
-  <!--pagination-->
-
- <% if(totalPages>1){%>
-  <div class="flex justify-center items-center gap-2 py-10">
-
-<!--prev button-->
-<%if(currentPage>1){%>
-
-        <a href="/admin/chatList?page=<%=currentPage -1 %>"  class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Prev</a>
-
-
-<%}%>
-
-<!---page number-->
-
-<% for(let i=1;i<=totalPages;i++){%>
-<a href="/admin/chatList?page=<%=i%>"class="px-4 py-2 rounded-xl text-sm font-bold
-         <%= i === currentPage 
-            ? 'bg-teal-600 text-white' 
-            : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>"><%=i%></a>
-<%}%>
-
-<!---next button-->
-<%if(currentPage< totalPages){%>
-
-        <a href="/admin/chatList?page=<%=currentPage+1%>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Next</a>
-
-<%}%>
-  </div>
-
-
- <%}%>
 </main>
-  <script>
-    // Search Logic
-    const searchInp = document.getElementById('searchInp');
-    const rows = document.querySelectorAll('.student-row');
 
-    searchInp.addEventListener('keyup', function () {
-      const val = searchInp.value.toLowerCase().trim();
-      rows.forEach(row => {
-        const name = row.querySelector('.student-name').textContent.toLowerCase();
-        row.style.display = name.includes(val) ? 'flex' : 'none';
-      });
+<!-- SEARCH SCRIPT -->
+<script>
+  const searchInp = document.getElementById('searchInp');
+  const rows = document.querySelectorAll('.student-name');
+
+  searchInp.addEventListener('keyup', () => {
+    const val = searchInp.value.toLowerCase().trim();
+
+    rows.forEach(nameEl => {
+      const row = nameEl.closest('a');
+      row.style.display = nameEl.textContent.toLowerCase().includes(val)
+        ? 'flex'
+        : 'none';
     });
-  </script>
+  });
+</script>
 
 </body>
 </html>

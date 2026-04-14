@@ -5,123 +5,159 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Category Registry | Library System</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
+  <!-- <style>
     :root { --primary-teal: #008080; }
     .bg-teal-primary { background-color: var(--primary-teal); }
     .text-teal-primary { color: var(--primary-teal); }
     .category-card:hover .category-image { transform: scale(1.05); }
     .focus-ring-teal:focus { --tw-ring-color: var(--primary-teal); border-color: var(--primary-teal); }
-  </style>
+  </style> -->
 </head>
 
 <body class="bg-slate-50 min-h-screen font-sans">
 
-<main class="ml-20 p-8">
-<div class="max-w-7xl mx-auto px-6 py-12">
+<!-- Sidebar -->
+ <%- include('../../partials/userSidebar') %> 
 
-  <div class="bg-slate-900 rounded-[2.5rem] p-8 mb-12 shadow-2xl shadow-slate-900/20 relative overflow-hidden">
-    <div class="absolute -top-24 -right-24 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl"></div>
-    
-    <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-      <div>
-        <h1 class="text-3xl font-black text-white tracking-tight">
-          Collection <span class="text-teal-400">Categories</span>
-        </h1>
-        <p class="text-slate-400 text-[11px] font-black uppercase tracking-[0.2em] mt-2">
-          Organize and Classify Library Assets
-        </p>
-      </div>
 
-      <div class="flex-1 max-w-xl">
-        <div class="relative">
-          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </span>
-          <input
-            type="text"
-            id="searchCategory"
-            placeholder="Search categories, authors, or IDs..."
-            class="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus-ring-teal transition-all backdrop-blur-sm"
-          />
-        </div>
-      </div>
+<!-- Header -->
+<header class="ml-20 bg-white border-b border-slate-100 sticky top-0 z-40">
+  <div class="px-8 py-5 flex justify-between items-center">
 
-    
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Category <span class="text-teal-600">Collection</span>
+      </h1>
+     
     </div>
+
+    <!-- Search -->
+    <div class="w-80 relative">
+      <input
+        type="text"
+        id="searchCategory"
+        placeholder="Search category..."
+        class="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg border border-slate-200 focus:border-teal-600 focus:ring-2 focus:ring-teal-100 outline-none"
+      />
+
+      <svg xmlns="http://www.w3.org/2000/svg"
+           class="absolute left-3 top-3.5 h-4 w-4 text-slate-400"
+           fill="none"
+           viewBox="0 0 24 24"
+           stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-4.3-4.3m1.8-4.2a6 6 0 11-12 0 6 6 0 0112 0z"/>
+      </svg>
+
+    </div>
+
   </div>
+</header>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
 
-    <% if (categories && categories.length > 0) { %>
-      <% categories.forEach(cat => { %>
+<!-- Main -->
+<main class="ml-20 p-8 overflow-hidden">
 
-        <div class="category-card group bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden transition-all duration-300 hover:-translate-y-2">
-          
-          <div class="relative h-48 overflow-hidden">
-            <% if (cat.image) { %>
-              <a href="/User/category/view/<%= cat.id %>">
-                <img
-                  src="/uploads/<%= cat.image %>"
-                  alt="<%= cat.category %>"
-                  class="category-image w-full h-full object-cover transition-transform duration-500"
-                >
-              </a>
-            <% } else { %>
-              <div class="w-full h-full bg-slate-100 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-slate-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-            <% } %>
+  <div class="max-w-7xl mx-auto">
 
-          
-          </div>
 
-          <div class="p-6">
-            <div class="flex justify-between items-start mb-2">
-              <h2 class="text-xl font-bold text-slate-800 tracking-tight"><%= cat.category %></h2>
-              <span class="text-[10px] font-mono font-black text-slate-300 bg-slate-50 px-2 py-0.5 rounded">#<%= cat.id %></span>
+    <!-- Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-4 gap-6 overflow-hidden">
+
+      <% if (categories && categories.length > 0) { %>
+
+        <% categories.forEach((cat,i)=>{ %>
+
+          <div class="category-card bg-white rounded-xl border border-slate-100 shadow hover:shadow-md transition overflow-hidden">
+
+            <!-- Image -->
+            <div class="h-40 overflow-hidden">
+              <% if(cat.image){ %>
+
+                <a href="/User/category/view/<%= cat.id %>">
+                  <img src="/uploads/<%= cat.image %>"
+                       class="w-full h-full object-contain bg-slate-50 hover:scale-105 transition duration-300">
+                </a>
+
+              <% } else { %>
+
+                <div class="w-full h-full bg-slate-100 flex items-center justify-center">
+                  <span class="text-slate-300 text-sm">No Image</span>
+                </div>
+
+              <% } %>
             </div>
 
-            <p class="text-xs text-slate-500 font-medium flex items-center gap-2">
-              <span class="w-1.5 h-1.5 bg-teal-500 rounded-full"></span>
-              By <%= cat.author %>
-            </p>
 
-            
+            <!-- Content -->
+            <div class="p-4 space-y-1">
+
+              <div class="flex justify-between">
+                <h2 class="font-semibold text-slate-800">
+                  <%= cat.category %>
+                </h2>
+
+                <span class="text-xs font-semibold text-slate-300">
+                  #<%= i+1 %>
+                </span>
+              </div>
+
+             
+
+            </div>
+
           </div>
+
+        <% }) %>
+
+      <% } else { %>
+
+        <div class="col-span-4 text-center py-20 text-slate-400 font-semibold">
+          No Categories Found
         </div>
 
-      <% }) %>
-    <% } else { %>
-      <div class="col-span-full py-20 text-center">
-        <div class="text-slate-300 mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-        </div>
-      </div>
-    <% } %>
+      <% } %>
 
+    </div>
+
+
+    <!-- No Search Result -->
+    <div id="noCatResults" class="hidden text-center py-20 text-slate-400 font-semibold">
+      No matching categories found
+    </div>
   </div>
+  </main>
+   <!---pagination-->
 
-  <div id="noCatResults" class="hidden py-20 text-center">
-     <p class="text-slate-400 font-bold uppercase tracking-widest text-xs">No matching categories found.</p>
-  </div>
+  <%if(totalPages>1){%>
+<div class="flex justify-center items-center gap-2 py-10">
 
-  <div class="mt-16 border-t border-slate-100 pt-8 flex justify-center">
-    <a href="/User/dashboard" class="flex items-center gap-2 text-[11px] font-black text-slate-400 hover:text-teal-600 transition-all uppercase tracking-[0.2em]">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-      </svg>
-      Return to Dashboard
-    </a>
-  </div>
 
+  <!--prev button-->
+  <%if(currentPage>1){%>
+      <a href="/User/category/categoryList?page=<%=currentPage -1 %>"  class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Prev</a>
+
+ <% }%>
+
+ <!--page number-->
+ <%for(let i=1;i<=totalPages;i++){%>
+   <a href="/User/category/categoryList?page=<%=i%>"class="px-4 py-2 rounded-xl text-sm font-bold
+         <%= i === currentPage 
+            ? 'bg-teal-600 text-white' 
+            : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>"><%=i%></a>
+
+ <%}%>
+
+
+ <!--next button-->
+ <%if(currentPage< totalPages){%>
+      <a href="/User/category/categoryList?page=<%=currentPage+1%>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Next</a>
+
+ <%}%>
 </div>
-</main>
+<%}%>
+
+
 <script>
   const searchCat = document.getElementById("searchCategory");
   const cards = document.querySelectorAll(".category-card");

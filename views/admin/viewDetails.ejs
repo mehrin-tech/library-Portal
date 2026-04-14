@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= b.bookname %> Details | Library System</title>
+  <title><%= b.title%> Details | Library System</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -25,11 +25,11 @@
       <div class="relative group">
         <img
           src="<%= b.image %>"
-          alt="<%= b.bookname %>"
+          alt="<%= b.title %>"
           class="w-64 h-80 object-cover rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border-4 border-white transition-transform duration-500 group-hover:scale-[1.02]"
         />
         <div class="absolute top-4 right-4 shadow-lg">
-          <% if (b.quantity > 0) { %>
+          <% if (b.availableCopies > 0) { %>
             <span class="bg-emerald-500 text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">In Stock</span>
           <% } else { %>
             <span class="bg-rose-500 text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">Out of Stock</span>
@@ -38,8 +38,8 @@
       </div>
       
       <div class="text-center">
-        <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em]">Book ID</p>
-        <p class="text-lg font-black text-slate-700 font-mono">#<%= b.id %></p>
+        <!-- <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em]">Book ID</p>
+        <p class="text-lg font-black text-slate-700 font-mono">#<%= b._id %></p> -->
       </div>
     </div>
 
@@ -69,14 +69,14 @@
         <div class="bg-slate-50/80 p-4 rounded-2xl border border-slate-100">
           <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Copies</p>
           <div class="flex items-center gap-2">
-            <span class="text-sm font-bold text-slate-800"><%= b.quantity %></span>
+            <span class="text-sm font-bold text-slate-800"><%= b.availableCopies %> / <%= b.totalCopies %></span>
             <span class="text-[10px] text-slate-400 italic font-medium">Available for issue</span>
           </div>
         </div>
 
         <div class="bg-slate-50/80 p-4 rounded-2xl border border-slate-100">
           <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Arrival Date</p>
-          <p class="text-sm font-bold text-slate-800"><%= b.date %></p>
+          <p class="text-sm font-bold text-slate-800"><%= new Date(b.createdAt).toLocaleDateString() %></p>
         </div>
 
       </div>

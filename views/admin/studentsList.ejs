@@ -73,34 +73,31 @@
             </tr>
           <% } %>
 
-          <% users.forEach((user) => { %>
+          <% users.forEach((user,i) => { %>
             <tr class="student-row group hover:bg-teal-50/30 transition-colors">
               
               <td class="px-6 py-4 text-xs font-bold text-slate-400">
-                #<%= user.id %>
+                #<%=(currentPage-1)*limit+i+1  %>
               </td>
 
               <td class="px-6 py-4">
-                <a href="/admin/student/<%= user.id %>" class="student-name group-hover:text-teal-600 transition-colors">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-[10px] uppercase">
-                      <%= user.username.charAt(0) %>
-                    </div>
+                
+                   
                     <span class="text-sm font-bold text-slate-700"><%= user.username %></span>
                   </div>
-                </a>
+                
               </td>
 
              
 
               <td class="px-6 py-4">
                 <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md tracking-tight uppercase">
-                  <%= user.department %>
+                  <%= user.department && user.department.trim()?user.department:'Not Assigned' %>
                 </span>
               </td>
 
               <td class="px-6 py-4 text-sm text-slate-600">
-                Sem <%= user.semester %>
+                Sem <%= user.semester && user.semester.trim()?user.semester :'-' %>
               </td>
 
               <td class="px-6 py-4">

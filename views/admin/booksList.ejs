@@ -6,23 +6,9 @@
   <title>Books List | Library System</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    :root {
-      --primary-teal: #2D8B75;
-      --dark-navy: #0D1B2A;
-    }
-
-    /* Professional background */
-    .wave-bg {
-      background-color: #F9FBFB;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232D8B75' fill-opacity='0.05' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,181.3C1248,149,1344,107,1392,85.3L1440,64L1440,0L0,0Z'%3E%3C/path%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-  </style>
 </head>
 
-<body class="wave-bg min-h-screen p-8 font-sans text-[#0D1B2A]">
+<body class="wave-bg h-screen overflow-hidden font-sans text-[#0D1B2A]">
 
 <%- include('../partials/adminSidebar') %>
 
@@ -35,14 +21,12 @@
               border border-white">
 
     <!-- HEADER -->
-    <div class="px-10 py-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="px-8 py-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h1 class="text-3xl font-black text-slate-800">
+        <h1 class="text-[22px] font-black text-slate-800">
           Library <span class="text-[#2D8B75]">BooksList</span>
         </h1>
-        <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">
-          Manage & Monitor Books
-        </p>
+       
       </div>
 
       <div class="flex items-center gap-4">
@@ -81,13 +65,13 @@
         </thead>
 
         <tbody class="divide-y divide-slate-100">
-          <% books.forEach(b => { %>
+          <% books.forEach((b,i) => { %>
           <tr class="book-row hover:bg-teal-50/30">
-            <td class="px-8 py-5 text-xs text-slate-400">#<%= b.id %></td>
+            <td class="px-8 py-5 text-xs text-slate-400">BK-<%=String ((currentPage-1)*4+i+1).padStart(3,'0') %></td>
 
             <td class="px-8 py-5 font-bold text-slate-700">
               <a href="/admin/viewDetails/<%= b.id %>" class="book-name hover:text-[#2D8B75]">
-                <%= b.bookname %>
+                <%= b.title%>
               </a>
             </td>
 
@@ -95,9 +79,23 @@
 
             <td class="px-8 py-5 text-xs font-mono text-slate-600"><%= b.isbn %></td>
 
-            <td class="px-8 py-5 text-xs text-slate-600"><%= b.quantity %></td>
+            <!-- <td class="px-8 py-5 text-xs text-slate-600"><%= b.availableCopies %>/<%=b.totalCopies%></td> -->
 
-            <td class="px-8 py-5 text-xs text-slate-400"><%= b.date %></td>
+            <td class="px-8 py-5 text-xs font-bold">
+  <% if (b.availableCopies === 0) { %>
+    <span class="text-red-600">Out of Stock</span>
+  <% } else if (b.availableCopies <= 3) { %>
+    <span class="text-amber-600">
+      Low Stock (<%= b.availableCopies %>/<%= b.totalCopies %>)
+    </span>
+  <% } else { %>
+    <span class="text-emerald-600">
+      Available (<%= b.availableCopies %>/<%= b.totalCopies %>)
+    </span>
+  <% } %>
+</td>
+
+            <td class="px-8 py-5 text-xs text-slate-400"><%= new Date(b.createdAt).toLocaleDateString()%></td>
 
            
             <td class="px-8 py-5 text-right">

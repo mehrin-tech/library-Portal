@@ -7,7 +7,7 @@
   <title>College Library | Gateway</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <style>
+  <!-- <style>
     :root {
       --primary-teal: #2d8a75;
     }
@@ -70,7 +70,7 @@
 }
 
     
-  </style>
+  </style> -->
 </head>
 
 <body class="bg-white m-0 p-0  ">
@@ -79,7 +79,7 @@
     <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
       <div class="flex items-center gap-2">
         <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">
-          <span class="text-teal-primary italic">Library</span>Portal
+          <span class="text-teal-600 italic">Library</span>Portal
         </h1>
       </div>
 
@@ -121,21 +121,29 @@
 
             <a href="#contact" class="hover:text-teal-600">Contact</a>
         </div>
+<% if(!isLoggedIn) { %>
 
-        <% if(!isLoggedIn) { %>
-        <button onclick="document.getElementById('overlay').classList.remove('hidden')"
-          class="text-xs font-bold uppercase tracking-wider text-white bg-[#2d8a75] py-3 px-6 rounded-lg shadow-md hover:bg-[#236e5d] transition-all">
-          Create Account
-        </button>
-        <% } else { %>
-          <div class="flex items-center gap-3">
-            <span class="text-sm font-bold text-teal-600"></span>
-          </div>
-        <% } %>
+<button onclick="openSignupModal()"
+  class="text-xs font-bold uppercase tracking-wider text-white bg-[#2d8a75] py-3 px-6 rounded-lg shadow-md hover:bg-[#236e5d] transition-all">
+ create account
+</button>
+
+<% } else { %>
+
+<div class="flex items-center gap-4">
+  <span class="text-sm font-semibold text-teal-600">
+    
+  </span>
+
+ 
+</div>
+
+<% } %>
+
       </div>
     </div>
   </nav>
-<main class="relative min-h-screen flex items-center  pt-16 overflow-hidden bg-slate-50">
+ <main class="relative min-h-screen flex items-center  pt-16 overflow-hidden bg-slate-50">
     
     <div class="absolute right-0 top-0 w-full lg:w-1/2 h-full opacity-20 pointer-events-none z-0">
         <svg width="100%" height="100%" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
@@ -177,10 +185,11 @@
      
 
     </div>
-</main>
-  
+</main> 
+ 
+
  <!---signup modal-->
-  <div id="overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-6">
+  <!--<div id="overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-6">
     <div id="signupModal" class="bg-white rounded-3xl w-full max-w-md p-10 relative shadow-2xl border-t-8 border-teal-primary">
       <div class="mb-8 flex justify-between items-start">
         <div>
@@ -198,7 +207,7 @@
      
 <form action="/User/signup" method="POST" enctype="multipart/form-data" class="space-y-4">
 
-  <!-- First & Last Name -->
+  
   <div class="grid grid-cols-2 gap-3">
     <input
       type="text"
@@ -216,7 +225,7 @@
     />
   </div>
 
-  <!-- Email -->
+
   <input
     type="email"
     name="email"
@@ -225,7 +234,7 @@
     required
   />
 
-  <!-- Password -->
+
   <input
     type="password"
     name="password"
@@ -234,7 +243,7 @@
     required
   />
 
-  <!-- Department & Semester -->
+  
   <div class="grid grid-cols-2 gap-3">
     <select
       name="department"
@@ -284,7 +293,7 @@
     </select>
   </div>
 
-  <!-- Status & Image -->
+ 
   <div class="grid grid-cols-2 gap-3">
     <select
       name="status"
@@ -304,7 +313,7 @@
     />
   </div>
 
-  <!-- Submit -->
+  
   <button
     type="submit"
     class="w-full btn-primary text-white py-4 rounded-xl font-extrabold uppercase text-[11px] tracking-widest"
@@ -314,9 +323,154 @@
 
 </form>
 </div>
+</div>-->
+
+  <!-- Signup Modal -->
+<div id="overlay"
+class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-6 overflow-y-auto">
+
+<div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl p-8 relative">
+
+<!-- Header -->
+<div class="flex justify-between items-start mb-6">
+
+<div>
+<h2 class="text-2xl font-extrabold text-slate-900 text-center">
+Create Account
+</h2>
+
+
 </div>
 
-  
+<button id="closeModal"
+class="text-slate-400 hover:text-red-500 transition">
+✕
+</button>
+
+</div>
+
+<!-- FORM -->
+<form action="/User/signup"
+method="POST"
+enctype="multipart/form-data"
+class="space-y-5">
+
+<!-- Name -->
+<div class="grid grid-cols-2 gap-4">
+
+<input type="text"
+name="firstname"
+placeholder="First Name"
+required
+class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" />
+
+<input type="text"
+name="lastname"
+placeholder="Last Name"
+required
+class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" />
+
+</div>
+
+<!-- Email -->
+<input type="email"
+name="email"
+placeholder="Email Address"
+required
+class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" />
+
+<!-- Password -->
+<input type="password"
+name="password"
+placeholder="Password"
+required
+class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" />
+
+<!-- Department + Semester -->
+<div class="grid grid-cols-2 gap-4">
+
+<select name="department"
+required
+class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500">
+
+<option disabled selected>Select Department</option>
+
+<optgroup label="BSc">
+  <option value="BSc CS">Computer Science</option>
+  <option value="BSc Mathematics">Mathematics</option>
+  <option value="BSc Physics">Physics</option>
+  <option value="BSc Chemistry">Chemistry</option>
+</optgroup>
+
+<optgroup label="BCom">
+  <option value="BCom General">BCom General</option>
+  <option value="BCom Finance">Finance</option>
+  <option value="BCom Cooperation">Cooperation</option>
+  <option value="BCom Computer Application">Computer Application</option>
+</optgroup>
+
+<optgroup label="BBA">
+  <option value="BBA General">BBA General</option>
+  <option value="BBA Finance">Finance</option>
+  <option value="BBA Marketing">Marketing</option>
+  <option value="BBA HR">Human Resource</option>
+</optgroup>
+
+<optgroup label="BA">
+  <option value="BA English">English</option>
+  <option value="BA History">History</option>
+  <option value="BA Sociology">Sociology</option>
+</optgroup>
+
+</select>
+
+
+<select name="semester"
+required
+class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500">
+
+<option disabled selected>Select Semester</option>
+<option>Semester 1</option>
+<option>Semester 2</option>
+<option>Semester 3</option>
+
+</select>
+
+</div>
+
+<!-- Status + Image -->
+<div class="grid grid-cols-2 gap-4">
+
+<select name="status"
+required
+class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500">
+
+<option disabled selected>Status</option>
+<option value="active">Active</option>
+<option value="inactive">Inactive</option>
+
+</select>
+
+<input type="file"
+name="image"
+accept="image/*"
+class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm cursor-pointer" />
+
+</div>
+
+<!-- Submit -->
+<button type="submit" onclick="openSignupModal()"
+class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition shadow-lg">
+
+Create Account
+
+</button>
+
+</form>
+
+</div>
+</div>
+
 
 
 
@@ -331,8 +485,20 @@
   <script>
     const overlay = document.getElementById("overlay");
     const close = document.getElementById("closeModal");
-    close.onclick = () => overlay.classList.add("hidden");
-    window.onclick = (e) => { if (e.target === overlay) overlay.classList.add("hidden"); };
+    function openSignupModal(){
+  overlay.classList.remove("hidden");
+  document.body.classList.add("overflow-hidden");
+}
+
+function closeSignupModal(){
+  overlay.classList.add("hidden");
+  document.body.classList.remove("overflow-hidden");
+}
+    close.onclick = closeSignupModal()
+    window.onclick = (e) => { 
+      if (e.target === overlay) {
+        closeSignupModal() }
+      };
   </script>
   <script>
   const resourcesBtn = document.getElementById("resourcesBtn");
@@ -349,7 +515,7 @@
     }
   });
 </script>
- <section id="about" class="relative bg-[#ECFDF5] py-28">
+ <section id="about" class="relative bg-teal-50 py-28">
   <div class="max-w-5xl mx-auto px-6 text-center">
 
 
@@ -374,7 +540,7 @@
 
  
 
-<section id="howItsWork" class="bg-[#D6EEE6] py-24">
+<section id="howItsWork" class="bg-white py-24">
   
   <div class="max-w-6xl mx-auto px-6">
 
@@ -393,7 +559,7 @@
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
       <!-- Card 1 -->
-      <div class="bg-[#F8FFFC] border border-teal-100 rounded-2xl p-6 
+      <div class="bg-teal-50 border border-teal-100 rounded-2xl p-6 
                   hover:shadow-md transition transition-all duration-300 ease-in-out hover:-translate-y-2  hover:shadow-2xl">
         <div class="w-10 h-10 rounded-xl bg-teal-600 text-white 
                     flex items-center justify-center font-bold mb-4">
@@ -408,7 +574,7 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="bg-[#F8FFFC] border border-teal-100 rounded-2xl p-6 
+      <div class="bg-teal-50 border border-teal-100 rounded-2xl p-6 
                   hover:shadow-md transition transition-all duration-300 ease-in-out hover:-translate-y-2  hover:shadow-2xl">
         <div class="w-10 h-10 rounded-xl bg-teal-600 text-white 
                     flex items-center justify-center font-bold mb-4">
@@ -423,7 +589,7 @@
       </div>
 
       <!-- Card 3 -->
-      <div class="bg-[#F8FFFC] border border-teal-100 rounded-2xl p-6 
+      <div class="bg-teal-50 border border-teal-100 rounded-2xl p-6 
                   hover:shadow-md transition transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
         <div class="w-10 h-10 rounded-xl bg-teal-600 text-white 
                     flex items-center justify-center font-bold mb-4">
@@ -444,17 +610,17 @@
 
  
       
-          
-<section id="whyChooseUs" class="bg-[#2d8a75] py-24">
+  <section id="whyChooseUs" class="bg-[#2d8a75] py-24">
+        
   <div class="max-w-6xl mx-auto px-6">
 
     <!-- Heading -->
     <div class="text-center mb-12">
     
 
-      <h2 class="text-3xl md:text-4xl font-extrabold text-slate-100 mb-4">
-        Why Choose Us
-      </h2>
+     <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+  Why <span class="text-teal-200">Choose Us</span>
+</h2>
 
      
     </div>
@@ -463,8 +629,10 @@
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
       <!-- Card 1 -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 transition-all duration-300 ease-in-out hover:-translate-y-2  hover:shadow-2xl">
-        <h3 class="font-bold text-slate-900 mb-2">
+<div class="bg-white p-6 rounded-2xl border border-white/40 shadow-md
+            transition-all duration-300 ease-in-out
+            hover:-translate-y-2 hover:shadow-2xl">
+        <h3 class="font-bold text-slate-900 mb-2 group-hover:text-teal-600 transition">
           Easy to Use
         </h3>
         <p class="text-sm text-slate-600">
@@ -512,87 +680,77 @@
     
 
     
-                
-    
-
-
-     
-
-        
-         
-
-<!---Library rules section-->
 
  
 
 
      <!---FAQS section-->
-<section id="faqs" class="bg-[#D6EEE6] py-24">
+<section id="faqs" class="bg-slate-50 py-24">
   <div class="max-w-4xl mx-auto px-6">
 
     <!-- Heading -->
     <div class="text-center mb-12">
-     
-
-      <h2 class="text-4xl font-extrabold text-slate-900 mb-4">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">
         Frequently <span class="text-[#2d8a75]">Asked Questions</span>
       </h2>
-      
+      <p class="mt-3 text-sm text-slate-500">
+        Clear answers to common questions about our library system
+      </p>
     </div>
 
     <!-- FAQ List -->
     <div class="space-y-4">
 
       <!-- FAQ Item -->
-      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+      <details class="group bg-white border border-slate-200 rounded-2xl p-5
                       hover:shadow-md transition">
         <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
           How many books can I issue at a time?
-          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+          <span class="text-teal-600 transition-transform group-open:rotate-180">⌄</span>
         </summary>
         <p class="mt-4 text-slate-500 leading-relaxed">
           Students can issue a limited number of books at a time according to the library policy.
         </p>
       </details>
 
-      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+      <details class="group bg-white border border-slate-200 rounded-2xl p-5
                       hover:shadow-md transition">
         <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
           What happens if I return a book late?
-          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+          <span class="text-teal-600 transition-transform group-open:rotate-180">⌄</span>
         </summary>
         <p class="mt-4 text-slate-500 leading-relaxed">
-          Late returns may result in a fine based on the number of delayed days.
+          Late returns may result in a fine calculated based on the number of delayed days.
         </p>
       </details>
 
-      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+      <details class="group bg-white border border-slate-200 rounded-2xl p-5
                       hover:shadow-md transition">
         <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
           How is the fine calculated?
-          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+          <span class="text-teal-600 transition-transform group-open:rotate-180">⌄</span>
         </summary>
         <p class="mt-4 text-slate-500 leading-relaxed">
           The fine is calculated per day after the due date and must be cleared before issuing new books.
         </p>
       </details>
 
-      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+      <details class="group bg-white border border-slate-200 rounded-2xl p-5
                       hover:shadow-md transition">
         <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
           Can I read books online?
-          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+          <span class="text-teal-600 transition-transform group-open:rotate-180">⌄</span>
         </summary>
         <p class="mt-4 text-slate-500 leading-relaxed">
           Yes, students can read available e-books online through the library portal.
         </p>
       </details>
 
-      <details class="group bg-white border border-slate-200 rounded-xl p-5 
+      <details class="group bg-white border border-slate-200 rounded-2xl p-5
                       hover:shadow-md transition">
         <summary class="flex justify-between items-center cursor-pointer font-semibold text-slate-800">
           Who can access the library?
-          <span class="text-teal-600 group-open:rotate-180 transition-transform">⌄</span>
+          <span class="text-teal-600 transition-transform group-open:rotate-180">⌄</span>
         </summary>
         <p class="mt-4 text-slate-500 leading-relaxed">
           Only registered students and authorized users are allowed to access library resources.
@@ -604,8 +762,6 @@
 </section>
 
 
-     
-
 
 
 
@@ -616,7 +772,7 @@
 <!---contact section-->
 
 
-<section id="contact" class="bg-slate-50 py-24">
+<section id="contact" class="bg-teal-50 py-24">
   <div class="max-w-6xl mx-auto px-6">
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -625,7 +781,7 @@
         <h2 class="text-5xl font-extrabold text-slate-900 tracking-tight">
           Get in <span class="text-[#2d8a75]">touch</span>
         </h2>
-        <p class="text-slate-600 text-lg leading-relaxed">
+        <p class="text-slate-600 text-md  leading-relaxed">
           Have a specific inquiry or just want to say hello? Our team is 
           ready to help you scale your business. Fill out the form and 
           we'll get back to you within 24 hours.
@@ -703,7 +859,7 @@
 </section>
 
 <!---footer section-->
-<footer class="bg-[#2d8a75] text-slate-300">
+<footer class="bg-slate-900 text-slate-400">
   <div class="max-w-7xl mx-auto px-6 py-16">
 
     <div class="grid gap-10 md:grid-cols-3">
@@ -711,9 +867,9 @@
       <!-- Brand -->
       <div>
         <h3 class="text-2xl font-extrabold text-white mb-4">
-          College<span class="text-slate-900">Library</span>
+          College<span class="text-[#2d8a75]">Library</span>
         </h3>
-        <p class="text-sm leading-relaxed text-white">
+        <p class="text-sm leading-relaxed">
           A modern digital library platform designed to provide students
           with easy access to academic resources and online reading materials.
         </p>
@@ -721,23 +877,23 @@
 
       <!-- Quick Links -->
       <div>
-        <h4 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-4">
+        <h4 class="text-sm font-bold uppercase tracking-widest text-slate-300 mb-4">
           Quick Links
         </h4>
         <ul class="space-y-3 text-sm">
-          <li><a href="#about" class="text-white">About Us</a></li>
-          <li><a href="#howItsWork" class="text-white">How It Works</a></li>
-          <li><a href="#libraryRules" class="text-white">Why Choose Us</a></li>
-          <li><a href="#faqs" class="text-white">FAQs</a></li>
+          <li><a href="#about" class="hover:text-[#2d8a75] transition">About Us</a></li>
+          <li><a href="#howItsWork" class="hover:text-[#2d8a75] transition">How It Works</a></li>
+          <li><a href="#libraryRules" class="hover:text-[#2d8a75] transition">Why Choose Us</a></li>
+          <li><a href="#faqs" class="hover:text-[#2d8a75] transition">FAQs</a></li>
         </ul>
       </div>
 
       <!-- Contact -->
       <div>
-        <h4 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-4">
+        <h4 class="text-sm font-bold uppercase tracking-widest text-slate-300 mb-4">
           Contact
         </h4>
-        <ul class="space-y-3 text-sm text-white">
+        <ul class="space-y-3 text-sm">
           <li>Email: support@collegelibrary.com</li>
           <li>Phone: +91 9061842078</li>
         </ul>
@@ -746,7 +902,7 @@
     </div>
 
     <!-- Divider -->
-    <div class="border-t border-slate-700 mt-12 pt-6 text-center text-xs text-white">
+    <div class="border-t border-slate-700 mt-12 pt-6 text-center text-xs text-slate-500">
       © <span id="year"></span> CollegeLibrary. All rights reserved.
     </div>
   </div>

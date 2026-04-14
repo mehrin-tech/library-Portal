@@ -1,78 +1,16 @@
-const path=require('path')
-const fs=require('fs').promises
-const bcrypt=require('bcrypt')
-const filePath=path.join(__dirname,'../data/books.json')
-const userPath=path.join(__dirname,'../data/users.json')
-const issuePath=path.join(__dirname,'../data/issuedBook.json')
-const onlinePath=path.join(__dirname,'../data/onlineReads.json')
-const {NotFoundError,ConflictError,InternalServerError,ForbiddenError,UnauthorizedError}=require('../Utils/error')
-const  {signToken,user}=require('../Utils/adminMiddleware')
-//================read and write  book=============
-async function readData(){
-    try{
-    const data=await fs.readFile(filePath,'utf-8')
-    return data? JSON.parse(data) :[]
-    }catch(err){
-        console.error('error reading file:',err)
-        return []
-    }
-}
+import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
+import Admin from '../models/Admin.js'
+import Book from '../models/Book.js'
+import User from '../models/User.js'
+import IssuedBook from '../models/IssuedBook.js'
+import ReadOnline from '../models/ReadOnline.js'
+import PrivateChat from '../models/PrivateChat.js'
 
-async function writeData(books) {
-    try{
-await fs.writeFile(filePath,JSON.stringify(books,null,2))
-}catch(err){
-    console.error('error  writing file:',err)
-}
-}
-//==================read and write std================
-async function readUser() {
-    try{
-        const data=await fs.readFile(userPath,'utf-8')
-        return data?JSON.parse(data):[]
 
-    }catch(err){
-   console.error('readin err:',err)
-    }
-}
-async function writeUser(users) {
-    try{
-await fs.writeFile(userPath,JSON.stringify(users,null,2))
-}catch(err){
-    console.error('error  writing file:',err)
-}
-}
-//==================read and write issued============
-async function readIssued(){
-     try{
-        const data=await fs.readFile(issuePath,'utf-8')
-        return data?JSON.parse(data):[]
+import {NotFoundError,ConflictError,InternalServerError,ForbiddenError,UnauthorizedError} from '../Utils/error.js'
+import {signToken} from '../Utils/adminMiddleware.js'
 
-    }catch(err){
-   console.error('readin err:',err)
-    }
-
-}
-async function writeIssued(issuedBook){
-        try{
-await fs.writeFile(issuePath,JSON.stringify(issuedBook,null,2))
-}catch(err){
-    console.error('error  writing file:',err)
-}
-}
-//================read and write online readers============//
-async function readOnline(){
-    try{
-const data=await fs.readFile(onlinePath,'utf-8')
-return data?JSON.parse(data):[]
-    }catch(err){
-  return []
-    }
-}
-
-async function writeOnline(reads){
-    await fs.writeFile(onlinePath,JSON.stringify(reads,null,2))
-}
 
 ///================calculateFine function=========//
 function calculateFine(dueDate,actualReturnDate){
@@ -93,42 +31,56 @@ const loginForm=(req,res)=>{
     res.render('admin/login')
 }
 const loggedForm=async(req,res,next)=>{
-    const {username,password}=req.body
-   if(username!==user.username){
-  throw new UnauthorizedError('Invalid admin Credentials')
-   }
+    try{
+        console.log('req body',req.body)
+    const username= req.body.username?.trim()
+    const password = req.body.password?.trim()
+     console.log('USERNAME:', username)
+    console.log('PASSWORD:', password)
+  const admin=await Admin.findOne({username})
+  console.log('ADMIN FROM DB:', admin)
+  if(!admin){
+    return next(new UnauthorizedError('Invalid admin credentials'))
+  }
 
-   const isMatch=await bcrypt.compare(password,user.password)
-   if(!isMatch) return next(new UnauthorizedError('Invalid admin credentials'))
-   const token=signToken(user)
- 
-   res.cookie('token',token,{
+   //compare password
+   const isMatch=await bcrypt.compare(password,admin.password)
+    console.log('BCRYPT MATCH RESULT:', isMatch)
+   if(!isMatch){
+    return next(new UnauthorizedError("Invalid admin credentials"))
+   }
+   const token=signToken(admin)
+  res.cookie('token',token,{
     httpOnly:true,
     secure:false,
     sameSite:'lax',
     maxAge:20*60*1000
    })
-  
-   
-    return res.redirect('/admin/dashboard')
+   console.log('LOGIN USERNAME:', username)
+console.log('LOGIN PASSWORD:', password)
+console.log('DB PASSWORD:', admin.password)
+   res.redirect('/admin/dashboard')
+   }catch(err){
+   next(err)
    }
-    
+}  
 const getChatList=async(req,res,next)=>{
     try{
     const page=Number(req.query.page)||1
     const limit=3
+    const skip=(page-1)*limit
     
-    const users=await readUser()
+   
 
-    const totalUsers=users.length
+    const totalUsers=await User.countDocuments()
+
     const totalPages=Math.ceil(totalUsers/limit)
 
-    const startIndex=(page-1)*limit
-    const endIndex=startIndex+limit
-
-    const allUsers=users.slice(startIndex,endIndex)
+  const users=await User.find()
+  .skip(skip)
+  .limit(limit)
     res.render('admin/chatList',{
-        users:allUsers,
+        users,
         currentPage:page,
         totalPages
     })
@@ -138,18 +90,27 @@ const getChatList=async(req,res,next)=>{
 }
 const getChat=async(req,res,next)=>{
 try{
-const adminId=req.user.id
+     if (!req.user) {
+      return next(new UnauthorizedError('Admin login required'))
+    }
+
+const adminId=req.user.id.toString()
 const studentId=req.params.studentId
-if(!studentId){
-    return next(new NotFoundError('student id missing'))
+// if(!studentId){
+//     return next(new NotFoundError('student id missing'))
+// }
+
+if(!mongoose.Types.ObjectId.isValid(studentId)){
+    return next(new NotFoundError('invalid student id'))
+
 }
 
-const users=await readUser()
-const student=users.find(u=>String(u.id)===String(studentId))
+const student= await User.findById(studentId)
 
   if (!student) {
       return next(new NotFoundError("student not found"));
     }
+
 
 res.render("admin/adminChat",{
     adminId,
@@ -162,44 +123,45 @@ next(err)
 }
 //====dashboard in admin side==========
 const dashboard=async (req, res,next) => {
-  const books = await readData();
-  const users = await readUser();
-  const issued = await readIssued();
-  const onlineReads=await readOnline()
+    try{
 
-  const totalBooks = books.length;
-  const totalStudents = users.length;
+  const totalBooks =await Book.countDocuments()
+  const totalStudents =await User.countDocuments()
 
-  const issuedBooks = issued.filter(i => i.status === 'issued');
-  const issuedCount = issuedBooks.length;
+  const issuedBooks = await IssuedBook.find({status:"issued"})
+  .populate("student")
+  .populate("book")
+  const issuedCount = issuedBooks.length
+  const pendingReturns=issuedCount
 
-  const onlineReadersCount=onlineReads.filter(r=>r.isActive).length
-  const pendingReturns = issued.filter(
-    i => i.status === 'issued'
-  ).length;
+  const onlineReadersCount=await ReadOnline.countDocuments({
+    isActive:true
+  })
+ 
 
   //department -wise logic===//
   const deptCount={}
 
   issuedBooks.forEach(issue=>{
-    const student=users.find(u=>u.id===issue.studentId)
-
-
-    if(student){
-    const dept=student.department;
-   deptCount[dept]=(deptCount[dept] || 0)+1
-    }
+   const dept=issue.student?.department
+if(dept){
+    deptCount[dept]=(deptCount[dept] || 0)+1
+}
   })
+
+    
   const deptLabels=Object.keys(deptCount)
   const deptValues=Object.values(deptCount)
 
   //fine statistics
-  const finePaidCount=issued.filter(i=>
-    i.fine>0 && i.finePaid===true).length
-
-    const fineUnpaidCount=issued.filter(i=>
-        i.fine>0 && i.finePaid===false
-    ).length
+  const finePaidCount=await IssuedBook.countDocuments({
+    fine:{$gt:0 },
+    finePaid:false
+  })
+  const fineUnpaidCount=await IssuedBook.countDocuments({
+    fine:{$gt:0},
+    finePaid:false
+  })
   res.render('admin/dashboard', {
     totalBooks,
     totalStudents,
@@ -210,31 +172,40 @@ const dashboard=async (req, res,next) => {
     onlineReadersCount,
     finePaidCount,
     fineUnpaidCount,
-    recentIssued: issuedBooks.slice(-5).reverse()
+   // recentIssued: issuedBooks.slice(-5).reverse()
   });
+}catch(err){
+
+}
 }
 //==============bookslist=====
 const getBooksList=async(req,res,next)=>{
     try{
         const page=Number(req.query.page)|| 1;
         const limit=4
+        const skip=(page-1)*limit
 
-    const books=await readData()
-    const users=await readUser()
-
-    const totalBooks=books.length;
+ 
+//total count
+    const totalBooks=await Book.countDocuments()
     const totalPages=Math.ceil(totalBooks/limit)
 
-    const startIndex=(page-1)*limit
-    const endIndex=startIndex+limit
 
-    const allBooks=books.slice(startIndex,endIndex)
+    //paginated books
+    const books=await Book.find()
+    .skip(skip)
+    .limit(limit)
+    
+    const users=await User.find()
+
+   
 
     res.render('admin/booksList',{
-        books:allBooks,
+        books,
         users,
         currentPage:page,
-        totalPages
+        totalPages,
+        limit
     })
     }catch(err){
         next(err)
@@ -244,125 +215,152 @@ const addBookForm=(req,res)=>{
     res.render('admin/addBook')
 }
 const addBook=async(req,res,next)=>{
+    try{
 const {bookname,author,isbn,quantity,date}=req.body
 
 const image = req.file ? '/uploads/' + req.file.filename : '/images/atomichabits.jpg';
 
-const books= await readData()
-const bookExists=books.find(book=>book.isbn===isbn)
+//check is isbn arleady exists
+const bookExists=await Book.findOne({isbn})
 if(bookExists){
     return next(new ConflictError('already existed'))
 }
 
-const newBook={
-    id:books.length>0?books[books.length-1].id+1:1,
-    bookname,
+await Book.create({
+    title:bookname,
     author,
     isbn,
-    quantity:Number(quantity),
-    date,
-    image
-   
-}
-books.push(newBook)
-await writeData(books)
+    publishedDate:date,
+    image,
+    totalCopies:Number(quantity),
+    availableCopies:Number(quantity)
+})
+
+
 res.redirect('/admin/booksList')
 
 
+}catch(err){
+next(err)
+}
 }
 const viewBook=async(req,res,next)=>{
-    const books=await readData()
-    const bookId=parseInt(req.params.id)
-    const b=books.find(b=>b.id===bookId)
-    if(!b){
+    try{
+   
+    const bookId=req.params.id
+    const book=await Book.findById(bookId)
+    if(!book){
         return next(new NotFoundError('not found book'))
     }
-  res.render('admin/viewDetails',{b})
+  res.render('admin/viewDetails',{b:book})
+}catch(err){
+next(err)
+}
 }
 const editBook=async(req,res,next)=>{
-    const bookId=parseInt(req.params.id)
+    try{
+    const bookId=req.params.id
 
-    let books=await readData()
+   const book=await Book.findById(bookId)
 
-    books=books.find(b=>b.id===bookId)
-    if(!books){
+   
+    if(!book){
         return next(new NotFoundError('books not found'))
     }
-    res.render('admin/editBook',{books})
+    res.render('admin/editBook',{books:book})
+}catch(err){
+    next(err)
+}
 }
 const updateBook=async(req,res,next)=>{
-    let books=await readData()
-    const bookId=parseInt(req.params.id)
-    let book=books.find(b=>b.id===bookId)
+    try{
+    
+    const bookId=req.params.id
+    const book=await Book.findById(bookId)
 
     if(!book){
         return next(new NotFoundError('not found book'))
     }
     //update values
-    book.bookname=req.body.bookname
+    book.bookname=req.body.title
     book.author=req.body.author
     book.isbn  = req.body.isbn;
-    book.quantity     = req.body.quantity;
-    book.date     = req.body.date;
+    book.availableCopies=Number(req.body.availableCopies)
+    book.totalCopies=Number(req.body.availableCopies);
+    book.publishedDate= req.body.publishedDate;
 
     if(req.file){
         book.image='/uploads/'+req.file.filename
 
     }
-    await writeData(books)
+    await book.save()
     res.redirect('/admin/booksList')
+}catch(err){
+next(err)
 }
-const deleteBook=async(req,res)=>{
-    const bookId=parseInt(req.params.id)
-    let books=await readData()
-    
-    books=books.filter(b=>b.id!==bookId)
-    await writeData(books)
+}
+const deleteBook=async(req,res,next)=>{
+    try{
+    const bookId=req.params.id
+    const deleted=await Book.findByIdAndDelete(bookId)
+    if(!deleted){
+        return next(new NotFoundError('book not found'))
+    }
     
      res.redirect('/admin/booksList')
+}catch(err){
+next(err)
+}
 }
 
 const StdList=async(req,res,next)=>{
 try{
     const page=Number(req.query.page) || 1;
     const limit=4
+    const skip=(page-1)*limit
 
-    const users=await readUser()
 
-    const totalStudents=users.length;
+    
+    const users=await User.find()
+    .skip(skip)
+    .limit(limit)
+   
+
+    const totalStudents=await User.countDocuments()
     const totalPages=Math.ceil(totalStudents/limit)
 
-    const startIndex=(page-1)*limit
-    const endIndex=startIndex+limit
-
-    const pagination=users.slice(startIndex,endIndex)
     res.render('admin/studentsList',{
-        users:pagination,
+        users,
         currentPage:page,
-        totalPages
+        totalPages,
+        limit
     })
 }catch(err){
-
+next(err)
 }
 }
 
 const profileStd=async(req,res,next)=>{
-    const userId=parseInt(req.params.id)
-    const users=await readUser()
+    try{
+    const userId=req.params.id
+   
 
-    const student=users.find(u=>u.id===userId)
+    const student=await User.findById(userId)
 
-    if(!student) return next(new NotFoundError('student not found'))
+    if(!student){
+
+    return next(new NotFoundError('student not found'))
+    }
         res.render('admin/profileStd',{student})
+}catch(err){
+next(err)
+}
 }
 //==============issued in admin side==============
 const issuedBook=async(req,res,next)=>{
     try{
-       
-
-    const books=await readData()
-    const students=await readUser()
-
+const books=await Book.find({availableCopies:{$gt:0}})
+const students=await User.find({status:"Active"})
     
     res.render('admin/issue-book',{
         books,
@@ -375,57 +373,59 @@ const issuedBook=async(req,res,next)=>{
     }
 }
 const postIssuedBook=async(req,res,next)=>{
+    try{
     const {studentId,bookId,returnDate}=req.body
-    const books=await readData()
-    const  issues=await readIssued()
-    const book=books.find(b=>b.id===Number(bookId))
-
-    if(!book || book.quantity<=0){
+    const book=await Book.findById(bookId)
+    
+    if(!book || book.availableCopies<=0){
         return next(new NotFoundError('not found book'))
 
     }
+    const alreadyIssued=await IssuedBook.findOne({
+        student:studentId,
+        book:bookId,
+        status:"issued"
+    })
 
-    const newIssue={
-        id:Date.now(),
-        studentId:Number(studentId),
-        bookId:Number(bookId),
-        issuedate:new Date().toISOString().split("T")[0],
-        returnDate:returnDate,//due date
-        actualReturnDate:null,
-        status:"issued",
-        fine:0,
-        finePaid:false
-
+    if(alreadyIssued){
+        return next(new ConflictError('book already Issued to this student'))
     }
-    issues.push(newIssue)
-    book.quantity-=1
-
-    await writeIssued(issues)
-    await writeData(books)
+    await IssuedBook.create({
+        student:studentId,
+        book:bookId,
+        issueDate:new Date(),
+        expectedReturnDate:returnDate,
+        status:"issued",
+         fine:0,
+        finePaid:false
+    })
+    book.availableCopies-=1
+    await book.save()
 
     res.redirect('/admin/issued-list')
-
+    }catch(err){
+        next(err)
+    }
 }
 const issuedList=async(req,res,next)=>{
     try{
      const page=Number(req.query.page)||1;
         const limit=4
-    const issued=await readIssued()
-    const books=await readData()
-    const students=await readUser()
+        const skip=(page-1)*limit
+  
 
-    const totalIssued=issued.length
+    const totalIssued=await IssuedBook.countDocuments()
     const totalPages=Math.ceil(totalIssued/limit)
 
-    const startIndex=(page-1)*limit
-    const endIndex=startIndex+limit;
-
-    const paginatedStd=issued.slice(startIndex,endIndex)
+      const issued=await IssuedBook.find()
+    .populate("student")
+    .populate("book")
+    .skip(skip)
+    .limit(limit)
+    .sort({createdAt:-1})
 
     res.render('admin/issued-list',{
-        issued:paginatedStd,
-        books,
-        students,
+        issued,
         totalPages,
         currentPage:page
     })
@@ -435,72 +435,86 @@ const issuedList=async(req,res,next)=>{
 }
 ///==================return================
 const returnBook=async(req,res,next)=>{
-    const issued=await readIssued()
-    const books=await readData()
-    const issuedId=Number(req.params.id)
+try{
+    const issuedId=req.params.id
 
-    const issue=issued.find(i=>i.id===issuedId)
+    const issue=await IssuedBook.findById(issuedId)
     if(!issue){
-        return next(new NotFoundError('issued'))
+        return next(new NotFoundError('issued record not found'))
     }
  //actual return date
- const today=new Date().toISOString().split('T')[0]
+ const today=new Date()
+ const dueDate=new Date(issue.expectedReturnDate)
+ let lateDays=0
+ if(today >dueDate){
+    const diffTime = today - dueDate
+      lateDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+ }
  issue.actualReturnDate=today
- const fineAmount=calculateFine(issue.returnDate,today)
- issue.fine=fineAmount
-
- issue.finePaid=false;
+ issue.lateDays=lateDays
+  issue.fine=lateDays*10
+   issue.finePaid=false;
  issue.status='returned';
+
+
+ await issue.save()
+ 
+//increase available copies
+const book=await Book.findById(issue.book)  
+  if(book){
+    book.availableCopies+=1
+    await book.save()
+    }
+ //calclte fine
+//  const fineAmount=calculateFine(issue.expectedReturnDate,
+//     today
+// )
+
+
+
     
 
-    const book=books.find(b=>b.id===issue.bookId)
-    if(book){
-    book.quantity+=1
-    }
-    await writeIssued(issued)
-    await writeData(books)
+
+   
     res.redirect('/admin/issued-list')
+}catch(err){
+    next(err)
+}
 }
 
 const markFinePaid=async(req,res,next)=>{
     try{
-  const issued= await readIssued()
+  const issuedId= req.params.id
 
-  const issue=issued.find(i=>i.id===Number(req.params.id))
+  const issue=await IssuedBook.findById(issuedId)
 
   if(!issue){
     return next(new NotFoundError('issue is not found'))
   }
   issue.finePaid=true
-  await writeIssued(issued)
+  await issue.save()
 
   res.redirect('/admin/issued-list')
     }catch(err){
-
+    next(err)
     }
 }
 
 //============getOnline reader===========//
 const getOnelineReaders=async(req,res,next)=>{
     try{
-  const onlineReads=await readOnline()
-  const users=await readUser()
-  const books=await readData()
-
   //only active readers
-  const activeReaders=onlineReads.filter(r=>r.isActive)
+  const activeReaders=await ReadOnline.find({isActive:true})
+  .populate("student")
+//   .populate("book")
 //admin kaanikkan readable data create cheyyunnu
-  const readers=activeReaders.map(read=>{
-    const student=users.find(u=>u.id===read.studentId)
-    const book=books.find(b=>b.id===read.bookId)
-
-    return{
-        studentname:student?student.username:'unknown',
-        department:student?student.department:'-',
-        bookName:book?book.bookname:'unknown',
-        startTime:read.startTime
-    }
-  })
+  const readers=activeReaders.map(read=>({
+     studentname:read.student?.username || "unknown",
+     department:read.student?.department || "-",
+     bookName:read.bookName || "unknown",
+     startTime:read.startTime
+  
+  }))
   res.render('admin/onlineReaders',{readers})
     }catch(err){
 next(err)
@@ -511,7 +525,7 @@ const logout=(req,res,next)=>{
     res.clearCookie('token')
     res.redirect('/admin/login')
 }
-module.exports={
+export{
     loginForm,
     loggedForm,
     dashboard,

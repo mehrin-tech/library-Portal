@@ -1,121 +1,225 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Sidebar</title>
+    <title>Student command center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Defining your primary teal exactly */
-        :root { --primary-teal: #008080; }
-        .bg-teal-primary { background-color: var(--primary-teal); }
+        :root {
+            --primary-teal: #2d8a78;
+            --dark-teal: #004D4D;
+            --sidebar-width: 80px;
+        }
+        .bg-dark-teal { background-color: var(--dark-teal); }
+        .text-teal-accent { color: #2DD4BF; }
+        
+        /* Custom Tooltip Animation */
+        .admin-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+        .group:hover .admin-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+        }
         .active-link{
-          background-color:rgba(0, 77, 77, 0.85);
+          background-color:rgba(45, 212, 191, 0.25);
            color: white !important;
-            box-shadow: 0 0 12px rgba(0, 77, 77, 0.7);
+            box-shadow: 0 0 15px rgba(45, 212, 191, 0.4);
         }
     </style>
 </head>
-<body>
-  <aside
-    class="fixed left-0 top-0 z-50
-           h-screen w-20
-           bg-[#008080] 
-           flex flex-col items-center
-           py-8 gap-6
-            shadow-[10px_0_30px_rgba(0,128,128,0.2)] border-r border-white/10">
+<body class="bg-slate-50 font-sans">
 
-    <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg mb-4">
-      <a href="/"><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+<aside
+  class="fixed left-0 top-0 z-50
+         h-screen w-28
+         bg-dark-teal
+         flex flex-col items-center
+         py-8 gap-6
+          shadow-2xl shadow-teal-950/50 border-r border-white/5">
+
+ 
+<a href="/">
+  <div class="relative group cursor-pointer mb-6">
+    <div class="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center 
+                shadow-md transition-all duration-300 
+                group-hover:scale-110 group-hover:bg-teal-500/40">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-200" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-4a2 2 0 01-2-2V12H9v8a2 2 0 01-2 2H3a2 2 0 01-2-2z" />
       </svg>
-      </a>
     </div>
 
-    <div class="w-8 h-[1px] bg-white/20 mb-2"></div>
+    <span
+      class="admin-tooltip absolute left-16 top-1/2 -translate-y-1/2
+             px-3 py-1.5 bg-slate-900 text-white
+             text-[10px] font-black uppercase tracking-widest
+             rounded-lg shadow-xl whitespace-nowrap">
+      Home
+    </span>
+  </div>
+</a>
 
-   
-             <a href="/User/dashboard/<%=userId%>"
+  <div class="w-8 h-[1px] bg-white/10 mb-2"></div>
+
+  <nav class="flex flex-col gap-5 w-full items-center">
+    
+    <!-- <a href="/admin/dashboard" class="group relative flex items-center justify-center w-12 h-12 rounded-2xl text-teal-100/50 hover:text-white hover:bg-teal-500/20 transition-all duration-300"> -->
+      <a href="/User/dashboard/<%=userId%>"
    class="nav-link group relative flex items-center justify-center
           w-12 h-12 rounded-2xl
           text-teal-100/50
           hover:text-white hover:bg-teal-500/20 transition-all duration-300">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
       </svg>
-      <span class="absolute left-16 scale-0 group-hover:scale-100 transition-all origin-left bg-white text-[#008080] text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest pointer-events-none shadow-xl z-50">Dashboard</span>
+      <span class="admin-tooltip absolute left-16 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl whitespace-nowrap">Dashboard</span>
     </a>
 
-   
-                    <a href="/User/usedBooks"
+    <!-- <a href="/admin/booksList" class="group relative flex items-center justify-center w-12 h-12 rounded-2xl text-teal-100/50 hover:text-white hover:bg-teal-500/20 transition-all"> -->
+      <a href="/User/usedBooks"
    class="nav-link group relative flex items-center justify-center
           w-12 h-12 rounded-2xl
           text-teal-100/50
           hover:text-white hover:bg-teal-500/20 transition-all duration-300">
+
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
       </svg>
-      <span class="absolute left-16 scale-0 group-hover:scale-100 transition-all origin-left bg-white text-[#008080] text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest pointer-events-none shadow-xl z-50">History</span>
+      <span class="admin-tooltip absolute left-16 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl whitespace-nowrap">History</span>
     </a>
 
-  
-                    <a href="/User/issued/<%=userId%>"
+    <!-- <a href="/admin/category/categoryList" class="group relative flex items-center justify-center w-12 h-12 rounded-2xl text-teal-100/50 hover:text-white hover:bg-teal-500/20 transition-all"> -->
+      <a href="/User/issued/<%=userId%>"
    class="nav-link group relative flex items-center justify-center
           w-12 h-12 rounded-2xl
           text-teal-100/50
           hover:text-white hover:bg-teal-500/20 transition-all duration-300">
+
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
       </svg>
-      <span class="absolute left-16 scale-0 group-hover:scale-100 transition-all origin-left bg-white text-[#008080] text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest pointer-events-none shadow-xl z-50">Issued</span>
+      <span class="admin-tooltip absolute left-16 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl whitespace-nowrap">Issued</span>
     </a>
-    
-           <a href="/User/stdChat"
+
+   
+
+     <a href="/User/profile"
    class="nav-link group relative flex items-center justify-center
           w-12 h-12 rounded-2xl
           text-teal-100/50
           hover:text-white hover:bg-teal-500/20 transition-all duration-300">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-    </svg>
-    <span class="absolute left-16 scale-0 group-hover:scale-100 transition-all origin-left bg-slate-800 text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest pointer-events-none shadow-xl z-50">Support</span>
-  </a>
- 
-           <a href="/User/profile"
-   class="nav-link group relative flex items-center justify-center
-          w-12 h-12 rounded-2xl
-          text-teal-100/50
-          hover:text-white hover:bg-teal-500/20 transition-all duration-300">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
     </svg>
-    <span class="absolute left-16 scale-0 group-hover:scale-100 transition-all origin-left bg-slate-800 text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest pointer-events-none shadow-xl z-50">Profile</span>
-  </a>
-    <div class="flex-1"></div>
+      <span class="admin-tooltip absolute left-16 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl whitespace-nowrap">Profile</span>
+    </a>
 
-    
-  
-             <a href="/User/logout"
+      <a href="/User/stdChat"
    class="nav-link group relative flex items-center justify-center
           w-12 h-12 rounded-2xl
           text-teal-100/50
           hover:text-white hover:bg-teal-500/20 transition-all duration-300">
+
+      <div class="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 border-2 border-[#004D4D] rounded-full ring-2 ring-rose-500/20 animate-pulse"></div>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+      </svg>
+      <span class="admin-tooltip absolute left-16 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl whitespace-nowrap">Chat</span>
+    </a>
+
+  </nav>
+
+
+
+
+ 
+  <button onclick="openLogoutModal()"
+   class="nav-link group relative flex items-center justify-center
+          w-12 h-12 rounded-2xl
+          text-teal-100/50
+          hover:text-white hover:bg-teal-500/20 transition-all duration-300">
+
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
       </svg>
-      <span class="absolute left-16 scale-0 group-hover:scale-100 transition-all origin-left bg-rose-600 text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest pointer-events-none shadow-xl z-50">Logout</span>
-    </a>
 
-  </aside>
-  <script>
-    const currentPath=window.location.pathname
-    const navLinks=document.querySelectorAll('.nav-link')
+      <span class="absolute left-16 scale-0 group-hover:scale-100 transition-all origin-left bg-rose-600 text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest pointer-events-none shadow-xl z-50">
+        Logout
+      </span>
 
-    navLinks.forEach(link=>{
-      if(link.getAttribute('href')===currentPath){
-        link.classList.add('active-link')
-      }
-    })
-  </script>
+</button>
+
+</aside>
+<!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
+  
+  <!-- backdrop -->
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+       onclick="closeLogoutModal()"></div>
+
+  <!-- modal box -->
+  <div class="relative bg-white w-full max-w-sm rounded-3xl shadow-2xl p-8 text-center animate-scale">
+
+   
+
+    <!-- text -->
+   
+
+    <p class="text-sm mt-2 text-teal-700 font-medium">
+      Are you sure you want to exit?
+    </p>
+
+    <!-- buttons -->
+    <div class="flex justify-center gap-4 mt-6">
+      <button
+        onclick="closeLogoutModal()"
+        class="px-5 py-2 text-sm font-bold rounded-xl
+               bg-slate-100 text-slate-600
+               hover:bg-slate-200 transition-all">
+        cancel
+      </button>
+
+      <a href="/User/logout"
+         class="px-5 py-2 text-sm font-bold rounded-xl
+                bg-teal-600 text-white
+                hover:bg-teal-700 transition-all">
+        logout
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function openLogoutModal() {
+    document.getElementById('logoutModal').classList.remove('hidden');
+  }
+
+  function closeLogoutModal() {
+    document.getElementById('logoutModal').classList.add('hidden');
+  }
+</script>
+
+<script>
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  navLinks.forEach(link => {
+    if (link.getAttribute("href") === currentPath) {
+      link.classList.add("active-link");
+    }
+  });
+</script>
+
 </body>
-</html>  
+</html>

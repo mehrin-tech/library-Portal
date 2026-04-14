@@ -1,13 +1,11 @@
-const express=require('express')
-const path=require('path')
-const router=express.Router()
+import {Router} from 'express'
 
-const fs=require('fs').promises
-const {requireStdAuth}=require('../Utils/stdMiddleware')
-const {getCategoryList,getSubCategory, getBookDetails,startOnlineReading,stopOnlineReading}=require('../Controllers/userCategoryController')
+import {requireStdAuth} from '../Utils/stdMiddleware.js'
+import {getCategoryList,getSubCategory, getBookDetails,startOnlineReading,stopOnlineReading} from '../Controllers/userCategoryController.js'
 
+const router=Router()
 
 router.get('/categoryList',requireStdAuth,getCategoryList)
 router.get('/view/:id',requireStdAuth,getSubCategory)
 router.get('/:catId/book/:subId',requireStdAuth,getBookDetails)
-module.exports=router
+export default router

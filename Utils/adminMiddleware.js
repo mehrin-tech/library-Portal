@@ -1,30 +1,39 @@
-const jwt=require('jsonwebtoken')
-const bcrypt=require('bcrypt')
-const { UnauthorizedError, ForbiddenError, NotFoundError } = require('./error')
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
+import { UnauthorizedError, ForbiddenError, NotFoundError } from './error.js'
 const JWT_SECRET='yoursecretkey'
-const user={id:'ADMIN001',username:'admin123',password:bcrypt.hashSync('12345',10),name:'admin',role:'admin'}
 
-function signToken(user){
-    return jwt.sign({id:user.id,username:user.username,name:user.name,role:'admin'},
+
+//============sign Token==================
+function signToken(admin){
+    return jwt.sign(
+        {id:admin._id,
+            username:admin.username,
+            role:'admin'
+        },
         JWT_SECRET,
-        {expiresIn:'1hr'}
+        {expiresIn:'1h'}
     )
 }
 
+//========================require Auth===========
 function requireAuth(req,res,next){
     const token=req.cookies?.token
     if(!token) return next(new UnauthorizedError('Not authorised'))
         try{
     const payload=jwt.verify(token,JWT_SECRET)
-    if(payload.role !=='admin') return next(new ForbiddenError('Access denied'))
+    if(payload.role !=='admin'){
+        return next(new ForbiddenError('Access denied'))
+    }
         req.user=payload
+    
     next()
 }catch(err){
-    return next(err)
+     next(err)
 }
 }
 
-
+//=====================prevent login===============
 function preventLogin(req,res,next){
     const token=req.cookies?.token
     if(!token)  return next()
@@ -35,7 +44,9 @@ function preventLogin(req,res,next){
        
     return res.redirect(`/admin/dashboard`)
     }else{
-    return next(new ForbiddenError('Access Denied'))
+    if(payload.role!=='admin'){
+        return next(new ForbiddenError('Access denied '))
+    }
 
     }
     }catch(err){
@@ -43,4 +54,4 @@ function preventLogin(req,res,next){
     }
 
 }
-module.exports={requireAuth,signToken,user,UnauthorizedError,ForbiddenError,preventLogin}
+export{requireAuth,signToken,UnauthorizedError,ForbiddenError,preventLogin}

@@ -1,170 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reading History | Student Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { --primary-teal: #008080; }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading History | Student Portal</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+:root { --primary-teal: #008080; }
+.bg-teal-primary { background-color: var(--primary-teal); }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+</style>
+
 </head>
 
 <body class="bg-slate-50 min-h-screen font-sans">
 
-  <%- include('../partials/userSidebar') %>
+<%- include('../partials/userSidebar') %>
 
-  <main class="ml-20 p-8 transition-all duration-300">
+<main class="ml-20 p-8">
 
-    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
-      <div class="space-y-1">
-        <h1 class="text-3xl font-black text-slate-800 tracking-tight">Read <span class="text-teal-600">Books List</span></h1>
-        <!-- <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">A comprehensive record of your library usage</p> -->
-      </div>
+<!-- HEADER -->
+<header class="flex justify-between items-center mb-10">
 
-      <div class="flex gap-4">
-        <div class="bg-white px-6 py-3 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-          <div class="w-10 h-10 bg-teal-50 rounded-xl flex items-center justify-center text-teal-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Books</p>
-            <p class="text-lg font-bold text-slate-700"><%= usedBooks.length %></p>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
-      
-      <div class="overflow-x-auto scrollbar-hide">
-        <table class="w-full text-left border-separate border-spacing-0">
-          
-          <thead>
-            <tr class="bg-slate-50/50">
-              <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Book Details</th>
-              <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Issue Date</th>
-              <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Return Date</th>
-              <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Completion</th>
-            </tr>
-          </thead>
-
-          <tbody class="divide-y divide-slate-50">
-
-            <% if (usedBooks.length === 0) { %>
-              <tr>
-                <td colspan="4" class="px-8 py-24 text-center">
-                  <div class="max-w-xs mx-auto space-y-4 opacity-40">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                    <p class="text-[10px] font-black uppercase tracking-widest">No historical data available yet</p>
-                  </div>
-                </td>
-              </tr>
-            <% } %>
-
-            <% usedBooks.forEach(i => { 
-                const book = books.find(b => b.id === i.bookId);
-            %>
-              <tr class="group hover:bg-slate-50/80 transition-all">
-                
-                <td class="px-8 py-6">
-                  <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-teal-100 group-hover:text-teal-600 transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                      </svg>
-                    </div>
-                    <div class="flex flex-col">
-                      <span class="text-sm font-black text-slate-800 tracking-tight">
-                        <%= book ? book.bookname : 'Decommissioned Volume' %>
-                      </span>
-                      <span class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">ID: #<%= i.bookId %></span>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="px-8 py-6 text-center">
-                  <span class="text-xs font-bold text-slate-600 tracking-tight"><%= i.issuedate || '—' %></span>
-                </td>
-
-                <td class="px-8 py-6 text-center">
-                  <span class="text-xs font-bold text-slate-600 tracking-tight"><%= i.returnDate || '—' %></span>
-                </td>
-
-                <td class="px-8 py-6 text-right">
-                  <% if (i.status === 'issued') { %>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 border border-blue-100">
-                      Borrowed
-                    </span>
-                  <% } else { %>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">
-                       Returned
-                    </span>
-                  <% } %>
-                </td>
-
-              </tr>
-            <% }) %>
-
-          </tbody>
-        </table>
-      </div>
-    </div>
-    
-   <div class="flex items-center justify-between px-8 py-6  border-t border-slate-50">
-  <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-    Page <%= currentPage %> of <%= totalPages %>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <% if (currentPage > 1) { %>
-      <a href="?page=<%= currentPage - 1 %>" 
-         class="flex items-center justify-center px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-50 border border-slate-200 rounded-xl hover:bg-teal-50 hover:text-teal-600 hover:border-teal-200 transition-all active:scale-95">
-        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-        Prev
-      </a>
-    <% } else { %>
-      <span class="flex items-center justify-center px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-300 bg-slate-50/50 border border-slate-100 rounded-xl cursor-not-allowed">
-        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-        Prev
-      </span>
-    <% } %>
-
-    <div class="flex items-center gap-1 mx-2">
-      <% for (let i = 1; i <= totalPages; i++) { %>
-        <a href="?page=<%= i %>"
-           class="w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black transition-all active:scale-90
-           <%= currentPage === i 
-               ? 'bg-teal-primary text-white shadow-lg shadow-teal-900/20' 
-               : 'text-slate-500 hover:bg-slate-100 border border-transparent hover:border-slate-200' %>">
-            <%= i %>
-        </a>
-      <% } %>
-    </div>
-
-    <% if (currentPage < totalPages) { %>
-      <a href="?page=<%= currentPage + 1 %>" 
-         class="flex items-center justify-center px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-50 border border-slate-200 rounded-xl hover:bg-teal-50 hover:text-teal-600 hover:border-teal-200 transition-all active:scale-95">
-        Next
-        <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-      </a>
-    <% } else { %>
-      <span class="flex items-center justify-center px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-300 bg-slate-50/50 border border-slate-100 rounded-xl cursor-not-allowed">
-        Next
-        <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-      </span>
-    <% } %>
-  </div>
+<div>
+<h1 class="text-3xl font-black text-slate-800">
+Read <span class="text-[#2d8a75]">Books List</span>
+</h1>
 </div>
 
-  </main>
+<div class="bg-white px-6 py-3 rounded-2xl border shadow-sm">
+<p class="text-xs font-bold text-slate-400 uppercase">Total Books</p>
+<p class="text-lg font-bold"><%= usedBooks.length %></p>
+</div>
 
+</header>
+
+<!-- TABLE -->
+<div class="bg-white rounded-3xl shadow-xl border overflow-hidden">
+
+<div class="overflow-x-auto scrollbar-hide">
+
+<table class="w-full">
+
+<thead class="bg-slate-50">
+<tr>
+  <th class="px-8 py-5 text-left text-xs uppercase text-slate-400">ID</th>
+
+<th class="px-8 py-5 text-left text-xs uppercase text-slate-400">Title</th>
+<th class="px-8 py-5 text-center text-xs uppercase text-slate-400">Issue Date</th>
+<th class="px-8 py-5 text-center text-xs uppercase text-slate-400">Return Date</th>
+<th class="px-8 py-5 text-right text-xs uppercase text-slate-400">Status</th>
+</tr>
+</thead>
+
+<tbody>
+
+<!-- EMPTY STATE -->
+<% if (usedBooks.length === 0) { %>
+
+<tr>
+<td colspan="4" class="text-center py-20 text-slate-400">
+No history found
+</td>
+</tr>
+
+<% } %>
+
+<!-- BOOK LIST -->
+<% usedBooks.forEach((i,index) => { %>
+
+<tr class="border-t hover:bg-slate-50 transition">
+
+  <td>
+    <span class="px-8 py-6 text-center text-sm font-semibold text-slate-600">
+ID: <%= i.book ? index+1 : '' %>
+</span>
+  </td>
+<!-- BOOK -->
+<td class="px-8 py-6">
+<div class="flex flex-col">
+
+<span class="font-bold text-slate-800">
+<%= i.book ? i.book.title : 'Removed Book' %>
+</span>
+
+
+
+</div>
+</td>
+
+<!-- ISSUE DATE -->
+<td class="px-8 py-6 text-center text-sm font-semibold text-slate-600">
+<%= i.issueDate ? new Date(i.issueDate).toLocaleDateString() : '—' %>
+</td>
+
+<!-- RETURN DATE -->
+<td class="px-8 py-6 text-center text-sm font-semibold text-slate-600">
+<%= i.actualReturnDate ? new Date(i.actualReturnDate).toLocaleDateString() : '—' %>
+</td>
+
+<!-- STATUS -->
+<td class="px-8 py-6 text-right">
+
+<% if (i.status === 'issued') { %>
+
+<span class="px-3 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-600">
+Borrowed
+</span>
+
+<% } else { %>
+
+<span class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-600">
+Returned
+</span>
+
+<% } %>
+
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<!-- PAGINATION -->
+<div class="flex justify-between mt-8">
+
+<p class="text-xs text-slate-400">
+Page <%= currentPage %> of <%= totalPages %>
+</p>
+
+<div class="flex gap-2">
+
+<% if (currentPage > 1) { %>
+<a href="?page=<%= currentPage-1 %>"
+class="px-4 py-2 border rounded-lg text-sm hover:bg-teal-50">
+Prev
+</a>
+<% } %>
+
+<% if (currentPage < totalPages) { %>
+<a href="?page=<%= currentPage+1 %>"
+class="px-4 py-2 border rounded-lg text-sm hover:bg-teal-50">
+Next
+</a>
+<% } %>
+
+</div>
+
+</div>
+
+</main>
 </body>
 </html>

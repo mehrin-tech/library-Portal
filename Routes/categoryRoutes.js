@@ -1,12 +1,6 @@
-const express=require('express')
-const path=require('path')
-const router=express.Router()
-
-const fs=require('fs').promises
-
-
-
-const multer = require("multer");
+import {Router} from 'express'
+import multer from "multer"
+const router=Router()
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "./uploads"),
@@ -16,10 +10,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
-const {requireAuth,preventLogin}=require('../Utils/adminMiddleware');
-const { getCategoryList, getCategoryForm, postAdd, getEditCategory, postUpdate, deleteCategory, getSubCategory, subCategoryForm, addSubCategory, editSub, updateSub, deleteSub ,getBookDetails} = require('../Controllers/categoryController');
-const filePath=path.join(__dirname,'../data/category.json')
-const subPath=path.join(__dirname,'../data/subCategory.json')
+import {requireAuth,preventLogin} from '../Utils/adminMiddleware.js'
+import { getCategoryList, getCategoryForm, postAdd, getEditCategory, postUpdate, deleteCategory, getSubCategory, subCategoryForm, addSubCategory, editSub, updateSub, deleteSub ,getBookDetails} from '../Controllers/categoryController.js'
+
 
 
 //categorylist
@@ -61,4 +54,4 @@ router.get('/:catId/book/:subId',requireAuth,getBookDetails)
 
 
 
-module.exports=router
+export default  router

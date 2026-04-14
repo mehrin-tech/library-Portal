@@ -1,131 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Login | Library Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root { 
-      --primary-teal: #2d8a75; /* JobPortal Theme Teal */
-    }
-    
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #f8fafc;
-    }
-
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    
-    /* The "Network" pattern matching your landing page */
-    .network-pattern {
-      background-image: radial-gradient(circle, #2d8a75 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: radial-gradient(circle at center, black, transparent 80%);
-      opacity: 0.15;
-    }
-
-    .login-input {
-      width: 100%;
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px; /* Slightly sharper corners to match theme */
-      padding: 14px 16px;
-      font-size: 0.875rem;
-      transition: all 0.3s ease;
-    }
-
-    .login-input:focus {
-      border-color: var(--primary-teal);
-      box-shadow: 0 0 0 4px rgba(45, 138, 117, 0.1);
-      outline: none;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fadeIn { animation: fadeIn 0.6s ease-out forwards; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Login | Library Portal</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-[#f3f8f6]">
+<body class="min-h-screen flex items-center justify-center p-6 bg-slate-50 font-sans">
 
-  <div class="absolute inset-0 network-pattern pointer-events-none"></div>
+<!-- Back Home -->
+<div class="fixed top-8 left-8">
+<a href="/" class="flex items-center gap-2 group">
 
-  <div class="fixed top-8 left-8">
-    <a href="/" class="flex items-center gap-2 group">
-      <div class="w-10 h-10 bg-white shadow-sm border border-slate-200 rounded-lg flex items-center justify-center text-teal-600 transition-all group-hover:border-teal-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-      </div>
-      <span class="text-slate-800 font-bold tracking-tight opacity-0 group-hover:opacity-100 transition-opacity">Back Home</span>
-    </a>
-  </div>
+<div class="w-10 h-10 bg-white shadow border border-slate-200 rounded-lg flex items-center justify-center text-teal-600 group-hover:border-teal-500 transition">
+<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+</svg>
+</div>
 
-  <div class="w-full max-w-[440px] animate-fadeIn relative z-10">
-    <div class="bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100 p-8 md:p-12">
-      
-      <div class="mb-10 text-left"> <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          Welcome <span class="text-teal-600">Back</span>
-        </h2>
-       
-      </div>
-  
-      <form action="/User/login" method="POST" class="space-y-6">
-        
-        <div class="space-y-2">
-          <label class="text-xs font-bold text-slate-700 uppercase tracking-wider ml-1">
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            placeholder="name@university.edu"
-            required
-            class="login-input"
-          />
-        </div>
 
-        <div class="space-y-2">
-          <div class="flex justify-between items-center px-1">
-            <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">
-              Password
-            </label>
-           
-          </div>
-          <input
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            required
-            class="login-input"
-          />
-        </div>
 
-        <div class="pt-2">
-          <button
-            type="submit"
-            class="w-full bg-teal-primary text-white font-bold py-4 rounded-lg shadow-lg shadow-teal-900/10 hover:bg-[#236e5d] hover:-translate-y-0.5 active:scale-[0.98] transition-all"
-          >
-            Sign In
-          </button>
-        </div>
+</a>
+</div>
 
-      </form>
+<!-- Login Card -->
+<div class="w-full max-w-md">
 
-      <div class="mt-10 pt-8 border-t border-slate-50 text-center">
-        <p class="text-slate-500 text-sm">
-          New student? 
-          <a href="/" class="text-teal-600 font-bold hover:underline ml-1">Create an account</a>
-        </p>
-      </div>
-    </div>
+<div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
 
-  
-  </div>
+<!-- Heading -->
+<div class="mb-8">
+<h2 class="text-2xl text-slate-900 text-center font-bold">
+Student <span class="text-teal-600">Login</span>
+</h2>
+
+</div>
+
+<form action="/User/login" method="POST" class="space-y-4" autocomplete="off">
+
+<!-- Email -->
+<div>
+<label class="text-[11px] font-bold text-slate-600 uppercase">
+Email Address
+</label>
+
+<input
+type="email"
+name="email" placeholder="enter a  email address"
+required autocomplete="email"
+class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+>
+</div>
+
+<!-- Password -->
+<div>
+<label class="text-[11px] font-bold text-slate-600 uppercase">
+Password
+</label>
+
+<input
+type="password"
+name="password" placeholder="enter a password"
+required autocomplete="new-password"
+class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+>
+</div>
+
+<!-- Button -->
+<button
+type="submit"
+class="w-full bg-teal-600 text-white py-2.5 rounded-xl text-sm font-bold hover:bg-teal-700 transition"
+>
+Sign In
+</button>
+
+</form>
+
+<!-- Footer -->
+<div class="mt-8 pt-6 border-t border-slate-100 text-center">
+<p class="text-sm text-slate-500">
+New Student?
+<a href="/" class="text-teal-600 font-semibold hover:underline ml-1">
+Create Account
+</a>
+</p>
+</div>
+
+</div>
+</div>
 
 </body>
 </html>

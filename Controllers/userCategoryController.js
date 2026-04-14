@@ -1,59 +1,12 @@
-const path=require('path')
-const fs=require('fs').promises
-const filePath=path.join(__dirname,'../data/category.json')
-const subPath=path.join(__dirname,'../data/subCategory.json')
-const { ConflictError, NotFoundError }=require('../Utils/error')
-const onlinePath=path.join(__dirname,'../data/onlineReads.json')
-
-async function readData(){
-    try{
-        const data=await fs.readFile(filePath,'utf-8')
-        return data?JSON.parse(data):[]
-    }catch(err){
-console.error('error reading file:',err)
-    }
-}
+import path from 'path'
+import Category from '../models/Category.js'
+import SubCategory from '../models/subCategory.js'
+import ReadOnline from '../models/ReadOnline.js'
+import { ConflictError, NotFoundError } from '../Utils/error.js'
 
 
-async function writeData(category) {
-    try{
-await fs.writeFile(filePath,JSON.stringify(category,null,2))
-}catch(err){
-    console.error('error  writing file:',err)
-}
-}
 
-async function readSub(){
-       try{
-        const data=await fs.readFile(subPath,'utf-8')
-        return data?JSON.parse(data):[]
-    }catch(err){
-console.error('error reading file:',err)
-return []
-    }
-}
 
-async function writeSub(subCategory) {
-    try{
-await fs.writeFile(subPath,JSON.stringify(subCategory,null,2))
-}catch(err){
-    console.error('error  writing file:',err)
-}
-}
-
-//================read and write online readers============//
-async function readOnline(){
-    try{
-const data=await fs.readFile(onlinePath,'utf-8')
-return data?JSON.parse(data):[]
-    }catch(err){
-  return []
-    }
-}
-
-async function writeOnline(reads){
-    await fs.writeFile(onlinePath,JSON.stringify(reads,null,2))
-}
 
 
 
@@ -65,46 +18,77 @@ async function writeOnline(reads){
 
 //=============================//
 const getCategoryList=async(req,res,next)=>{
-    const categories=await readData()
-    res.render('User/category/categoryList',{categories})
+    try{
+        const page=Number(req.query.page)||1
+        const limit=4
+        const skip=(page-1)*limit
+
+        const totalCategories=await Category.countDocuments()
+        const totalPages=Math.ceil(totalCategories/limit)
+
+
+    const categories=await Category.find()
+    .skip(skip)
+    .limit(limit)
+    res.render('User/category/categoryList',{
+        categories,
+        totalPages,
+        currentPage:page,
+    userId:req.student.id
+})
+}catch(err){
+    next(err)
+}
 }
 const getSubCategory=async(req,res,next)=>{
-    const categoryId=parseInt(req.params.id)
+    try{
+    const categoryId=req.params.id
 
-    const categories=await readData()
-    const category=categories.find(c=>c.id===categoryId)
+     const page = parseInt(req.query.page) || 1
+    const limit = 3
+    const skip = (page - 1) * limit
+
+    const category=await Category.findById(categoryId)
 
     if(!category){
         return next(new NotFoundError('not found error'))
     }
-    const subCategory=await readSub()
+    
 
-    const sub=subCategory.find(s=>s.categoryId===categoryId)
-    const subCategoryList=sub?sub.subcategories:[]
-
+    const subDoc=await SubCategory.findOne({categoryId})
+        const totalBooks = subDoc ? subDoc.subcategories.length : 0
+   const subCategoryList = subDoc 
+        ? subDoc.subcategories.slice(skip, skip + limit)
+        : []
+    const totalPages = Math.ceil(totalBooks / limit)
     res.render('User/category/viewSubCategory',{
         category,
-        sub:subCategoryList
+        sub:subCategoryList,
+        userId:req.student.id,
+        currentPage:page,
+        totalPages
     })
+}catch(err){
+    next(err)
+}
 }
 const getBookDetails=async(req,res,next)=>{
     try{
     const studentId=req.student.id
-    const catId=parseInt(req.params.catId)
-    const subId=parseInt(req.params.subId)
+    const {catId,subId}=req.params
 
-    const categories=await readData()
-    const subData=await readSub()
+   console.log('reqstd',req.student)
+   console.log('req std',req.student._id)
 
-    const category=categories.find(c=>c.id===catId)
-    const subList=subData.find(s=>s.categoryId===catId)
+    const category=await Category.findById(catId)
+    const subDoc=await SubCategory.findOne({categoryId:catId})
 
-    const book=subList.subcategories.find(s=>s.id===subId)
+    const book=subDoc.subcategories.id(subId)
     if(!book){
         return next(new NotFoundError('book not found'))
     }
 
-    await startOnlineReading(studentId,book.id)//start onlinereading
+    await startOnlineReading(studentId,subId,book.bookTitle)//start onlinereading
     res.render('User/category/bookDetails',{
         category,
         book
@@ -116,28 +100,20 @@ const getBookDetails=async(req,res,next)=>{
 
 
 //===========onlinestudent reads start===========//
-const startOnlineReading=async(studentId,bookId)=>{
-    try{
-
- const reads=await readOnline()
-
- const alreadyActive=reads.find(r=>r.studentId===studentId &&
-    r.bookId===bookId &&
-    r.isActive)
-
+const startOnlineReading=async(studentId,bookId,bookTitle)=>{
+    const alreadyActive=await ReadOnline.findOne({
+    student: studentId,
+   bookId: bookId,
+    isActive:true
+ })
     if(!alreadyActive){
-        reads.push({
-            studentId,
-            bookId,
-            isActive:true,
-            startTime:new Date().toISOString()
-        })
-      
-        await writeOnline(reads)
-    }
- 
-    }catch(err){
-
+       await ReadOnline.create({
+        student:studentId,
+       bookId: bookId,
+       bookName:bookTitle,
+       isActive:true,
+       startTime:new Date()
+       })
     }
 }
 
@@ -147,20 +123,20 @@ const startOnlineReading=async(studentId,bookId)=>{
 
 const stopOnlineReading=async(req,res,next)=>{
     try{
-        const studentId=req.student.id
-        const bookId=parseInt(req.params.bookId)
-     const reads=await readOnline()
+        const studentId=req.student._idid
+        const bookId=req.params.bookId
+     
 
-    const reading=reads.find(r=>r.studentId===studentId &&
-        r.bookId===bookId &&
-        r.isActive
-    )
-
+    const reading=await ReadOnline.findOne({
+        studentId,
+        bookId,
+        isActive:true
+    })
     if(reading){
         reading.isActive=false
-        reading.endTime=new Date().toISOString()
+        reading.endTime=new Date()
 
-       await writeOnline(reads)
+       await reading.save()
     }
        res.status(200).end()
      
@@ -168,10 +144,10 @@ const stopOnlineReading=async(req,res,next)=>{
     next(err)
 }
 }
-module.exports={
+export{
     getCategoryList,
     getSubCategory,
     getBookDetails,
-    
+    startOnlineReading,
     stopOnlineReading
 }

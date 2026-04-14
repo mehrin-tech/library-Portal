@@ -3,108 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= category.category %> - Subcategories</title>
+  <title><%= category.category %> - Books</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-slate-50 min-h-screen font-sans">
 
+<!-- Sidebar -->
+<%- include('../../partials/userSidebar') %>
 
-<main class="ml-20 p-8">
-<div class="max-w-7xl mx-auto px-6 py-12">
+<!-- HEADER -->
+<header class="ml-20 bg-white border-b border-slate-100 sticky top-0 z-40">
+  <div class="px-6 py-5 flex justify-between items-center">
 
-  <!-- HEADER -->
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800">
+        <%= category.category %>
+      </h1>
+     
+    </div>
 
-  <div class="bg-slate-900 rounded-3xl p-8 mb-10 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-  
-  <!-- Title -->
-  <div>
-    <h1 class="text-3xl font-black"><%= category.category %></h1>
-    <p class="text-teal-400 text-xs uppercase tracking-widest mt-2">
-      Sub-Classification Registry
-    </p>
   </div>
-
- 
-  
-
-</div>
+</header>
 
 
-  <!-- TABLE -->
-  <div class="bg-white rounded-3xl shadow border overflow-hidden">
+<!-- MAIN -->
+<main class="ml-20 p-8">
+
+<div class="max-w-6xl mx-auto">
+
+  <!-- TABLE CARD -->
+  <div class="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden">
 
     <% if (sub && sub.length > 0) { %>
+
     <table class="w-full">
-      <thead class="bg-slate-50">
+
+      <!-- TABLE HEADER -->
+      <thead class="bg-slate-50 text-slate-400 uppercase text-[11px] tracking-widest">
         <tr>
-          <th class="px-6 py-4 text-xs text-slate-400">ID</th>
-          <th class="px-6 py-4 text-xs text-slate-400">Cover</th>
-          <th class="px-6 py-4 text-xs text-slate-400">Author</th>
-          <th class="px-6 py-4 text-xs text-slate-400">Book Title</th>
-          <th class="px-6 py-4 text-xs text-slate-400">Overview</th>
-          <th class="px-6 py-4 text-xs text-slate-400 text-center">Control</th>
+          <th class="px-6 py-4 text-left">ID</th>
+          <th class="px-6 py-4 text-left">Cover</th>
+          <th class="px-6 py-4 text-left">Author</th>
+          <th class="px-6 py-4 text-left">Book Title</th>
+          <th class="px-6 py-4 text-left">Overview</th>
         </tr>
       </thead>
 
-      <tbody>
-      <% sub.forEach(s => { %>
-        <tr class="border-t hover:bg-slate-50">
+      <!-- TABLE BODY -->
+      <tbody class="divide-y divide-slate-100">
 
-          <td class="px-6 py-5 text-sm text-slate-500">#<%= s.id %></td>
+      <% sub.forEach((s,i) => { %>
 
+        <tr class="hover:bg-teal-50/40 transition">
+
+          <!-- ID -->
+          <td class="px-6 py-5 text-sm text-slate-500 font-semibold">
+            #<%= i+1 %>
+          </td>
+
+          <!-- COVER -->
           <td class="px-6 py-5">
             <% if (s.image) { %>
-             <a href="/User/category/<%=category.id%>/book/<%=s.id%>"><img
-                src="/uploads/<%= s.image %>"
-                class="w-14 h-20 object-cover rounded-xl shadow cursor-pointer"
-                data-image="/uploads/<%= s.image %>"
-                data-title="<%= s.bookTitle %>"
-                data-description="<%= s.description || 'No description available' %>"
-            
-              ></a>
+
+              <a href="/User/category/<%=category.id%>/book/<%=s.id%>">
+                <img
+                  src="/uploads/<%= s.image %>"
+                  class="w-14 h-20 object-cover rounded-lg shadow-sm hover:scale-105 transition"
+                >
+              </a>
+
             <% } else { %>
-              <div class="w-14 h-20 bg-slate-100 rounded-xl flex items-center justify-center text-xs text-slate-400">
+
+              <div class="w-14 h-20 bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400">
                 Empty
               </div>
+
             <% } %>
           </td>
 
-          <td class="px-6 py-5 text-sm font-semibold"><%= s.author %></td>
-          <td class="px-6 py-5 text-sm"><%= s.bookTitle %></td>
-            <!-- <td class="px-6 py-5 text-sm"><%= s.author %></td> -->
-          <td class="px-6 py-5 text-xs text-slate-500 max-w-xs italic">
-            "<%= s.description ? s.description.substring(0, 60) + '...' : 'No description' %>"
+          <!-- AUTHOR -->
+          <td class="px-6 py-5 text-sm font-semibold text-slate-700">
+            <%= s.author %>
           </td>
 
-          <td class="px-6 py-5 text-center">
-            <a href="/admin/category/<%= category.id %>/sub/<%= s.id %>/edit"
-               class="text-teal-600 text-sm mr-3">Edit</a>
-           <!----> <a href="/admin/category/<%= category.id %>/sub/<%= s.id %>/delete"></a>
-            <button  
-           class="text-rose-600 text-sm"
-               onclick="deleteModal('/admin/category/<%=category.id%>/sub/<%=s.id%>/delete')">
-             Delete
-            </button>
+          <!-- BOOK TITLE -->
+          <td class="px-6 py-5 text-sm font-bold text-slate-800">
+            <%= s.bookTitle %>
+          </td>
+
+          <!-- DESCRIPTION -->
+          <td class="px-6 py-5 text-xs text-slate-500 italic max-w-xs">
+            "<%= s.description ? s.description.substring(0, 70) + '...' : 'No description available' %>"
           </td>
 
         </tr>
+
       <% }) %>
+
       </tbody>
     </table>
+
     <% } else { %>
-      <p class="p-10 text-center text-slate-400">No subcategories found</p>
+
+      <div class="p-12 text-center text-slate-400 font-semibold">
+        No books found in this category
+      </div>
+
     <% } %>
 
   </div>
 
 </div>
 </main>
+<% if(totalPages > 1){ %>
 
+<div class="flex justify-center mt-10">
 
+  <div class="flex items-center gap-2">
 
+    <!-- PREV -->
+    <% if(currentPage > 1){ %>
+      <a href="?page=<%= currentPage - 1 %>"
+         class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-teal-100 transition">
+        Prev
+      </a>
+    <% } %>
 
+    <!-- PAGE NUMBERS -->
+    <% for(let i = 1; i <= totalPages; i++){ %>
 
+      <a href="?page=<%= i %>"
+         class="px-4 py-2 rounded-xl text-xs font-bold transition
+         <%= i === currentPage 
+           ? 'bg-teal-600 text-white'
+           : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>">
+        <%= i %>
+      </a>
+
+    <% } %>
+
+    <!-- NEXT -->
+    <% if(currentPage < totalPages){ %>
+      <a href="?page=<%= currentPage + 1 %>"
+         class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-teal-100 transition">
+        Next
+      </a>
+    <% } %>
+
+  </div>
+
+</div>
+
+<% } %>
 
 
 </body>

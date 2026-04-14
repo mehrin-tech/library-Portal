@@ -1,204 +1,75 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login | Library System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --primary-teal: #008080;
-      --dark-teal: #004D4D;
-    }
-    .text-teal-primary { color: var(--primary-teal); }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .focus-ring-teal:focus { 
-      --tw-ring-color: var(--primary-teal); 
-      border-color: var(--primary-teal); 
-    }
-    
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-slideUp { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-  </style>
-</head>
-
-<body class="bg-slate-900 font-sans">
-
-  <div class="relative h-screen w-full flex items-center justify-center overflow-hidden">
-    
-    <div 
-      class="absolute inset-0 bg-cover bg-center scale-105" 
-      style="background-image: url('https://i.pinimg.com/736x/93/df/15/93df1560097eedb72743d4824ff91fe5.jpg');"
-    ></div>
-    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] bg-gradient-to-b from-slate-900/40 via-slate-900/80 to-slate-900"></div>
-
-    <div class="relative z-10 w-full max-w-md px-6 animate-slideUp">
-      <form
-        action="/admin/login"
-        method="POST"
-        class="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[2.5rem] p-10 border border-white/20"
-      >
-        <div class="flex justify-center mb-6">
-          <div class="p-4 bg-teal-50 rounded-2xl text-teal-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-          </div>
-        </div>
-
-        <div class="text-center mb-8">
-          <h2 class="text-3xl font-black text-slate-800 tracking-tight">Admin <span class="text-teal-600">Portal</span></h2>
-          <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mt-2">Secure Access Management</p>
-        </div>
-
-        <div class="mb-5">
-          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Username</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </span>
-            <input
-              type="text"
-              name="username"
-              placeholder="Admin ID"
-              required
-              class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all shadow-sm"
-            />
-          </div>
-        </div>
-
-        <div class="mb-8">
-          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Password</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-            </span>
-            <input
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              required
-              class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus-ring-teal focus:bg-white transition-all shadow-sm"
-            />
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          class="w-full bg-teal-primary text-white py-4 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-lg shadow-teal-900/30 active:scale-[0.98] flex items-center justify-center gap-2"
-        >
-          <span>Login</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-        </button>
-
-        
-
-      </form>
-    </div>
-  </div>
-
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login | College Library</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --primary-emerald: #2D8B75;
-      --deep-navy: #0D1B2A;
-    }
-    
-    /* Flowing Background Container */
-    .wave-bg {
-      background-color: #F9FBFB;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232D8B75' fill-opacity='0.05' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,181.3C1248,149,1344,107,1392,85.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'%3E%3C/path%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-
-    .animate-appearance { 
-      animation: fadeInScale 0.8s cubic-bezier(0.16, 1, 0.3, 1); 
-    }
-    @keyframes fadeInScale {
-      from { opacity: 0; transform: scale(0.98) translateY(10px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | Library</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="wave-bg font-sans antialiased text-[#0D1B2A]">
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans">
 
-  <div class="relative min-h-screen w-full flex items-center justify-center p-6">
-    
-    <div class="absolute top-0 right-0 w-1/2 h-1/2 opacity-20 pointer-events-none">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#2D8B75" d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,76.4,-44.7C83.6,-31.3,86.9,-15.7,85.1,-0.9C83.4,13.8,76.5,27.7,68.2,41.1C59.8,54.5,49.9,67.5,36.9,74.5C23.9,81.5,7.9,82.5,-8.1,81.2C-24.1,79.9,-40.1,76.3,-53.8,68.2C-67.5,60.1,-78.9,47.5,-84.3,33.1C-89.7,18.7,-89.2,2.5,-85.4,-12.7C-81.6,-27.9,-74.6,-42.1,-63.9,-51.7C-53.1,-61.3,-38.7,-66.4,-25.2,-73.4C-11.8,-80.4,0.6,-89.3,13.6,-88.7C26.7,-88.1,31.3,-83.5,44.7,-76.4Z" transform="translate(100 100)" />
-        </svg>
-    </div>
+<div class="bg-white shadow-xl rounded-3xl p-8 w-full max-w-md border border-slate-100">
 
-    <div class="relative z-10 w-full max-w-[450px] animate-appearance">
-      
-      <div class="bg-white/80 backdrop-blur-xl shadow-[0_32px_64px_-15px_rgba(13,27,42,0.1)] rounded-[2.5rem] p-12 border border-white">
-        
-        <div class="mb-10">
-          <h1 class="text-3xl font-bold tracking-tight text-[#0D1B2A]">
-            College<span class="text-[#2D8B75]">Library</span>
-          </h1>
-          <p class="text-slate-500 text-sm mt-2 font-medium">Welcome back, Administrator</p>
-        </div>
+<!-- Heading -->
+<div class="text-center mb-6">
+<h1 class="text-2xl font-black text-slate-800">
+Admin <span class="text-teal-600">Login</span>
+</h1>
+<p class="text-xs text-slate-400 font-semibold mt-1">
+Library Management System
+</p>
+</div>
 
-        <form action="/admin/login" method="POST" class="space-y-6">
-          <div>
-            <label class="block text-[11px] font-bold text-[#0D1B2A] uppercase tracking-widest mb-2 ml-1">Admin ID</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="e.g. admin_01"
-              required
-              class="w-full px-6 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2D8B75] focus:border-transparent transition-all"
-            />
-          </div>
+<form action="/admin/login" method="POST" class="space-y-4" autocomplete="off">
 
-          <div>
-            <label class="block text-[11px] font-bold text-[#0D1B2A] uppercase tracking-widest mb-2 ml-1">Secure Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              required
-              class="w-full px-6 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2D8B75] focus:border-transparent transition-all"
-            />
-          </div>
+<!-- Username -->
+<div>
+<label class="text-[10px] font-bold text-slate-500 uppercase">
+Username
+</label>
 
-          <button
-            type="submit"
-            class="w-full bg-[#2D8B75] text-white py-4 rounded-2xl hover:bg-[#246f5e] transition-all font-bold shadow-lg shadow-[#2D8B75]/20 active:scale-[0.98] mt-4"
-          >
-            Login to Dashboard
-          </button>
-        </form>
+<input
+type="text"
+name="username" autocomplete="username" placeholder="enter a username"
+required
+class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+>
+</div>
 
-        <div class="mt-10 text-center">
-            <a href="/" class="text-xs font-bold text-slate-400 hover:text-[#2D8B75] transition-colors uppercase tracking-widest">
-              ← Return to Library Home
-            </a>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Password -->
+<div>
+<label class="text-[10px] font-bold text-slate-500 uppercase">
+Password
+</label>
+
+<input
+type="password"
+name="password" autocomplete="new-password" placeholder="enter a password"
+required
+class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+>
+</div>
+
+<!-- Button -->
+<button
+type="submit"
+class="w-full bg-teal-600 text-white py-2.5 rounded-xl text-sm font-bold hover:bg-teal-700 transition"
+>
+Login
+</button>
+
+</form>
+
+<!-- Return Link -->
+<div class="mt-5 text-center">
+<a href="/admin/dashboard"
+class="text-[10px] font-bold text-slate-400 hover:text-teal-600 uppercase">
+Return Dashboard
+</a>
+</div>
+
+</div>
 
 </body>
 </html>

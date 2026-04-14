@@ -7,26 +7,24 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-slate-50 min-h-screen font-sans">
+<body class="bg-slate-50 h-screen font-sans  ">
 <%- include('../../partials/adminSidebar') %>
 
 <main class="ml-20 p-8">
-<div class="max-w-full mx-auto px-6 ">
+  <div class="max-w-full mx-auto px-6 ">
 
-  <!-- HEADER -->
 
-  <div class="bg-teal-800 rounded-2xl p-5 mb-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+
+   <div class="bg-teal-800 rounded-2xl p-5 mb-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
   
-  <!-- Title -->
-  <div>
-    <h1 class="text-lg font-black font-extrabold"><%= category.category %></h1>
-    <p class="text-teal-400 text-[10px] uppercase tracking-widest mt-2">
-      Sub-Classification Registry
-    </p>
-  </div>
 
-  <!-- Add Subcategory Button -->
-  <a
+  <div> 
+    <h1 class="text-lg font-black font-extrabold"><%= category.category %></h1>
+   
+   </div> 
+
+ 
+   <a
     href="/admin/category/<%= category.id %>/sub/add"
     class="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-teal-900/30 active:scale-95"
   >
@@ -38,12 +36,12 @@
     Add Subcategory
   </a>
 
-</div>
+</div> 
 
 
   <!-- TABLE -->
   <div class="bg-white rounded-3xl shadow border overflow-hidden">
-
+ 
     <% if (sub && sub.length > 0) { %>
     <table class="w-full">
       <thead class="bg-slate-50">
@@ -58,10 +56,10 @@
       </thead>
 
       <tbody>
-      <% sub.forEach(s => { %>
+      <% sub.forEach((s,i )=> { %>
         <tr class="border-t hover:bg-slate-50">
 
-          <td class="px-6 py-5 text-sm text-slate-500">#<%= s.id %></td>
+          <td class="px-6 py-5 text-sm text-slate-500">#<%= i+1 %></td>
 
           <td class="px-6 py-5">
             <% if (s.image) { %>
@@ -123,7 +121,7 @@
         </tr>
       <% }) %>
       </tbody>
-    </table>
+   </table>
     <% } else { %>
       <p class="p-10 text-center text-slate-400">No subcategories found</p>
     <% } %>
@@ -131,6 +129,35 @@
   </div>
 
 </div>
+ <!---pagination-->
+
+  <%if(totalPages>=1){%>
+<div class="flex justify-center items-center gap-2 py-10">
+
+
+  <!--prev button-->
+  <%if(currentPage>1){%>
+<a href="/admin/category/view/<%= category.id %>?page=<%= currentPage - 1 %>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">prev</a>
+
+ <% }%>
+
+ <!--page number-->
+ <%for(let i=1;i<=totalPages;i++){%>
+   <a href="/admin/category/view/<%= category.id %>?page=<%= i %>"class="px-4 py-2 rounded-xl text-sm font-bold
+         <%= i === currentPage 
+            ? 'bg-teal-600 text-white' 
+            : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>"><%=i%></a>
+
+ <%}%>
+
+
+ <!--next button-->
+ <%if(currentPage< totalPages){%>
+<a href="/admin/category/view/<%= category.id %>?page=<%= currentPage + 1 %>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">next</a>
+
+ <%}%>
+</div>
+  <%}%>
 </main>
 
 <!----================= MODAL ================-->

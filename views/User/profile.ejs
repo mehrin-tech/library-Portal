@@ -5,98 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Profile | Library System</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { --primary-teal: #008080; }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
-  </style>
+  
 </head>
 
 <body class="bg-slate-50 min-h-screen font-sans">
 
   <%- include('../partials/userSidebar') %>
 
-  <main class="ml-20 flex items-center justify-center min-h-screen p-6">
-    
-    <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
-      
-      <div class="h-3 bg-teal-primary"></div>
+ <main class="ml-20 flex items-center justify-center min-h-screen p-4">
 
-      <div class="p-10 md:p-14">
-        
-        <div class="flex flex-col md:flex-row items-center gap-8 mb-12 pb-12 border-b border-slate-50">
-          
-          <div class="relative">
-            <img
-              src="/uploads/<%= student.image %>"
-              alt="Student Photo"
-              class="w-32 h-32 rounded-[2.5rem] object-cover ring-4 ring-teal-50 shadow-xl"
-            />
-            <div class="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 border-4 border-white rounded-full"></div>
-          </div>
+  <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
 
-          <div class="text-center md:text-left space-y-2">
-            <h2 class="text-4xl font-black text-slate-800 tracking-tight leading-tight">
-              <%= student.username %>
-            </h2>
-            <div class="flex flex-wrap justify-center md:justify-start gap-3">
-              <span class="px-3 py-1 bg-teal-50 text-teal-600 text-[10px] font-black uppercase tracking-widest rounded-lg">
-                STD ID: <%= student.code %>
-              </span>
-            
-            </div>
-          </div>
+    <div class="p-6 md:p-8">
+
+      <div class="flex flex-col md:flex-row items-center gap-5 mb-8 pb-6 border-b border-slate-50">
+
+        <div class="relative">
+          <img
+            src="/uploads/<%= student.image %>"
+            alt="Student Photo"
+            class="w-24 h-24 rounded-2xl object-cover ring-2 ring-teal-50 shadow-md"
+          />
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          
-          <div class="space-y-1">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Department</p>
-            <p class="text-lg font-bold text-slate-700"><%= student.department %></p>
-          </div>
+        <div class="text-center md:text-left">
+          <h2 class="text-2xl font-bold text-slate-800">
+            <%= student.username %>
+          </h2>
+        </div>
 
-          <div class="space-y-1">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Semester</p>
-            <p class="text-lg font-bold text-slate-700">Semester <%= student.semester %></p>
-          </div>
+      </div>
 
-          <div class="space-y-1">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Email</p>
-            <p class="text-lg font-bold text-slate-700"><%= student.email %></p>
-          </div>
 
-          <div class="space-y-1">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</p>
-            <div>
-                <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest <%= student.status === 'Active' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-600 border border-red-100' %>">
-                    <span class="w-1.5 h-1.5 rounded-full <%= student.status === 'Active' ? 'bg-green-500' : 'bg-red-500' %>"></span>
-                    <%= student.status %>
-                </span>
-            </div>
-          </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+
+        <div>
+          <p class="text-sm font-semibold text-slate-400">Department</p>
+          <p class="text-base font-semibold text-slate-700">
+            <%= student.department %>
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-slate-400">Semester</p>
+          <p class="text-base font-semibold text-slate-700">
+            Semester <%= student.semester %>
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-slate-400">Email</p>
+          <p class="text-base font-semibold text-slate-700">
+            <%= student.email %>
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-slate-400">Status</p>
+
+          <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold
+            <%= student.status === 'Active'
+              ? 'bg-green-50 text-green-600 border border-green-100'
+              : 'bg-red-50 text-red-600 border border-red-100' %>">
+
+            <span class="w-1.5 h-1.5 rounded-full
+              <%= student.status === 'Active' ? 'bg-green-500' : 'bg-red-500' %>">
+            </span>
+
+            <%= student.status %>
+          </span>
 
         </div>
 
-        <div class="flex flex-col md:flex-row gap-4">
-          <a
-            href="/User/dashboard/<%=student.id%>"
-            class="flex-1 px-8 py-4 rounded-2xl border border-slate-200 text-slate-400 text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all text-center"
-          >
-            Return to Dashboard
-          </a>
-          <a
-            href="/User/edit/<%=student.id%>"
-            class="flex-1 px-8 py-4 rounded-2xl bg-teal-primary text-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-teal-900/20 hover:bg-teal-700 hover:-translate-y-1 transition-all text-center"
-          >
-            Update Profile
-          </a>
-        </div>
+      </div>
+
+
+      <div class="flex flex-col md:flex-row gap-3">
+
+        <a href="/User/dashboard/<%=student.id%>"
+          class="flex-1 px-6 py-3 rounded-xl border border-slate-200 text-slate-500 text-sm font-semibold hover:bg-slate-50 transition text-center">
+          Return to Dashboard
+        </a>
+
+        <a href="/User/edit/<%=student.id%>"
+          class="flex-1 px-6 py-3 rounded-xl bg-[#2d8a75] text-white text-sm font-semibold shadow-md hover:bg-teal-700 transition text-center">
+          Update Profile
+        </a>
 
       </div>
 
     </div>
 
-  </main>
+  </div>
+
+</main>
+
 
 </body>
 </html>

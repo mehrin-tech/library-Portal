@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Issue Book | Library System</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
+ <style>
     :root {
       --primary-teal: #008080;
       --dark-teal: #004D4D;
@@ -24,7 +24,7 @@
       background-size: 1.5em 1.5em;
       appearance: none;
     }
-  </style>
+  </style> 
 </head>
 
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans">
@@ -59,7 +59,7 @@
           class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal transition-all cursor-pointer">
           <option value="">-- Choose Borrower --</option>
           <% students.forEach(s => { %>
-            <option value="<%= s.id %>"><%= s.username %> (ID: <%= s.rollNo %>)</option>
+            <option value="<%= s.id %>"><%= s.username %></option>
           <% }) %>
         </select>
       </div>
@@ -76,7 +76,7 @@
           <option value="">-- Choose Book --</option>
           <% books.forEach(b => { %>
             <option value="<%= b.id %>" <%= b.quantity <= 0 ? 'disabled' : '' %>>
-              <%= b.bookname %> <%= b.quantity <= 0 ? '(Out of Stock)' : '(Available: ' + b.quantity + ')' %>
+              <%= b.title %> <%= b.availableCopies <= 0 ? '(Out of Stock)' : '(Available: ' + b.availableCopies + ')' %>
             </option>
           <% }) %>
         </select>
@@ -115,5 +115,90 @@
 
   
  
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue Book | Library System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 font-sans overflow-hidden">
+
+  <!-- CARD -->
+  <div class="bg-white shadow-xl rounded-[2rem] p-8 w-full max-w-lg border border-slate-100">
+
+  
+
+    <!-- TITLE -->
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-black text-slate-800 tracking-tight">
+        Issue <span class="text-teal-600">Book</span>
+      </h2>
+    </div>
+
+    <!-- FORM -->
+    <form method="POST" class="space-y-5">
+
+      <!-- STUDENT -->
+      <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+        <label class="block text-[11px]  font-semibold  text-slate-500 uppercase tracking-widest mb-2">
+          Assign To Student
+        </label>
+        <select name="studentId" required
+          class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition">
+          <option value="">-- Choose Borrower --</option>
+          <% students.forEach(s => { %>
+            <option value="<%= s.id %>"><%= s.username %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <!-- BOOK -->
+      <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+        <label class="block text-[11px] font-semibold  text-slate-500 uppercase tracking-widest mb-2">
+          Select Book
+        </label>
+        <select name="bookId" required
+          class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition">
+          <option value="">-- Choose Book --</option>
+          <% books.forEach(b => { %>
+            <option value="<%= b.id %>" <%= b.availableCopies <= 0 ? 'disabled' : '' %>>
+              <%= b.title %> <%= b.availableCopies <= 0 ? '(Out of Stock)' : '(Available: ' + b.availableCopies + ')' %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <!-- RETURN DATE -->
+      <div>
+        <label class="block text-[11px] font-black font-semibold text-slate-500 uppercase tracking-widest mb-2">
+          Expected Return Date
+        </label>
+        <input type="date" name="returnDate" required
+          class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition">
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="pt-4 border-t border-slate-100">
+        <button type="submit"
+          class="w-full bg-teal-600 text-white font-semibold py-3 rounded-xl hover:bg-teal-700 transition font-bold shadow-md active:scale-95">
+          Confirm Issue
+        </button>
+
+        <p class="text-center mt-3">
+          <a href="/admin/dashboard"
+       class="inline-flex items-center gap-2 text-sm font-bold text-teal-600 hover:text-teal-800 transition">
+      ← Back to Dashboard
+    </a>
+        </p>
+      </div>
+
+    </form>
+  </div>
+
 </body>
 </html>

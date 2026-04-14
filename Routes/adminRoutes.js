@@ -1,15 +1,14 @@
-const express=require('express')
-const path=require('path')
-const router=express.Router()
-const fs=require('fs').promises
-const multer=require('multer')
+import {Router} from 'express'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import multer from 'multer'
+import {  loginForm, loggedForm, dashboard, getBooksList, addBookForm, addBook, viewBook, editBook, updateBook, deleteBook,  StdList,  profileStd, issuedBook, postIssuedBook, issuedList, returnBook,getChatList,getChat,logout,getOnelineReaders, markFinePaid } from '../Controllers/adminController.js'
 
-const {  loginForm, loggedForm, dashboard, getBooksList, addBookForm, addBook, viewBook, editBook, updateBook, deleteBook,  StdList,  profileStd, issuedBook, postIssuedBook, issuedList, returnBook,getChatList,getChat,logout,getOnelineReaders, markFinePaid } = require('../Controllers/adminController')
+const __filename=fileURLToPath(import.meta.url)
+const __dirname=path.dirname(__filename)
 
-const filePath=path.join(__dirname,'../data/books.json')
-const userPath=path.join(__dirname,'../data/users.json')
-const issuePath=path.join(__dirname,'../data/issuedBook.json')
-const {requireAuth,preventLogin}=require('../Utils/adminMiddleware')
+const router=Router()
+import {requireAuth,preventLogin} from '../Utils/adminMiddleware.js'
 //====================multer file upload mddlwr=========================
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
@@ -25,7 +24,7 @@ const upload=multer({storage})
 //===============routes in admin========================//
 router.get('/login',preventLogin,loginForm)
 router.post('/login',loggedForm)
-router.get('/chatList',getChatList)
+router.get('/chatList',requireAuth,getChatList)
 router.get('/adminChat/:studentId',requireAuth,getChat)
 router.get('/dashboard',requireAuth, dashboard);
 router.get('/booksList',requireAuth,getBooksList)
@@ -37,12 +36,9 @@ router.get('/edit/:id',requireAuth,editBook)
 router.post('/update/:id',requireAuth,upload.single('image'),updateBook)
 router.get('/delete/:id',requireAuth,deleteBook)
 
-//router.get('/addstd',requireAuth,addStdForm)
-//router.post('/addstd',requireAuth,upload.single('image'),addStd)
+
 router.get('/studentsList',requireAuth,StdList)
-//router.get('/editStd/:id',requireAuth,editStd)
-//router.post('/updateStd/:id',requireAuth,upload.single('image'),updatedStd)
-//router.get('/deleteStd/:id',requireAuth,deleteStd)
+
 router.get('/student/:id',requireAuth,profileStd)
 
 router.get('/issue-book',requireAuth,issuedBook)
@@ -51,6 +47,6 @@ router.get('/issued-list',requireAuth,issuedList)
 router.post('/return-book/:id',requireAuth,returnBook)
 router.get('/logout',logout)
 
-router.get('/online-readers',getOnelineReaders)
-router.get('/mark-fine-paid',markFinePaid)
-module.exports=router
+router.get('/online-readers',requireAuth,getOnelineReaders)
+router.get('/mark-fine-paid',requireAuth,markFinePaid)
+export default router

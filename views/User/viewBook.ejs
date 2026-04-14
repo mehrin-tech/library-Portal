@@ -57,12 +57,12 @@
 
           <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
             <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Copies</p>
-            <p class="text-sm font-bold text-slate-700 tracking-tight"><%= b.quantity %> </p>
+            <p class="text-sm font-bold text-slate-700 tracking-tight"><%= b.availableCopies %> </p>
           </div>
 
           <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
             <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Arrival Date</p>
-            <p class="text-sm font-bold text-slate-700 tracking-tight"><%= b.date %></p>
+            <p class="text-sm font-bold text-slate-700 tracking-tight"><%=  new Date(b.createdAt).toLocaleDateString() %></p>
           </div>
 
         </div>
@@ -73,11 +73,7 @@
             Return to  dashboard
           </a>
           
-          <!-- <% if (b.quantity > 0) { %>
-            <button class="px-8 py-4 rounded-2xl bg-teal-primary text-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-teal-900/20 hover:bg-teal-700 hover:-translate-y-1 active:scale-95 transition-all text-center flex-1">
-              Borrow Volume
-            </button>
-          <% } %> -->
+         
         </div>
 
       </div>

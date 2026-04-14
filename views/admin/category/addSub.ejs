@@ -18,6 +18,9 @@
       background-repeat: no-repeat;
       background-size: cover;
     }
+    body{
+      overflow: hidden;
+    }
   </style>
 </head>
 
@@ -35,121 +38,139 @@
     </div>
 
     <!-- Form Card -->
-    <div class="relative z-10 w-full max-w-2xl">
-      <div class="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-12 shadow-[0_32px_64px_-15px_rgba(13,27,42,0.15)] border border-white">
+   
+    <div class="relative z-10 w-full max-w-md">
+  <div class="bg-white/80 backdrop-blur-xl rounded-2xl p-6 
+              shadow-[0_20px_40px_-10px_rgba(13,27,42,0.15)] border border-white">
 
-        <!-- Header -->
-        <div class="mb-10">
-          <h1 class="text-3xl font-bold tracking-tight">
-            Add <span class="text-[#2D8B75]">Book</span>
-          </h1>
-          <p class="text-slate-500 text-sm mt-2">
-            Category:
-            <span class="font-semibold text-[#2D8B75]">
-              <%= category.category %>
-            </span>
-          </p>
-        </div>
-
-        <!-- Form -->
-        <form id="form"
-          action="/admin/category/<%= category.id %>/sub/add"
-          method="POST"
-          enctype="multipart/form-data"
-          class="space-y-6"
-        >
-
-          <!-- Book Title -->
-          <div>
-            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
-              Book Title
-            </label>
-            <input id="titleInp"
-              type="text"
-              name="bookTitle"
-              required
-              placeholder="e.g. Sherlock Holmes"
-              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
-            />
-            <p id="titleError" class="text-red-500 text-xs mt-1 hidden"></p>
-          </div>
-
-          <!-- Author -->
-          <div>
-            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
-              Author / Genre
-            </label>
-            <input id="authorInp"
-              type="text"
-              name="author"
-              required
-              placeholder="e.g. Arthur Conan Doyle"
-              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
-            />
-            <p id="authorError" class="text-red-500 text-xs mt-1 hidden"></p>
-          </div>
-
-          <!-- Description -->
-          <div>
-            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
-              Description
-            </label>
-            <textarea id="descInp"
-              name="description"
-              rows="4"
-              required
-              placeholder="Brief overview of the book..."
-              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
-            ></textarea>
-            <p id="descError" class="text-red-500 text-xs mt-1 hidden"></p>
-          </div>
-
-          <!-- Image -->
-          <div>
-            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
-              Book Cover Image
-            </label>
-            <input id="imgInp"
-              type="file"
-              name="image"
-              accept="image/*"
-              class="w-full text-sm" required
-            />
-            
-          </div>
-
-          <!-- PDF -->
-          <div>
-            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
-              Book PDF
-            </label>
-            <input id="pdfInp"
-              type="file"
-              name="pdf"
-              accept="application/pdf"
-              required
-              class="w-full text-sm" required
-            />
-            <p id="pdfError" class="text-red-500 text-xs mt-1 hidden"></p>
-          </div>
-
-          <!-- Submit -->
-          <button
-            type="submit"
-            class="w-full bg-[#2D8B75] text-white py-4 rounded-2xl
-                   hover:bg-[#246f5e] transition-all font-bold
-                   shadow-lg shadow-[#2D8B75]/30 active:scale-[0.98]"
-          >
-            Save Book
-          </button>
-
-        </form>
-
-      </div>
+    <!-- Header -->
+    <div class="mb-6">
+      <h1 class="text-xl font-bold tracking-tight text-center">
+             Add <span class="text-[#2D8B75]">Book</span>
+      </h1>
+      <!-- <p class="text-slate-500 text-xs mt-1">
+        Category:
+        <span class="font-semibold text-[#2D8B75]">
+          <%= category.category %>
+        </span>
+      </p> -->
     </div>
+
+    <!-- Form -->
+    <form id="form"
+      action="/admin/category/<%= category.id %>/sub/add"
+      method="POST"
+      enctype="multipart/form-data"
+      class="space-y-4"
+    >
+
+      <!-- Book Title -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase mb-1">
+          Book Title
+        </label>
+        <input id="titleInp"
+          type="text"
+          name="bookTitle"
+          required
+          placeholder="e.g. Sherlock Holmes"
+          class="w-full px-4 py-3 bg-white/60 border border-slate-200 rounded-xl text-sm
+                 focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+        />
+        <p id="titleError" class="text-red-500 text-xs mt-1 hidden"></p>
+      </div>
+
+      <!-- Author -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase mb-1">
+          Author
+        </label>
+        <input id="authorInp"
+          type="text"
+          name="author"
+          required
+          placeholder="e.g. Arthur Conan Doyle"
+          class="w-full px-4 py-3 bg-white/60 border border-slate-200 rounded-xl text-sm
+                 focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+        />
+        <p id="authorError" class="text-red-500 text-xs mt-1 hidden"></p>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase mb-1">
+          Description
+        </label>
+        <textarea id="descInp"
+          name="description"
+          rows="3"
+          required
+          placeholder="Brief overview..."
+          class="w-full px-4 py-3 bg-white/60 border border-slate-200 rounded-xl text-sm
+                 focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+        ></textarea>
+        <p id="descError" class="text-red-500 text-xs mt-1 hidden"></p>
+      </div>
+
+      <!-- Image -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase mb-1">
+          Book Cover
+        </label>
+        <input id="imgInp"
+          type="file"
+          name="image"
+          accept="image/*"
+          class="w-full text-xs"
+          required
+        />
+      </div>
+
+      <!-- PDF -->
+      <div>
+        <label class="block text-[10px] font-bold uppercase mb-1">
+          Book PDF
+        </label>
+        <input id="pdfInp"
+          type="file"
+          name="pdf"
+          accept="application/pdf"
+          required
+          class="w-full text-xs"
+        />
+        <p id="pdfError" class="text-red-500 text-xs mt-1 hidden"></p>
+      </div>
+
+      <!-- Submit -->
+    
+    <div class="flex gap-3">
+  
+  <!-- Save Button -->
+  <button
+    type="submit"
+    class="w-1/2 bg-[#2D8B75] text-white py-3 rounded-xl
+           hover:bg-[#246f5e] transition-all font-semibold
+           shadow-md shadow-[#2D8B75]/30 active:scale-[0.97]"
+  >
+    Save Book
+  </button>
+
+  <!-- Cancel Button -->
+  <a
+    href="/admin/dashboard"
+    class="w-1/2 text-center bg-gray-400 text-white py-3 rounded-xl
+           hover:bg-gray-500 transition-all font-semibold
+           shadow-md active:scale-[0.97]"
+  >
+    Cancel
+  </a>
+
+</div>
+
+    </form>
+
+  </div>
+</div>
 
   </div>
 

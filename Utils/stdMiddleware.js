@@ -1,20 +1,20 @@
-const jwt=require('jsonwebtoken')
-const { UnauthorizedError, ForbiddenError } = require('./error')
+import jwt from 'jsonwebtoken'
+import User from '../models/User.js'
+import { UnauthorizedError, ForbiddenError } from './error.js'
 const JWT_SECRET='yoursecretkey'
-const student=[{id:0,username:'Hanah',password:'1234',role:'student',name:'Hanah'},
-    { id: 1, username: 'amna', password: '1234', role: 'student', name: 'amna' },
-{ id: 2, username: 'hasna', password: '1234', role: 'student', name: 'hasna' }
-]
+
 
 function tokenCreate(student){
-    return jwt.sign({id:student.id,username:student.username,role:'student'},
+    return jwt.sign({id:student._id.toString(),
+        username:student.username,
+        role:'student'},
         JWT_SECRET,
         {expiresIn:'1hr'}
     )
 }
 function requireStdAuth(req,res,next){
     const token=req.cookies?.token
-    //console.log('token:',token)
+   
     if(!token) return next(new UnauthorizedError('student not authorized'))
     
         try{
@@ -22,9 +22,16 @@ function requireStdAuth(req,res,next){
            // console.log('payload:',payload)
             if(payload.role!== 'student') return next(new ForbiddenError('Access denied'))
                 
-         req.student=payload
-                //console.log('req.student:',req.student)
+            req.student = {
+      id: payload.id,
+      username: payload.username,
+      role: payload.role
+    }
+                    // req.student=payload
+                
             next()
+                
+        
         }catch(err){
             next(err)
         }
@@ -36,13 +43,51 @@ function preventStdLogin(req, res, next) {
   const token = req.cookies?.token;
 
   if (!token) {
-    req.student = null;
+    //req.student = null;
     return next();
   }
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    req.student = payload;
+
+    // User.findById(payload.studentId).then(student=>{
+    //      req.student = student ||null
+    // })
+   if(payload.role==='student'){
+    return res.redirect(`/User/dashboard/${payload.id}`)
+   }else{
+    return next(new ForbiddenError('Acess denied'))
+   }
+  
+  } catch (err) {
+    //req.student = null;
+     next();
+  }
+
+ 
+}
+
+function attachStd(req,res,next){
+  const token=req.cookies?.token
+
+  if(!token){
+    req.student=null;
+    return next()
+  }
+
+   try {
+    const payload = jwt.verify(token, JWT_SECRET);
+
+    if (payload.role === "student") {
+      req.student = {
+        id: payload.id,
+        username: payload.username,
+        role: payload.role
+      };
+    } else {
+      req.student = null;
+    }
+
   } catch (err) {
     req.student = null;
   }
@@ -50,8 +95,7 @@ function preventStdLogin(req, res, next) {
   next();
 }
 
-
    
 
 
-module.exports={tokenCreate,requireStdAuth,preventStdLogin,student}
+export{tokenCreate,requireStdAuth,preventStdLogin,attachStd}

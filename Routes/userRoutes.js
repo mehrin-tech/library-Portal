@@ -1,12 +1,10 @@
-const express=require('express')
-const path=require('path')
-const { signupUser,loginForm, loggedForm, getDashboard, editStd, updated, viewBooks, issued, returnRqst,getChat, getUsedBooks,getProfile,logout, payFine } = require('../Controllers/userController')
-const router=express.Router()
-const fs=require('fs').promises
-const multer=require('multer')
-const {requireStdAuth,preventStdLogin,student}=require('../Utils/stdMiddleware')
+import {Router} from 'express'
+import multer from 'multer'
+import { signupUser,loginForm, loggedForm, getDashboard, editStd, updated, viewBooks, issued, returnRqst,getChat, getUsedBooks,getProfile,logout, payFine } from '../Controllers/userController.js'
+const router=Router()
+import {requireStdAuth,preventStdLogin} from '../Utils/stdMiddleware.js'
 
-const {sendContactMessage}=require('../Controllers/userController')
+import {sendContactMessage} from '../Controllers/userController.js'
 
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
@@ -20,7 +18,7 @@ const upload=multer({storage})
 //=================user route===============
 router.get('/login',preventStdLogin,loginForm)
 router.post('/login',loggedForm)
-router.post('/signup',preventStdLogin,signupUser)
+router.post('/signup',upload.single('image'),preventStdLogin,signupUser)
 router.get('/stdChat',requireStdAuth,getChat)
  
 router.get('/usedBooks',requireStdAuth,getUsedBooks)
@@ -37,4 +35,4 @@ router.get('/logout',requireStdAuth,logout)
 
 
 router.post('/contact',sendContactMessage)
-module.exports=router
+export default router

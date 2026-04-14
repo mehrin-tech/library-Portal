@@ -17,16 +17,16 @@
 
     <!-- Page Title -->
     <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
-      📖 Online Readers
+    Online<span class="text-teal-600">Readers</span>
     </h2>
 
     <% if (readers.length === 0) { %>
-      <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center text-slate-500 shadow-sm">
+      <div class="bg-white border border-slate-200 rounded-xl p-10 text-center text-slate-500 shadow-sm">
         No students are reading online right now.
       </div>
     <% } else { %>
 
-      <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
 
         <table class="w-full text-left">
           <thead class="bg-[#E8F2EE] text-slate-600 text-xs uppercase tracking-wider">

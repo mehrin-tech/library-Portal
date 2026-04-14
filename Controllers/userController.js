@@ -1,93 +1,42 @@
-const path=require('path')
-const fs=require('fs').promises
-const filePath=path.join(__dirname,'../data/books.json')
-const userPath=path.join(__dirname,'../data/users.json')
-const issuedPath=path.join(__dirname,'../data/issuedBook.json')
-const {NotFoundError,UnauthorizedError,ConflictError,InternalServerError,ForbiddenError}=require('../Utils/error')
-const {sendContactEmail}=require('../Utils/emaillService')
-const { tokenCreate,preventStdLogin}=require('../Utils/stdMiddleware')
-//read data
-async function readData(){
-    try{
-     const data=await fs.readFile(filePath,'utf-8')
-     return data?JSON.parse(data):[]
-    }catch(err){
-     console.error('error reading file:',err)
-     return []
-    }
-}
-//write data
-async function writeData(books){
-    try{
-  await fs.writeFile(filePath,JSON.stringify(books,null,2))
-    }catch(err){
-     console.error('error writing file:',err)
-    }
+// import mongoose from 'mongoose'
+// import path from'path'
+import Book from '../models/Book.js'
+import User from '../models/User.js'
+import IssuedBook from '../models/IssuedBook.js'
+//import ReadOnline from '../models/ReadOnline.js'
+import Admin from '../models/Admin.js'
+// const PrivateChat=require('../models/PrivateChat')
+import {NotFoundError,UnauthorizedError,ConflictError,InternalServerError,ForbiddenError,BadRequestError} from '../Utils/error.js'
+import {sendContactEmail} from '../Utils/emaillService.js'
+import { tokenCreate,preventStdLogin} from '../Utils/stdMiddleware.js'
 
-}
-async function readUser() {
-    try{
-        const data=await fs.readFile(userPath,'utf-8')
-        return data?JSON.parse(data):[]
-    }catch(err){
-        console.error('reading user file',err)
-    }
-}
-async function writeUser(users){
-    try{
-  await fs.writeFile(userPath,JSON.stringify(users,null,2))
-    }catch(err){
-     console.error('error writing file:',err)
-    }
-
-}
-async function readIssued() {
-      try{
-        const data=await fs.readFile(issuedPath,'utf-8')
-        return data?JSON.parse(data):[]
-    }catch(err){
-        console.error('reading user file',err)
-    }
-    
-}
-async function writeIssued(issuedBook) {
-       try{
-  await fs.writeFile(issuedPath,JSON.stringify(issuedBook,null,2))
-    }catch(err){
-     console.error('error writing file:',err)
-    }
-}
 
 //================================//
 const signupUser=async(req,res,next)=>{
    
     try{
-  const {firstname,lastname,email,number,Dob,password}=req.body
-  const users=await readUser()
-  //check duplicate email
-  const exists=users.find(u=>u.email===email)
+  const {firstname,lastname,email,password,department,semester,status,image}=req.body
+
+  const exists=await User.findOne({email})
   if(exists){
     return next(new ConflictError('already Existed'))
   }
 
-  const newUser={
-    id:users.length?users[users.length-1].id+1:1,
-    firstname,
-    lastname,
+  await User.create({
+  
+    firstName:firstname,
+    lastName:lastname,
     username:firstname+lastname,
     email,
-    number,
-    Dob,
-    password,
-    department:'',
-    semester:'',
-    status:'',
-    image:''
+     password,
+   
+   department:department?.trim(),
+    semester:semester?.trim(),
+    status:'Active',
+    image:req.file?req.file.filename:''
 
 
-  }
-  users.push(newUser)
-  await writeUser(users)
+    })
   res.redirect('/User/login')
    }catch(err){
 next(err)
@@ -97,15 +46,18 @@ const loginForm=async(req,res)=>{
     res.render('User/login')
 }
 const loggedForm=async(req,res,next)=>{
+    try{
     
     
     const {email,password}=req.body
-    const students=await readUser()
-    
-     const student=students.find(s=>s.email===email )
+    const student=await User.findOne({email})
      
     if(!student){
         return next(new NotFoundError('student not found'))
+    }
+
+    if(student.password!==password){
+        return next(new UnauthorizedError('Invalid credentials'))
     }
     
     const token=tokenCreate(student)
@@ -115,86 +67,120 @@ const loggedForm=async(req,res,next)=>{
         sameSite:'lax',
         maxAge:20*60*1000
     })
-        return res.redirect(`/User/dashboard/${student.id}`)
+        return res.redirect(`/User/dashboard/${student._id}`)
     
+}catch(err){
+    next(err)
+}
 }
 const getChat=async(req,res,next)=>{
-    const studentId=req.student?.id
-    const adminId="ADMIN001"
-    const adminName='Admin'
-   //const  students=await readUser()
+    try{
+console.log('req.studnt',req.student)
+        if(!req.student){
+             return next(new UnauthorizedError('Login required'))
+        }
+    const studentId=req.student.id.toString()
+    const admin=await Admin.findOne()
+ 
 
-   //const studentsList=students.filter(s=>s.name!==req.student?.name)
+     if(!admin){
+              return next(new NotFoundError('Admin not found'))
+
+     }
+
    res.render('User/stdChat',{
     studentId,
-    adminId,
-    adminName
+    adminId:admin._id.toString(),
+    adminName:admin.username || 'Admin'
 
    })
+}catch(err){
+    next(err)
 }
-
+}
 const getUsedBooks=async(req,res,next)=>{
+    try{
     const page=Number(req.query.page)||1;
     const limit=3
+    const skip=(page-1)*limit
 
-    const userId=req.student.id
+    const userId=req.student.id//jet payld id ->mongoDB_id
 
-    const issued=await readIssued()
-    const books=await readData()
+    const totalItems=await IssuedBook.countDocuments({//totl count for pagination
+        student:userId
+    })
+    const totalPages=Math.ceil(totalItems/limit)
+    
+// get paginated issued books
+    const usedBooks=await IssuedBook.find({
+        student:userId
+    })
+    .populate('book')//replce readData()
+    .skip(skip)
+    .limit(limit)
+    .sort({createdAt:-1})
 
-    const usedBooks=issued.filter(i=>i.studentId===userId)
 
-const totalItems=usedBooks.length
-const totalPages=Math.ceil(totalItems/limit)
-const startIndex=(page-1)*limit
-const endIndex=startIndex+limit
 
-const paginated=usedBooks.slice(startIndex,endIndex)
 
     res.render('User/usedTotalBooks',{
-        usedBooks:paginated,
-        books,
+        usedBooks,
         userId,
         currentPage:page,
         totalPages
     })
+}catch(err){
+    next(err)
+}
 }
 const getDashboard=async(req,res,next)=>{
     try{
         const page=Number(req.query.page) ||1
         const limit=2
+        const skip=(page-1)*limit
 
-   const userId=req.student.id
-   const students=await readUser()
-   const student=students.find(u=>u.id===userId)
-   if(!student) return next(new NotFoundError('not found err'))
+   const userId=req.student.id//from jwt
+   //get logged in std
+   const student=await User.findById(userId)
+   if(!student) return next(new NotFoundError(' student not found '))
 
-    const books=await readData()
-    const issued=await readIssued()
 
-    const totalBooks=books.length
+    //books pagination
+   const totalBooks=await Book.countDocuments()
     const totalPages=Math.ceil(totalBooks/limit)
 
-    const startIndex=(page-1)*limit
-    const endIndex=startIndex+limit
-    const allBooks=books.slice(startIndex,endIndex)
+const books=await Book.find()
+.skip(skip)
+.limit(limit)
 
     
 
-    const issuedCount=issued.filter(i=>i.studentId===userId && i.status==='issued').length
+    const issuedCount=await IssuedBook.countDocuments({
+        student:userId,
+        status:"issued"
+    })
+
+    //totalUsed books
+    const totalUsedBooks=await IssuedBook.countDocuments({
+        student:userId
+    })
     //studnt fine calculate 
-    const myFines=issued.filter(i=>i.studentId===userId &&
-        i.fine>0 &&
-        i.finePaid===false
-    );
+    // const myFines=issued.filter(i=>i.studentId===userId &&
+    //     i.fine>0 &&
+    //     i.finePaid===false
+    // );
+    const myFines=await IssuedBook.find({
+        student:userId,
+        fine:{$gt:0},
+        finePaid:false
+    })
     const totalFine=myFines.reduce((sum,i)=>sum+i.fine,0)
 
-    const totalUsedBooks=issued.filter(i=>i.studentId===userId).length
      const now=new Date()
      const date=now.toLocaleDateString()
      const time=now.toLocaleTimeString()
      
-
+console.log('total fine:',totalFine)
      
     res.render('User/dashboard',{
         username:student.username,
@@ -206,10 +192,10 @@ const getDashboard=async(req,res,next)=>{
         date,
         time,
         totalBooks,
-        books:allBooks,
+        books,
         currentPage:page,
         totalPages,
-        userId:student.id,
+        userId:student._id,
         status:student.status,
         issuedCount,
         totalUsedBooks,
@@ -221,93 +207,113 @@ const getDashboard=async(req,res,next)=>{
 }
 }
 const getProfile=async(req,res,next)=>{
+    try{
    if (!req.student) {
     return next(new UnauthorizedError('login required'))
   }
  
     const userId=req.student.id
-    
-    
-    const students=await readUser()
-   
-    const student=students.find(s=>s.id===userId)
-  
-   
-    if(!student){
-        return next(new NotFoundError('not found err'))
+
+    const student=await User.findById(userId)
+  if(!student){
+        return next(new NotFoundError(' student not found err'))
     }
-    res.render('User/profile',{student,userId})
+    res.render('User/profile',{student,userId:student._id})
+}catch(err){
+    next(err)
+}
 }
 const editStd=async(req,res,next)=>{
-    const userId=parseInt(req.params.id)
-    const users=await readUser()
-    const user=users.find(r=>r.id===userId)
+    try{
+    const userId=req.student.id
+    
+    const user=await User.findById(userId)
 
     if(!user) return next(new NotFoundError('student not found'))
         res.render('User/editProfile',{user})
+}catch(err){
+    next(err)
+}
 }
 const updated=async(req,res,next)=>{
     try{
-    const userId=parseInt(req.params.id)
-    const users=await readUser()
-   const user=users.findIndex(u=>u.id===userId)
-if(user===-1){
+    const userId=req.student.id
+    
+   const user=await User.findById(userId)
+if(!user){
 return next(new NotFoundError('student not found'))
 }
-let image=users[user].image
+let image=user.image
 if(req.file){
 image=req.file.filename
 }
-  users[user]={
-    ...users[user],
-    username:req.body.username,
-    email:req.body.email,
-    department:req.body.department,
-    semester:req.body.semester,
-    status:req.body.status,
-    image
-  }
-  await writeUser(users)
-  res.redirect(`/User/dashboard/${userId}`)
+ 
+    user.username=req.body.username,
+    user.email=req.body.email,
+    user.department=req.body.department,
+    user.semester=req.body.semester,
+    user.status=req.body.status,
+    user.image=image
+  
+  await user.save()
+  res.redirect(`/User/dashboard/${user._id}`)
 
 }catch(err){
     next(err)
 }
-        
-       
 }
 
 const viewBooks=async(req,res,next)=>{
-    const books=await readData()
-    const bookId=parseInt(req.params.id)
-    const userId=parseInt(req.params.id)
-    const b=books.find(u=>u.id===bookId)
+    try{
+    
+    const bookId=req.params.id//DB obj id
+    const userId=req.student.id //from jwt (loggd userid)
+    const book=await Book.findById(bookId) //find book frm Db
 
-    if(!b){
+    if(!book){
         return next(new NotFoundError('books not found'))
     }
-    res.render('User/viewBook',{b,userId})
+    res.render('User/viewBook',{b:book,userId})
+}catch(err){
+    next(err)
+}
 }
 const issued=async(req,res,next)=>{
     try{
         const page=Number(req.query.page)||1;
         const limit=3
-    const studentId=parseInt(req.params.id)
+        const skip=(page-1)*limit
 
-    const issued=await readIssued()
-    const books=await readData()
-    const myIssued=issued.filter(i=>i.studentId===studentId)//only this std books
+
+    const studentId=req.student.id
+
+   
   
- const totalItems=myIssued.length;
- const totalPages=Math.ceil(totalItems/limit);
-  const startIndex=(page-1)*limit;
-  const endIndex=startIndex+limit;
+ const totalItems=await IssuedBook.countDocuments({
+   student: studentId
+ })
 
-  const paginated=myIssued.slice(startIndex,endIndex)
+ if(totalItems ===0){
+    return res.render('User/issued-books',{
+        issued:[],
+        userId:studentId,
+        currentPage:page,
+        totalPages:0
+    })
+ }
+
+  const totalPages=Math.ceil(totalItems/limit);
+
+  const issuedBooks=await IssuedBook.find({
+    student:studentId
+  })
+ .populate('book')
+ .skip(skip)
+ .limit(limit)
+ .sort({createdAt:-1})
 
     res.render('User/issued-books',{
-        issued:paginated,
-        books,
+        issued:issuedBooks,
         userId:studentId,
         currentPage:page,
         totalPages
@@ -317,36 +323,50 @@ const issued=async(req,res,next)=>{
 }
 }
 const returnRqst=async(req,res,next)=>{
-    const issueId=parseInt(req.params.id)
-    const issued=await readIssued()
-    const issue=issued.find(i=>i.id===issueId)
+    try{
+    const issuedId=req.params.id
+    const studentId=req.student.id
+   
+    //issued book findd
+    const issue=await IssuedBook.findById(issuedId)
     if(!issue){
-        return next(new NotFoundError('issued not found'))
+        return next(new NotFoundError('issued book not found'))
+    }
+  //safety check this book is same on this std?
+  if(issue.student.toString()!==studentId){
+     return next(new ForbiddenError('not allowed'))
+  }
+
+   // 3️⃣ Prevent duplicate request
+    if (issue.returnRequested) {
+      return next(new ConflictError('Return already requested'))
     }
     issue.returnRequested=true
-    await writeIssued(issued)
+    await issue.save()
 
-    res.redirect(`/User/issued/${issue.studentId}`)
+    res.redirect(`/User/issued/${studentId}`)
+}catch(err){
+    next(err)
+}
 }
 
 //====pay fine====//
 const payFine=async(req,res,next)=>{
     try{
         const studentId=req.student.id;
-        const issued=await readIssued()
+       
 
-        const myFines=issued.filter(i=>
-            i.studentId===studentId &&
-            i.fine > 0 &&
-            i.finePaid===false
-        )
-        //fines ellam paid aayi mark cheyyunnu
-
-        myFines.forEach(i=>{
-            i.finePaid=true
-        })
-        await writeIssued(issued)
-
+       //update all unpaid fines at onec
+       await IssuedBook.updateMany(
+        {student:studentId,
+            fine:{$gt:0},
+            finePaid:false
+        },
+        {
+            $set:{finePaid:true}
+        }
+       )
+        
         res.redirect(`/User/dashboard/${studentId}`)
     }catch(err){
   next(err)
@@ -355,23 +375,44 @@ const payFine=async(req,res,next)=>{
 
 //===================Contact us-send email=============/
 
-const sendContactMessage=async(req,res,next)=>{
-    try{
-        const {fullname,email,message}=req.body
-console.log(req.body)
-        if(!fullname || !email || !message){
-return res.status(400).send('Bad request')
-        }
+// const sendContactMessage=async(req,res,next)=>{
+//     try{
+//        const fullname=req.body.fullname?.trim()
+//         const email=req.body.email?.trim()
+//          const message=req.body.message?.trim()
 
-        await sendContactEmail(fullname,email,message);
+//         if(!fullname || !email || !message){
+// return next(new BadRequestError('all fields are required'))
+//         }
 
-        res.redirect('/?contact=success')
-    }catch(err){
-   console.error('contact email error:',err)
-   res.status(500).send('email failed')
+//         await sendContactEmail(fullname,email,message);
+
+//         res.redirect('/?contact=success')
+//     }catch(err){
+//    console.error('contact email error:',err)
+//    next(new InternalServerError('email sending failed'))
+//     }
+// }
+
+const sendContactMessage = async (req, res, next) => {
+  try {
+    const fullname = req.body.fullname?.trim();
+    const email = req.body.email?.trim();
+    const message = req.body.message?.trim();
+
+    if (!fullname || !email || !message) {
+      return next(new BadRequestError('all fields are required'));
     }
-}
 
+    await sendContactEmail(fullname, email, message);
+
+    res.redirect('/?contact=success');
+
+  } catch (err) {
+    console.error("🔥 REAL ERROR:", err);   // 👈 MUST SEE THIS
+    res.send(err.message);                 // 👈 TEMP: show error in browser
+  }
+};
 
 //===========logout====//
 const logout=async(req,res)=>{
@@ -379,7 +420,7 @@ const logout=async(req,res)=>{
     res.redirect('/User/login')
 }
 
-module.exports={
+export{
     signupUser,
 loginForm,
 loggedForm,

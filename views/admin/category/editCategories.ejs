@@ -83,10 +83,25 @@
               class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
                      focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
             />
-            <p class="text-[11px] text-slate-400 mt-2 italic">
-              Changing this will affect all books under this category.
-            </p>
+           
           </div>
+           <!-- Author -->
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
+              Department Head / Author
+            </label>
+            <input id="authorInp"
+              type="text"
+              name="author"
+              placeholder="Enter responsible author"
+              required
+              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
+                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+            />
+            <p id="authorError" class="text-red-500 text-xs mt-1 hidden"></p>
+
+          </div>
+
 
           
           <div class="flex flex-col sm:flex-row justify-between items-center gap-6 pt-6 border-t border-slate-100">

@@ -5,16 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Category Registry | Library System</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { --primary-teal: #008080; }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
-    .category-card:hover .category-image { transform: scale(1.05); }
-    .focus-ring-teal:focus { --tw-ring-color: var(--primary-teal); border-color: var(--primary-teal); }
-  </style>
+
 </head>
 
- <body class="bg-slate-50 min-h-screen font-sans">
+ <body class="bg-slate-50 min-h-screen font-sans overflow-hidden">
 <%- include('../../partials/adminSidebar')%>
  <main class="ml-20 p-8">
 <div class="max-w-full mx-auto px-6 ">
@@ -64,11 +58,10 @@
 
 
   <!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-6"> -->
-<div class="grid gap-6"
-     style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+<div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
 
     <% if (categories && categories.length > 0) { %>
-      <% categories.forEach(cat => { %>
+      <% categories.forEach((cat,i) => { %>
 
         <div class="category-card group bg-white rounded-lg shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden transition-all duration-300 hover:-translate-y-2">
           
@@ -110,13 +103,10 @@
           <div class="p-6">
             <div class="flex justify-between items-start mb-2">
               <h2 class="text-xl font-bold text-slate-800 tracking-tight"><%= cat.category %></h2>
-              <span class="text-[10px] font-mono font-black text-slate-300 bg-slate-50 px-2 py-0.5 rounded">#<%= cat.id %></span>
+              <span class="text-[10px] font-mono font-black text-slate-300 bg-slate-50 px-2 py-0.5 rounded">#<%= i+1 %></span>
             </div>
 
-            <p class="text-xs text-slate-500 font-medium flex items-center gap-2">
-              <span class="w-1.5 h-1.5 bg-teal-500 rounded-full"></span>
-              By <%= cat.author %>
-            </p>
+           
 
             <div class="mt-6 pt-4 border-t border-slate-50 flex justify-between items-center">
               <a href="/admin/category/<%= cat.id %>/sub/add" class="flex items-center gap-1.5 text-[10px] font-black text-teal-600 uppercase tracking-widest hover:text-teal-700 transition-colors">
@@ -278,4 +268,4 @@ deleteModal.addEventListener("click", (e) => {
 </script>
 
 </body>
-</html>
+</html> 

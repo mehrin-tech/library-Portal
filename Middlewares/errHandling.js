@@ -1,7 +1,7 @@
 
-const {AppError}=require('../Utils/error')
+import {AppError} from '../Utils/error.js'
 const errorHandler=(err,req,res,next)=>{
-   
+   console.error(err)
    
     if(err instanceof AppError){
     return res.status(err.statusCode).render('error',{
@@ -14,4 +14,4 @@ const errorHandler=(err,req,res,next)=>{
         message:err.message || 'Internal server error'
     })
 }
-module.exports={errorHandler}
+export{errorHandler}
