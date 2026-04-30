@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Issue Record | Admin</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  
 </head>
 
-<body class="bg-slate-50 min-h-screen font-sans text-slate-900">
+<body class="bg-slate-50 min-h-screen font-sans text-slate-900 overflow-hidden">
 <%- include('../partials/adminSidebar') %>
 
 <main class="ml-20 p-8">
@@ -31,7 +33,7 @@
     <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
 
       <!-- TABLE -->
-      <div class="overflow-x-auto mt-6">
+      <div class="overflow-x-auto mt-6 ">
         <table class="w-full">
           
           <!-- TABLE HEADER -->
@@ -145,7 +147,38 @@
             <% }) %>
           </tbody>
         </table>
-      </div>
+        </div>
+        </div>
+ <div class="flex justify-center items-center gap-3 mt-8">
+
+  <% if (currentPage > 1) { %>
+    <a href="?page=<%= currentPage - 1 %>"
+       class="px-5 py-2 rounded-2xl bg-slate-200 text-slate-600 font-semibold 
+              hover:bg-slate-300 transition">
+      Prev
+    </a>
+  <% } %>
+
+  <% for(let i = 1; i <= totalPages; i++) { %>
+    <a href="?page=<%= i %>"
+       class="w-10 h-10 flex items-center justify-center rounded-2xl font-bold transition
+       <%= currentPage === i 
+          ? 'bg-teal-600 text-white shadow-lg scale-110' 
+          : 'bg-slate-200 text-slate-600 hover:bg-slate-300' %>">
+       <%= i %>
+    </a>
+  <% } %>
+
+  <% if (currentPage < totalPages) { %>
+    <a href="?page=<%= currentPage + 1 %>"
+       class="px-5 py-2 rounded-2xl bg-slate-200 text-slate-600 font-semibold 
+              hover:bg-slate-300 transition">
+      Next
+    </a>
+  <% } %>
+
+</div>
+      
 
       <!-- EMPTY STATE -->
       <% if (issued.length === 0) { %>

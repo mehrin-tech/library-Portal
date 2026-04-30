@@ -112,6 +112,7 @@ app.get('/',attachStd, (req, res) => {
     isLoggedIn:!!req.student,
     username:req.student?req.student.username:null
    })
+  
  
 
 })
@@ -129,7 +130,7 @@ const startServer=async()=>{
   try{
     await connectDB()
 
-    server.listen(PORT, () => {
+    server.listen(PORT,'0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`)}) 
   }catch(err){
     console.error("server start failed:",err)

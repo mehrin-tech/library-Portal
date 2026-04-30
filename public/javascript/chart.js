@@ -1,12 +1,33 @@
+let barChart;
+let doughnut;
+function updateCharts(){
+const isDark=document.documentElement.classList.contains("dark")
+const newColor=isDark ? "#ffffff" : "#0F766E";
+
+if(barChart){
+  barChart.options.scales.x.ticks.color = newColor;
+    barChart.options.scales.y.ticks.color = newColor;
+    barChart.update();
+}
+if(doughnut){
+  doughnut.options.plugins.legend.labels.color = newColor;
+    doughnut.update();
+}
+}
+
+window.updateCharts=updateCharts
+
 document.addEventListener("DOMContentLoaded",function(){
     if(!window.dashboardData) return;
 
 
      const data = window.dashboardData;
-const isDark=document.documentElement.classList.contains("dark")
-const textColor=isDark ? "#ffffff" : "#0F766E";
+
+
+      const isDark = document.documentElement.classList.contains("dark");
+  const newColor = isDark ? "#ffffff" : "#0F766E";
   // Bar Chart
-  new Chart(document.getElementById('deptChart'), {
+ barChart= new Chart(document.getElementById('deptChart'), {
     type: 'bar',
     data: {
       labels: data.deptLabels,
@@ -24,7 +45,7 @@ const textColor=isDark ? "#ffffff" : "#0F766E";
       scales: {
         x:{
          ticks:{
-            color:textColor
+            color:newColor
          }
         },
         y: {
@@ -32,7 +53,7 @@ const textColor=isDark ? "#ffffff" : "#0F766E";
           min: 0,
           max: 10,
           ticks: {
-            color:textColor,
+            color:newColor,
             stepSize: 1,
             precision: 0
           }
@@ -42,7 +63,7 @@ const textColor=isDark ? "#ffffff" : "#0F766E";
   });
 
   // Doughnut Chart
-  new Chart(document.getElementById('libraryPieChart'), {
+  doughnut=new Chart(document.getElementById('libraryPieChart'), {
     type: 'doughnut',
     data: {
       labels: [
@@ -79,7 +100,7 @@ const textColor=isDark ? "#ffffff" : "#0F766E";
      plugins: {
   legend: {
     labels: {
-      color: textColor,
+      color: newColor,
       boxWidth: 30,
       boxHeight: 12,
       padding: 15

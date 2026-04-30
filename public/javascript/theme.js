@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded",function(){
   toggleBtn.addEventListener("click", () => {
     html.classList.toggle("dark");
 
+
+    setTimeout(()=>{
+      if(window.updateCharts){
+        window.updateCharts()
+      }
+    },100)
     if (html.classList.contains("dark")) {
       localStorage.setItem("theme", "dark");
       toggleBtn.textContent = "☀️";
