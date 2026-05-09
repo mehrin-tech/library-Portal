@@ -7,6 +7,7 @@ import connectDB from './config/db.js'
 import http from 'http'
 import { Server } from 'socket.io'
 import path from 'path'
+import fs from 'fs'
 import { fileURLToPath } from 'url'
 
 import cookieParser from 'cookie-parser'
@@ -28,6 +29,11 @@ const __dirname=path.dirname(__filename)
 const app= express()
 app.disable('x-powered-by')
 
+
+const uploadsPath=path.join(__dirname,'uploads')
+if (!fs.existsSync(uploadsPath)) {
+  fs.mkdirSync(uploadsPath, { recursive: true })
+}
 const server = http.createServer(app)
 const io = new Server(server)
 

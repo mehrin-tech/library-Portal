@@ -3,6 +3,7 @@
 .env
 
 #uploaded files
-uploads/
+uploads/*
+!uploads/.gitkeep
 #pdf files
 *.pdf
