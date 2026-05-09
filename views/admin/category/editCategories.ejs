@@ -57,7 +57,7 @@
               ID
             </span>
             <div class="text-lg font-mono font-bold text-[#2D8B75]">
-              #<%= category.id %>
+              #<%= category.id.slice(-5) %>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@
     
         <form
           action="/admin/category/edit/<%= category.id %>"
-          method="POST"
+          method="POST" enctype="multipart/form-data"
           class="space-y-8"
         >
 
@@ -84,24 +84,23 @@
                      focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
             />
            
-          </div>
+         </div>
            <!-- Author -->
-          <div>
-            <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
-              Department Head / Author
-            </label>
-            <input id="authorInp"
-              type="text"
-              name="author"
-              placeholder="Enter responsible author"
-              required
-              class="w-full px-6 py-4 bg-white/60 border border-slate-200 rounded-2xl text-sm
-                     focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
-            />
-            <p id="authorError" class="text-red-500 text-xs mt-1 hidden"></p>
+         
+         
+<div>
+  <label class="block text-[11px] font-bold uppercase tracking-widest mb-2">
+    Category Image
+  </label>
 
-          </div>
-
+  <input
+    type="file"
+    name="image"
+    accept="image/*"
+    class="w-full px-4 py-3 bg-white/60 border border-slate-200 rounded-2xl text-sm
+           focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+  />
+</div>
 
           
           <div class="flex flex-col sm:flex-row justify-between items-center gap-6 pt-6 border-t border-slate-100">

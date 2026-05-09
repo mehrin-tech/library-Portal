@@ -244,6 +244,7 @@ res.redirect('/admin/booksList')
 }catch(err){
 next(err)
 }
+
 }
 const viewBook=async(req,res,next)=>{
     try{
@@ -291,7 +292,7 @@ const updateBook=async(req,res,next)=>{
     book.publishedDate= req.body.publishedDate;
 
     if(req.file){
-        book.image=req.file.path
+        book.image='/'+req.file.path.replace(/\\/g,"/")
 
     }
     await book.save()

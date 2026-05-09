@@ -19,7 +19,6 @@
   <div class="bg-white shadow-2xl rounded-2xl md:rounded-[3rem] 
               p-4 md:p-10 w-full max-w-4xl border flex flex-col md:flex-row gap-6 md:gap-12 relative">
 
-    <div class="absolute top-0 left-0 w-full h-2 bg-teal-primary"></div>
 
     <!-- IMAGE -->
     <div class="flex-shrink-0 flex flex-col items-center gap-4 md:gap-6">
@@ -29,6 +28,7 @@
           src="<%= b.image %>"
           class="w-40 md:w-64 h-auto rounded-2xl shadow-lg object-cover"
         />
+       
 
         <div class="absolute top-2 md:top-4 right-2 md:right-4">
           <% if (b.availableCopies > 0) { %>

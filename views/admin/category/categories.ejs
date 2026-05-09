@@ -69,7 +69,7 @@
             <% if (cat.image) { %>
               <a href="/admin/category/view/<%= cat.id %>">
                 <img
-                  src="/uploads/<%= cat.image %>"
+                  src="<%= cat.image %>"
                   alt="<%= cat.category %>"
                   class="category-image w-full h-full object-cover transition-transform duration-500"
                 >

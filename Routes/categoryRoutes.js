@@ -25,7 +25,7 @@ router.post('/add',requireAuth,upload.single('image'),postAdd)
 //edit category
 router.get('/edit/:id',requireAuth,getEditCategory)
 //update category
-router.post('/edit/:id',requireAuth,postUpdate)
+router.post('/edit/:id',requireAuth,upload.single('image'),postUpdate)
 //delete category
 router.get('/delete/:id',requireAuth,deleteCategory)
 

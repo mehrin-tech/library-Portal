@@ -86,10 +86,18 @@ const postUpdate=async(req,res,next)=>{
     if(exist){
         return next(new ConflictError('already exists'))
     }
-  await Category.findByIdAndUpdate(req.params.id,{
-    category:category.trim(),
+    const updateData={
+        category:category.trim()
+    }
+    if(req.file){
+        updateData.image='/uploads/'+req.file.filename
+        console.log(req.file)
+    }
+  await Category.findByIdAndUpdate(req.params.id,
+    
+    updateData
    
-  })
+  )
     res.redirect('/admin/category/categoryList')
 }
 
