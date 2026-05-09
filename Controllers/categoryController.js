@@ -226,7 +226,7 @@ if (req.files?.image?.length) {
 }
   
   if(req.files?.pdf?.length){
-    book.pdf=req.files.pdf[0].filename
+    book.pdf='/uploads/'+req.files.pdf[0].filename
   }
         await subDoc.save()
     res.redirect(`/admin/category/view/${catId}`)

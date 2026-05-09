@@ -68,7 +68,10 @@ app.use(helmet({
         ],
 
         imgSrc: ["'self'", "data:", "https://*"],
-        frameSrc:["'self'","https://*"]
+        frameSrc:["'self'","https://*"],
+          objectSrc: ["'self'", "blob:"],
+
+      workerSrc: ["'self'", "blob:"]
       },
   },
   crossOriginEmbedderPolicy:false,
@@ -92,7 +95,19 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 //static
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'),{
+     setHeaders: (res, filePath) => {
+
+    if (filePath.endsWith('.pdf')) {
+
+      res.setHeader('Content-Type', 'application/pdf')
+
+      res.setHeader('Content-Disposition', 'inline')
+
+    }
+
+  }
+}));
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(limiter)

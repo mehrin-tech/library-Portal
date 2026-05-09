@@ -78,7 +78,7 @@ const getBookDetails=async(req,res,next)=>{
     const {catId,subId}=req.params
 
    console.log('reqstd',req.student)
-   console.log('req std',req.student._id)
+   console.log('req std',req.student.id)
 
     const category=await Category.findById(catId)
     const subDoc=await SubCategory.findOne({categoryId:catId})
@@ -87,7 +87,8 @@ const getBookDetails=async(req,res,next)=>{
     if(!book){
         return next(new NotFoundError('book not found'))
     }
-
+console.log('book',book)
+console.log('pdf:',book.pdf)
     await startOnlineReading(studentId,subId,book.bookTitle)//start onlinereading
     res.render('User/category/bookDetails',{
         category,
@@ -123,7 +124,7 @@ const startOnlineReading=async(studentId,bookId,bookTitle)=>{
 
 const stopOnlineReading=async(req,res,next)=>{
     try{
-        const studentId=req.student._idid
+        const studentId=req.student.id
         const bookId=req.params.bookId
      
 
