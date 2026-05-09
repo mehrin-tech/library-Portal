@@ -1,7 +1,7 @@
 {
   "name": "project",
   "version": "1.0.0",
-  "type":"module",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cloudinary": "^1.41.3",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -23,7 +24,8 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5",
     "morgan": "^1.10.1",
-    "multer": "^2.0.2",
+    "multer": "^2.1.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^7.0.12",
     "socket.io": "^4.8.3"
   },

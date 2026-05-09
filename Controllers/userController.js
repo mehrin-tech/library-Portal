@@ -5,6 +5,7 @@ import User from '../models/User.js'
 import IssuedBook from '../models/IssuedBook.js'
 //import ReadOnline from '../models/ReadOnline.js'
 import Admin from '../models/Admin.js'
+
 // const PrivateChat=require('../models/PrivateChat')
 import {NotFoundError,UnauthorizedError,ConflictError,InternalServerError,ForbiddenError,BadRequestError} from '../Utils/error.js'
 import {sendContactEmail} from '../Utils/emaillService.js'
@@ -33,7 +34,7 @@ const signupUser=async(req,res,next)=>{
    department:department?.trim(),
     semester:semester?.trim(),
     status:'Active',
-    image:req.file?req.file.filename:''
+    image:req.file?req.file.path:'https://res.cloudinary.com/demo/image/upload/v1/default-user.png'
 
 
     })
@@ -63,7 +64,7 @@ const loggedForm=async(req,res,next)=>{
     const token=tokenCreate(student)
     res.cookie('token',token,{
         httpOnly:true,
-        secure:false,
+        secure:true,
         sameSite:'lax',
         maxAge:20*60*1000
     })
@@ -244,15 +245,16 @@ if(!user){
 return next(new NotFoundError('student not found'))
 }
 let image=user.image
+
 if(req.file){
-image=req.file.filename
+    image='/uploads/'+req.file.filename
 }
  
-    user.username=req.body.username,
-    user.email=req.body.email,
-    user.department=req.body.department,
-    user.semester=req.body.semester,
-    user.status=req.body.status,
+    user.username=req.body.username
+    user.email=req.body.email
+    user.department=req.body.department
+    user.semester=req.body.semester
+    user.status=req.body.status
     user.image=image
   
   await user.save()

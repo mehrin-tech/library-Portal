@@ -1,6 +1,7 @@
 import path from 'path'
 import Category from '../models/Category.js'
 import SubCategory from '../models/subCategory.js'
+
 import { ConflictError, NotFoundError } from '../Utils/error.js'
 
 
@@ -56,7 +57,7 @@ const postAdd=async(req,res,next)=>{
     await Category.create({
         category:category.trim(),
         
-        image:req.file?req.file.filename:null
+        image:req.file?'/uploads/'+req.file.filename:null
     })
    
   
@@ -140,6 +141,7 @@ const subCategoryForm=async(req,res,next)=>{
 
 }
 const addSubCategory=async(req,res,next)=>{
+   
     try{
     const categoryId=req.params.id
     const {subCategory,author,bookTitle,description}=req.body
@@ -162,14 +164,14 @@ subDoc.subcategories.push({
     description,
    
     image:req.files?.image?.[0]?.filename|| null,
-    pdf:req.files?.pdf?.[0]?.filename || null
+    pdf:req.files?.pdf?.[0]?.filename|| null
 }) 
 
     
     await subDoc.save()
 
     res.redirect(`/admin/category/view/${categoryId}`);
-
+console.log('files',req.files)
 }catch(err){
     next(err)
 }
@@ -192,6 +194,7 @@ const editSub= async (req, res,next) => {
     res.render("admin/category/editSub", { category, subCategory,subId});
 }
 const updateSub=async(req,res,next)=>{
+    console.log("FILES:", req.files)
    const {catId,subId}=req.params
 
     const subDoc=await SubCategory.findOne({categoryId:catId})
@@ -206,13 +209,14 @@ const updateSub=async(req,res,next)=>{
     }
 
   
-
-  
-
   book.author=req.body.author
   book.bookTitle=req.body.bookTitle
   book.description=req.body.description
 
+if (req.files?.image?.length) {
+  book.image = '/uploads/' + req.files.image[0].filename
+}
+  
   if(req.files?.pdf?.length){
     book.pdf=req.files.pdf[0].filename
   }

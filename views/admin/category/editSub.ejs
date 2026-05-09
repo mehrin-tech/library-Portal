@@ -25,7 +25,7 @@ Edit <span class="text-teal-600">Book</span>
 <div class="p-10">
 
 <form
-action="/admin/category/edit-subcategory/<%= category.id %>/<%= subId %>"
+action="/admin/category/edit-subcategory/<%= category._id %>/<%= subId %>"
 method="POST"
 enctype="multipart/form-data"
 class="space-y-6"
@@ -76,6 +76,37 @@ class="w-full mt-1 px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-t
 <!-- Description + PDF Side Layout -->
 <div class="grid grid-cols-2 gap-6">
 
+
+
+<!-- PDF RIGHT -->
+<div>
+<label class="text-xs font-bold text-slate-500 uppercase">
+Upload PDF
+</label>
+
+<input
+type="file"
+name="pdf"
+accept="application/pdf"
+class="w-full mt-1 border rounded-lg p-2 text-sm"
+/>
+
+</div>
+
+<div>
+<label class="text-xs font-bold text-slate-500 uppercase">
+Update Image
+</label>
+
+<input
+type="file"
+name="image"
+accept="image/*"
+class="w-full mt-1 border rounded-lg p-2 text-sm"
+/>
+
+</div>
+</div>
 <!-- Description LEFT -->
 <div>
 <label class="text-xs font-bold text-slate-500 uppercase">
@@ -94,27 +125,11 @@ class="w-full mt-1 px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-t
 </div>
 
 
-<!-- PDF RIGHT -->
-<div>
-<label class="text-xs font-bold text-slate-500 uppercase">
-Upload PDF
-</label>
-
-<input
-type="file"
-name="pdf"
-accept="application/pdf"
-class="w-full mt-1 border rounded-lg p-2 text-sm"
-/>
-</div>
-
-</div>
-
 
 <!-- Buttons -->
 <div class="flex justify-between pt-6 border-t">
 
-<a href="/admin/category/view/<%= category.id %>"
+<a href="/admin/category/view/<%= category._id %>"
 class="text-xs font-bold text-slate-400 uppercase hover:text-slate-600">
 ← Back
 </a>

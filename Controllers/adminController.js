@@ -8,6 +8,7 @@ import ReadOnline from '../models/ReadOnline.js'
 import PrivateChat from '../models/PrivateChat.js'
 
 
+
 import {NotFoundError,ConflictError,InternalServerError,ForbiddenError,UnauthorizedError} from '../Utils/error.js'
 import {signToken} from '../Utils/adminMiddleware.js'
 
@@ -218,7 +219,7 @@ const addBook=async(req,res,next)=>{
     try{
 const {bookname,author,isbn,quantity,date}=req.body
 
-const image = req.file ? '/uploads/' + req.file.filename : '/images/atomichabits.jpg';
+const image = req.file ? '/' + req.file.path.replace(/\\/g,"/"): '/images/atomichabits.jpg';
 
 //check is isbn arleady exists
 const bookExists=await Book.findOne({isbn})
@@ -290,7 +291,7 @@ const updateBook=async(req,res,next)=>{
     book.publishedDate= req.body.publishedDate;
 
     if(req.file){
-        book.image='/uploads/'+req.file.filename
+        book.image=req.file.path
 
     }
     await book.save()
@@ -453,7 +454,11 @@ try{
  issue.actualReturnDate=today
  issue.lateDays=lateDays
   issue.fine=lateDays*10
-   issue.finePaid=false;
+   if(issue.fine===0){
+    issue.finePaid=true
+   }else{
+    issue.finePaid=false
+   }
  issue.status='returned';
 
 

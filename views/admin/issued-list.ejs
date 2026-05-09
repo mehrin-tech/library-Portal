@@ -9,187 +9,112 @@
   
 </head>
 
-<body class="bg-slate-50 min-h-screen font-sans text-slate-900 overflow-hidden">
+<body class="bg-slate-50 min-h-screen font-sans text-slate-900">
+
 <%- include('../partials/adminSidebar') %>
 
-<main class="ml-20 p-8">
+<main class="ml-0 md:ml-20 p-3 md:p-8">
   <div class="max-w-6xl mx-auto">
 
     <!-- HEADER -->
-    <div class="flex items-center justify-between mb-10">
-      <h1 class="text-3xl font-black tracking-tight">
+    <div class="flex flex-col md:flex-row gap-4 md:items-center justify-between mb-6 md:mb-10">
+
+      <h1 class="text-xl md:text-3xl font-black">
         Issue <span class="text-teal-600">Record</span>
       </h1>
 
       <a href="/admin/issue-book"
-         class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl
-                bg-teal-600 text-white font-black text-xs uppercase tracking-widest
-                hover:bg-teal-700 transition shadow-lg">
+         class="w-full md:w-auto text-center px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl
+                bg-teal-600 text-white text-xs font-bold">
         + New Issue
       </a>
     </div>
 
     <!-- CARD -->
-    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+    <div class="bg-white rounded-2xl md:rounded-3xl shadow-xl border overflow-hidden">
 
       <!-- TABLE -->
-      <div class="overflow-x-auto mt-6 ">
-        <table class="w-full">
-          
-          <!-- TABLE HEADER -->
-          <thead>
-            <tr class="bg-slate-50 border-b border-slate-200">
-              <th class="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">
-                Borrower
-              </th>
-              <th class="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">
-                Book Title
-              </th>
-              <th class="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">
-                Status
-              </th>
-              <th class="px-8 py-5 text-right text-xs font-black text-slate-400 uppercase tracking-widest">
-                Fine
-              </th>
-              <th class="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">
-                Payment
-              </th>
-              <th class="px-8 py-5 text-right text-xs font-black text-slate-400 uppercase tracking-widest">
-                Management
-              </th>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs md:text-sm">
+
+          <thead class="bg-slate-50">
+            <tr>
+              <th class="px-3 md:px-8 py-3 text-left">Borrower</th>
+              <th class="px-3 md:px-8 py-3 text-left">Book</th>
+              <th class="px-3 md:px-8 py-3 text-left">Status</th>
+              <th class="px-3 md:px-8 py-3 text-right">Fine</th>
+              <th class="px-3 md:px-8 py-3 text-left">Payment</th>
+              <th class="px-3 md:px-8 py-3 text-right">Action</th>
             </tr>
           </thead>
 
-          <!-- TABLE BODY -->
-          <tbody class="divide-y divide-slate-100">
+          <tbody>
             <% issued.forEach(i => { %>
-              <tr class="hover:bg-teal-50/40 transition">
 
-                <!-- Borrower -->
-                <td class="px-8 py-6">
-                  <p class="text-sm font-semibold text-slate-700">
-                    <%= i.student.username %>
-                  </p>
-                </td>
+            <tr class="hover:bg-teal-50">
 
-                <!-- Book -->
-                <td class="px-8 py-6">
-                  <p class="text-sm font-semibold text-slate-600">
-                    <%= i.book.title %>
-                  </p>
-                </td>
+              <td class="px-3 md:px-8 py-3 font-semibold">
+                <%= i.student.username %>
+              </td>
 
-                <!-- Status -->
-                <td class="px-8 py-6">
-                  <% if (i.status === "issued") { %>
-                    <span class="inline-flex items-center gap-2 px-3 py-1
-                                 text-[10px]  font-semibold uppercase tracking-widest
-                                 text-amber-700 bg-amber-100 rounded-full">
-                      <span class="w-1.5 h-1.5 bg-amber-600 rounded-full"></span>
-                      Issued
-                    </span>
-                  <% } else { %>
-                    <span class="inline-flex items-center gap-2 px-3 py-1
-                                 text-[10px]  font-semibold uppercase tracking-widest
-                                 text-emerald-700 bg-emerald-100 rounded-full">
-                      <span class="w-1.5 h-1.5 bg-emerald-600 rounded-full"></span>
-                      Returned
-                    </span>
-                  <% } %>
-                </td>
+              <td class="px-3 md:px-8 py-3">
+                <%= i.book.title %>
+              </td>
 
-                <!-- Fine -->
-                <td class="px-8 py-6 text-right">
-                  <% if (i.fine > 0) { %>
-                    <p class="font-semibold text-slate-700">
-                      ₹<%= i.fine %>
-                      <span class="block text-[10px] text-slate-400">
-                        (<%= i.lateDays %> days late)
-                      </span>
-                    </p>
-                  <% } else { %>
-                    <span class="text-xs font-semibold text-emerald-600">No Fine</span>
-                  <% } %>
-                </td>
+              <td class="px-3 md:px-8 py-3">
+                <span class="text-xs px-2 py-1 rounded-full
+                  <%= i.status==='issued' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-600' %>">
+                  <%= i.status %>
+                </span>
+              </td>
 
-                <!-- Payment -->
-                <td class="px-8 py-6">
-                  <% if (i.fine > 0 && !i.finePaid) { %>
-                    <span class="text-[11px] font-black font-semibold text-rose-600 uppercase">
-                      ❌ Not Paid
-                    </span>
-                  <% } else if (i.finePaid) { %>
-                    <span class="text-[11px] font-black font-semibold text-emerald-600 uppercase">
-                      ✅ Paid
-                    </span>
-                  <% } %>
-                </td>
+              <td class="px-3 md:px-8 py-3 text-right">
+                ₹<%= i.fine %>
+              </td>
 
-                <!-- Management -->
-                <td class="px-8 py-6 text-right">
-                  <% if (i.status === "issued") { %>
-                    <form method="POST" action="/admin/return-book/<%= i.id %>">
-                      <button type="submit"
-                        class="px-4 py-2 rounded-xl text-xs font-black font-semibold uppercase tracking-widest
-                               border border-teal-200 text-teal-600
-                               hover:bg-teal-600 hover:text-white transition">
-                        Mark Returned
-                      </button>
-                    </form>
-                  <% } else { %>
-                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">
-                      Settled
-                    </span>
-                  <% } %>
-                </td>
+              <td class="px-3 md:px-8 py-3 text-xs">
+                <%= i.finePaid ? 'Paid' : 'Not Paid' %>
+              </td>
 
-              </tr>
+              <td class="px-3 md:px-8 py-3 text-right">
+                <% if(i.status==='issued'){ %>
+                  <form method="POST" action="/admin/return-book/<%= i.id %>">
+                    <button class="px-2 md:px-4 py-1 md:py-2 text-xs bg-teal-600 text-white rounded-lg">
+                      Return
+                    </button>
+                  </form>
+                <% } %>
+              </td>
+
+            </tr>
+
             <% }) %>
           </tbody>
+
         </table>
-        </div>
-        </div>
- <div class="flex justify-center items-center gap-3 mt-8">
+      </div>
 
-  <% if (currentPage > 1) { %>
-    <a href="?page=<%= currentPage - 1 %>"
-       class="px-5 py-2 rounded-2xl bg-slate-200 text-slate-600 font-semibold 
-              hover:bg-slate-300 transition">
-      Prev
-    </a>
-  <% } %>
+    </div>
 
-  <% for(let i = 1; i <= totalPages; i++) { %>
-    <a href="?page=<%= i %>"
-       class="w-10 h-10 flex items-center justify-center rounded-2xl font-bold transition
-       <%= currentPage === i 
-          ? 'bg-teal-600 text-white shadow-lg scale-110' 
-          : 'bg-slate-200 text-slate-600 hover:bg-slate-300' %>">
-       <%= i %>
-    </a>
-  <% } %>
+    <!-- PAGINATION -->
+    <div class="flex flex-wrap justify-center gap-2 mt-6">
 
-  <% if (currentPage < totalPages) { %>
-    <a href="?page=<%= currentPage + 1 %>"
-       class="px-5 py-2 rounded-2xl bg-slate-200 text-slate-600 font-semibold 
-              hover:bg-slate-300 transition">
-      Next
-    </a>
-  <% } %>
+      <% if(currentPage>1){ %>
+        <a href="?page=<%=currentPage-1%>" class="px-3 py-1 bg-slate-100 rounded">Prev</a>
+      <% } %>
 
-</div>
-      
+      <% for(let i=1;i<=totalPages;i++){ %>
+        <a href="?page=<%=i%>" class="px-3 py-1 rounded
+        <%= i===currentPage ? 'bg-teal-600 text-white' : 'bg-slate-100' %>">
+        <%=i%></a>
+      <% } %>
 
-      <!-- EMPTY STATE -->
-      <% if (issued.length === 0) { %>
-        <div class="py-20 text-center">
-          <p class="text-slate-400 text-sm font-black uppercase tracking-widest">
-            No active loans found
-          </p>
-        </div>
+      <% if(currentPage<totalPages){ %>
+        <a href="?page=<%=currentPage+1%>" class="px-3 py-1 bg-slate-100 rounded">Next</a>
       <% } %>
 
     </div>
+
   </div>
 </main>
 

@@ -12,7 +12,8 @@ const bookSchema=new mongoose.Schema({
     type:Date
    },
    image:{
-    type:String
+    type:String,
+    default:'/images/default-book.jpg'
    },
    isbn:{
     type:String,

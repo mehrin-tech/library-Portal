@@ -7,160 +7,153 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
-
-<body class="wave-bg h-screen overflow-hidden font-sans text-[#0D1B2A]">
+<body class="wave-bg min-h-screen font-sans text-[#0D1B2A]">
 
 <%- include('../partials/adminSidebar') %>
 
-<main class="ml-20 p-8">
+<main class="ml-0 md:ml-20 p-3 md:p-8">
 
   <div class="max-w-7xl mx-auto 
               bg-white/80 backdrop-blur-xl 
               shadow-[0_32px_64px_-15px_rgba(13,27,42,0.12)]
-              rounded-[2.5rem] overflow-hidden 
+              rounded-2xl md:rounded-[2.5rem] overflow-hidden 
               border border-white">
 
     <!-- HEADER -->
-    <div class="px-8 py-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div>
-        <h1 class="text-[22px] font-black text-slate-800">
-          Library <span class="text-[#2D8B75]">BooksList</span>
-        </h1>
-       
-      </div>
+    <div class="px-4 md:px-8 py-4 md:py-5 border-b 
+                flex flex-col md:flex-row justify-between gap-4">
 
-      <div class="flex items-center gap-4">
-        <div class="relative">
-          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
+      <h1 class="text-lg md:text-[22px] font-black text-slate-800">
+        Library <span class="text-[#2D8B75]">BooksList</span>
+      </h1>
+
+      <div class="flex flex-col sm:flex-row gap-2 sm:items-center w-full sm:w-auto">
+
+        <div class="relative w-full sm:w-64">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
             🔍
           </span>
+
           <input
             type="text"
             id="searchInp"
             placeholder="Search catalog..."
-            class="w-72 pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2D8B75]"
+            class="w-full pl-9 pr-3 py-2 bg-slate-50 border rounded-xl text-sm focus:ring-2 focus:ring-[#2D8B75]"
           />
         </div>
 
         <a href="/admin/addBook"
-           class="bg-[#2D8B75] text-white p-3 rounded-2xl hover:bg-[#246f5e] transition-all shadow-lg">
+           class="bg-[#2D8B75] text-white px-4 py-2 rounded-xl text-sm text-center">
           Add
         </a>
+
       </div>
     </div>
 
     <!-- TABLE -->
     <div class="overflow-x-auto">
-      <table class="w-full">
+      <table class="w-full text-xs md:text-sm">
+
         <thead class="bg-slate-50">
           <tr>
-            <th class="px-8 py-4 text-xs text-slate-400">ID</th>
-            <th class="px-8 py-4 text-xs text-slate-400">Book</th>
-            <th class="px-8 py-4 text-xs text-slate-400">Author</th>
-            <th class="px-8 py-4 text-xs text-slate-400">ISBN</th>
-            <th class="px-8 py-4 text-xs text-slate-400">Stock</th>
-            <th class="px-8 py-4 text-xs text-slate-400">Date</th>
-            <th class="px-8 py-4 text-xs text-right text-slate-400">Actions</th>
+            <th class="px-3 md:px-8 py-3  text-left">ID</th>
+            <th class="px-3 md:px-8 py-3  text-left">Book</th>
+            <th class="px-3 md:px-8 py-3  text-left">Author</th>
+            <th class="px-3 md:px-8 py-3  text-left">ISBN</th>
+            <th class="px-3 md:px-8 py-3  text-left">Stock</th>
+            <th class="px-3 md:px-8 py-3  text-left">Date</th>
+            <th class="px-3 md:px-8 py-3 text-right">Actions</th>
           </tr>
         </thead>
 
         <tbody class="divide-y divide-slate-100">
           <% books.forEach((b,i) => { %>
-          <tr class="book-row hover:bg-teal-50/30">
-            <td class="px-8 py-5 text-xs text-slate-400">BK-<%=String ((currentPage-1)*4+i+1).padStart(3,'0') %></td>
 
-            <td class="px-8 py-5 font-bold text-slate-700">
-              <a href="/admin/viewDetails/<%= b.id %>" class="book-name hover:text-[#2D8B75]">
-                <%= b.title%>
+          <tr class="book-row hover:bg-teal-50/30">
+
+            <td class="px-3 md:px-8 py-3">
+              BK-<%=String((currentPage-1)*4+i+1).padStart(3,'0') %>
+            </td>
+
+            <td class="px-3 md:px-8 py-3 font-bold">
+              <a href="/admin/viewDetails/<%= b.id %>" class="hover:text-[#2D8B75]">
+                <%= b.title %>
               </a>
             </td>
 
-            <td class="px-8 py-5 text-sm text-slate-500"><%= b.author %></td>
+            <td class="px-3 md:px-8 py-3 text-slate-500">
+              <%= b.author %>
+            </td>
 
-            <td class="px-8 py-5 text-xs font-mono text-slate-600"><%= b.isbn %></td>
+            <td class="px-3 md:px-8 py-3 text-xs font-mono">
+              <%= b.isbn %>
+            </td>
 
-            <!-- <td class="px-8 py-5 text-xs text-slate-600"><%= b.availableCopies %>/<%=b.totalCopies%></td> -->
+            <td class="px-3 md:px-8 py-3 text-xs font-bold">
+              <% if (b.availableCopies === 0) { %>
+                <span class="text-red-600">Out</span>
+              <% } else if (b.availableCopies <= 3) { %>
+                <span class="text-amber-600">
+                  Low (<%= b.availableCopies %>/<%= b.totalCopies %>)
+                </span>
+              <% } else { %>
+                <span class="text-emerald-600">
+                  OK (<%= b.availableCopies %>/<%= b.totalCopies %>)
+                </span>
+              <% } %>
+            </td>
 
-            <td class="px-8 py-5 text-xs font-bold">
-  <% if (b.availableCopies === 0) { %>
-    <span class="text-red-600">Out of Stock</span>
-  <% } else if (b.availableCopies <= 3) { %>
-    <span class="text-amber-600">
-      Low Stock (<%= b.availableCopies %>/<%= b.totalCopies %>)
-    </span>
-  <% } else { %>
-    <span class="text-emerald-600">
-      Available (<%= b.availableCopies %>/<%= b.totalCopies %>)
-    </span>
-  <% } %>
-</td>
+            <td class="px-3 md:px-8 py-3 text-xs">
+              <%= new Date(b.createdAt).toLocaleDateString() %>
+            </td>
 
-            <td class="px-8 py-5 text-xs text-slate-400"><%= new Date(b.createdAt).toLocaleDateString()%></td>
+            <td class="px-3 md:px-8 py-3 text-right">
+              <div class="flex flex-wrap justify-end gap-2">
 
-           
-            <td class="px-8 py-5 text-right">
-  <div class="flex justify-end gap-2">
+                <a href="/admin/edit/<%= b.id %>"
+                   class="px-2 md:px-4 py-1 md:py-2 text-xs font-bold bg-yellow-600 text-white rounded-lg">
+                  Edit
+                </a>
 
-    <!-- EDIT -->
-    <a href="/admin/edit/<%= b.id %>"
-       class="inline-flex items-center justify-center
-              px-4 py-2
-              text-[11px] font-bold uppercase tracking-wider
-              text-white bg-yellow-600
-              rounded-xl
-              hover:bg-yellow-500 hover:text-white
-              transition">
-      Edit
-    </a>
+                <button onclick="openDeleteModal('<%= b.id %>')"
+                        class="px-2 md:px-4 py-1 md:py-2 text-xs font-bold bg-red-600 text-white rounded-lg">
+                  Delete
+                </button>
 
-    <!-- DELETE -->
-    <button onclick="openDeleteModal('<%= b.id %>')"
-            class="inline-flex items-center justify-center
-                   px-4 py-2
-                   text-[11px] font-bold uppercase tracking-wider
-                   text-white bg-red-600
-                   rounded-xl
-                   hover:bg-red-500 hover:text-white
-                   transition">
-      Delete
-    </button>
-
-  </div>
-</td>
+              </div>
+            </td>
 
           </tr>
+
           <% }) %>
         </tbody>
       </table>
     </div>
+
   </div>
 </main>
 
-<%if(totalPages>1){%>
-  <div class="flex justify-center items-center gap-2 py-10">
+<!-- PAGINATION -->
+<% if(totalPages>1){ %>
+<div class="flex flex-wrap justify-center gap-2 py-6">
 
-    <% if(currentPage>1){%>
-      <a href="/admin/booksList?page=<%=currentPage -1 %>"  class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Prev</a>
+  <% if(currentPage>1){ %>
+    <a href="?page=<%=currentPage-1%>" class="px-3 py-1 bg-slate-100 rounded">Prev</a>
+  <% } %>
 
+  <% for(let i=1;i<=totalPages;i++){ %>
+    <a href="?page=<%=i%>" class="px-3 py-1 rounded 
+    <%= i===currentPage ? 'bg-teal-600 text-white' : 'bg-slate-100' %>">
+      <%=i%>
+    </a>
+  <% } %>
 
-    <%}%>
+  <% if(currentPage<totalPages){ %>
+    <a href="?page=<%=currentPage+1%>" class="px-3 py-1 bg-slate-100 rounded">Next</a>
+  <% } %>
 
-   
-    <%for(let i=1;i<=totalPages;i++){%>
-  <a href="/admin/booksList?page=<%=i%>"class="px-4 py-2 rounded-xl text-sm font-bold
-         <%= i === currentPage 
-            ? 'bg-teal-600 text-white' 
-            : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>"><%=i%></a>
-    <%}%>
-
-  
-
-   <% if(currentPage < totalPages){%>
-    <a href="/admin/booksList?page=<%=currentPage+1%>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Next</a>
-
-   <%}%>
-  </div>
-<%}%>
+</div>
+<% } %>
 <!-- DELETE MODAL -->
 <div id="deleteModal" class="fixed inset-0 hidden z-50 flex items-center justify-center">
   <div class="absolute inset-0 bg-black/40" onclick="closeDeleteModal()"></div>

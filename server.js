@@ -62,6 +62,7 @@ app.use(helmet({
         ],
 
         imgSrc: ["'self'", "data:", "https://*"],
+        frameSrc:["'self'","https://*"]
       },
   },
   crossOriginEmbedderPolicy:false,

@@ -25,7 +25,7 @@
 
  
    <a
-    href="/admin/category/<%= category.id %>/sub/add"
+    href="/admin/category/<%= category._id %>/sub/add"
     class="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-teal-900/30 active:scale-95"
   >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
@@ -63,10 +63,10 @@
 
           <td class="px-6 py-5">
             <% if (s.image) { %>
-             <a href="/admin/category/<%=category.id%>/book/<%=s.id%>"><img
-                src="/uploads/<%= s.image %>"
+             <a href="/admin/category/<%=category._id%>/book/<%=s._id%>"><img
+                src="<%= s.image %>"
                 class="w-14 h-20 object-cover rounded-xl shadow cursor-pointer"
-                data-image="/uploads/<%= s.image %>"
+                data-image="<%= s.image %>"
                 data-title="<%= s.bookTitle %>"
                 data-description="<%= s.description || 'No description available' %>"
             
@@ -89,7 +89,7 @@
 
   <!-- EDIT -->
   <a
-    href="/admin/category/<%= category.id %>/sub/<%= s.id %>/edit"
+    href="/admin/category/<%= category._id %>/sub/<%= s._id %>/edit"
     class="inline-flex items-center justify-center
            px-4 py-1.5
            text-xs font-bold uppercase tracking-wider
@@ -103,7 +103,7 @@
 
   <!-- DELETE -->
   <button
-    onclick="deleteModal('/admin/category/<%=category.id%>/sub/<%=s.id%>/delete')"
+    onclick="deleteModal('/admin/category/<%=category._id%>/sub/<%=s._id%>/delete')"
     class="inline-flex items-center justify-center
            px-4 py-1.5
            text-xs font-bold uppercase tracking-wider
@@ -137,13 +137,13 @@
 
   <!--prev button-->
   <%if(currentPage>1){%>
-<a href="/admin/category/view/<%= category.id %>?page=<%= currentPage - 1 %>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">prev</a>
+<a href="/admin/category/view/<%= category._id %>?page=<%= currentPage - 1 %>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">prev</a>
 
  <% }%>
 
  <!--page number-->
  <%for(let i=1;i<=totalPages;i++){%>
-   <a href="/admin/category/view/<%= category.id %>?page=<%= i %>"class="px-4 py-2 rounded-xl text-sm font-bold
+   <a href="/admin/category/view/<%= category._id %>?page=<%= i %>"class="px-4 py-2 rounded-xl text-sm font-bold
          <%= i === currentPage 
             ? 'bg-teal-600 text-white' 
             : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>"><%=i%></a>
@@ -153,7 +153,7 @@
 
  <!--next button-->
  <%if(currentPage< totalPages){%>
-<a href="/admin/category/view/<%= category.id %>?page=<%= currentPage + 1 %>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">next</a>
+<a href="/admin/category/view/<%= category._id %>?page=<%= currentPage + 1 %>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">next</a>
 
  <%}%>
 </div>

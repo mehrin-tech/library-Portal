@@ -18,137 +18,103 @@
   </style>
 </head>
 
-<body class="bg-slate-50 min-h-screen font-sans text-slate-900 overflow-hidden">
+<body class="bg-slate-50 min-h-screen font-sans text-slate-900">
+
 <%- include('../partials/adminSidebar')%>
-<main class="ml-20 p-8">
-  <div class="max-w-7xl mx-auto bg-white shadow-2xl shadow-teal-900/5 rounded-[2.5rem] overflow-hidden border border-slate-100">
 
-    <div class="px-8 py-8 border-b border-slate-50 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-      <div>
-        <h2 class="text-3xl font-black text-slate-800 tracking-tight">
-          Student <span class="text-teal-600">Records</span>
-        </h2>
-       
+<main class="ml-0 md:ml-20 p-3 md:p-8">
+
+  <div class="max-w-7xl mx-auto bg-white shadow-2xl rounded-2xl md:rounded-[2.5rem] overflow-hidden border">
+
+    <!-- HEADER -->
+    <div class="px-4 md:px-8 py-4 md:py-8 border-b flex flex-col lg:flex-row justify-between gap-4">
+
+      <h2 class="text-xl md:text-3xl font-black">
+        Student <span class="text-teal-600">Records</span>
+      </h2>
+
+      <div class="w-full sm:w-auto">
+        <input
+          type="text"
+          id="searchInp"
+          placeholder="Search..."
+          class="w-full sm:w-64 pl-4 pr-4 py-2 bg-slate-50 border rounded-xl text-sm focus:ring-2 focus:ring-teal-500"
+        />
       </div>
 
-      <div class="flex flex-col sm:flex-row gap-4">
-        <div class="relative">
-          <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </span>
-          <input
-            type="text"
-            id="searchInp"
-            placeholder="Filter by name..."
-            class="w-full sm:w-64 pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus-ring-teal transition-all"
-          />
-        </div>
-
-       
-      </div>
     </div>
 
+    <!-- TABLE -->
     <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse">
-        <thead class="bg-slate-50/50">
+      <table class="w-full text-xs md:text-sm">
+
+        <thead class="bg-slate-50">
           <tr>
-            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">UID</th>
-            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Full Name</th>
-
-            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Department</th>
-            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Semester</th>
-            <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-
+            <th class="px-3 md:px-6 py-3 text-left">ID</th>
+            <th class="px-3 md:px-6 py-3 text-left">Name</th>
+            <th class="px-3 md:px-6 py-3 text-left">Dept</th>
+            <th class="px-3 md:px-6 py-3 text-left">Sem</th>
+            <th class="px-3 md:px-6 py-3 text-left">Status</th>
           </tr>
         </thead>
 
-        <tbody class="divide-y divide-slate-50">
-          <% if (users.length === 0) { %>
-            <tr>
-              <td colspan="7" class="text-center py-20">
-                <p class="text-slate-400 text-sm font-bold uppercase tracking-widest">No student records found</p>
-              </td>
-            </tr>
-          <% } %>
-
+        <tbody>
           <% users.forEach((user,i) => { %>
-            <tr class="student-row group hover:bg-teal-50/30 transition-colors">
-              
-              <td class="px-6 py-4 text-xs font-bold text-slate-400">
-                #<%=(currentPage-1)*limit+i+1  %>
-              </td>
 
-              <td class="px-6 py-4">
-                
-                   
-                    <span class="text-sm font-bold text-slate-700"><%= user.username %></span>
-                  </div>
-                
-              </td>
+          <tr class="student-row hover:bg-teal-50">
 
-             
+            <td class="px-3 md:px-6 py-3 text-xs">
+              #<%=(currentPage-1)*limit+i+1 %>
+            </td>
 
-              <td class="px-6 py-4">
-                <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md tracking-tight uppercase">
-                  <%= user.department && user.department.trim()?user.department:'Not Assigned' %>
-                </span>
-              </td>
+            <td class="px-3 md:px-6 py-3 font-bold student-name">
+              <%= user.username %>
+            </td>
 
-              <td class="px-6 py-4 text-sm text-slate-600">
-                Sem <%= user.semester && user.semester.trim()?user.semester :'-' %>
-              </td>
+            <td class="px-3 md:px-6 py-3 text-xs">
+              <%= user.department || 'N/A' %>
+            </td>
 
-              <td class="px-6 py-4">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full border 
-                  <%= user.status === 'Active' 
-                    ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
-                    : 'bg-red-50 text-red-700 border-red-100' %>">
-                  <span class="w-1 h-1 rounded-full <%= user.status === 'Active' ? 'bg-emerald-500' : 'bg-red-500' %>"></span>
-                  <%= user.status %>
-                </span>
-              </td>
+            <td class="px-3 md:px-6 py-3 text-xs">
+              <%= user.semester || '-' %>
+            </td>
 
-             
-             
+            <td class="px-3 md:px-6 py-3">
+              <span class="text-xs px-2 py-1 rounded-full
+                <%= user.status==='Active' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' %>">
+                <%= user.status %>
+              </span>
+            </td>
 
-            </tr>
+          </tr>
+
           <% }) %>
         </tbody>
+
       </table>
     </div>
+
   </div>
 
-  <!---pagination-->
+  <!-- PAGINATION -->
+  <div class="flex flex-wrap justify-center gap-2 py-6">
 
-  <%if(totalPages>1){%>
-<div class="flex justify-center items-center gap-2 py-10">
+    <% if(currentPage>1){ %>
+      <a href="?page=<%=currentPage-1%>" class="px-3 py-1 bg-slate-100 rounded">Prev</a>
+    <% } %>
 
+    <% for(let i=1;i<=totalPages;i++){ %>
+      <a href="?page=<%=i%>" class="px-3 py-1 rounded
+      <%= i===currentPage ? 'bg-teal-600 text-white' : 'bg-slate-100' %>">
+      <%=i%></a>
+    <% } %>
 
-  <!--prev button-->
-  <%if(currentPage>1){%>
-      <a href="/admin/studentsList?page=<%=currentPage -1 %>"  class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Prev</a>
+    <% if(currentPage<totalPages){ %>
+      <a href="?page=<%=currentPage+1%>" class="px-3 py-1 bg-slate-100 rounded">Next</a>
+    <% } %>
 
- <% }%>
+  </div>
 
- <!--page number-->
- <%for(let i=1;i<=totalPages;i++){%>
-   <a href="/admin/studentsList?page=<%=i%>"class="px-4 py-2 rounded-xl text-sm font-bold
-         <%= i === currentPage 
-            ? 'bg-teal-600 text-white' 
-            : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>"><%=i%></a>
-
- <%}%>
-
-
- <!--next button-->
- <%if(currentPage< totalPages){%>
-      <a href="/admin/studentsList?page=<%=currentPage+1%>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Next</a>
-
- <%}%>
-</div>
-  <%}%>
 </main>
 
   <script>

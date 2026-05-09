@@ -19,14 +19,13 @@
 
 <%- include('../partials/userSidebar') %>
 
-<main class="ml-20 p-8 transition-all duration-300">
-
-  <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+<main class="ml-0 md:ml-20 p-4 md:p-8 transition-all duration-300">
+  <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 md:gap-6 text-center md:text-left">
     <div class="space-y-1">
       <h1 class="text-2xl font-black text-slate-800 tracking-tight leading-tight">
         Hello, <span class="text-[#2d8a75]"><%= username %></span> 
       </h1>
-      <div class="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
+      <div class="flex items-center justify-center md:justify-start gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
         <span><%= date %></span>
         <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
         <span><%= time %></span>
@@ -35,10 +34,10 @@
 
     <button 
       onclick="openProfileModal()" 
-      class="group flex items-center gap-3 bg-white p-2 pr-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-all active:scale-95"
+      class="group flex items-center justify-center md:justify-start gap-3 bg-white p-2 pr-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-all active:scale-95 mx-auto md:mx-0"
     >
       <% if (image) { %>
-        <img src="/uploads/<%= image %>" class="w-10 h-10 rounded-xl object-cover ring-2 ring-teal-500/10" />
+        <img src="<%= image %>" class="w-10 h-10 rounded-xl object-cover ring-2 ring-teal-500/10" />
       <% } else { %>
         <div class="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center text-white font-black uppercase">
           <%= username.charAt(0) %>
@@ -52,14 +51,14 @@
   </header> 
   
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-    <div class="bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10 max-w-md mx-auto md:max-w-none">
+    <div class="w-full max-w-sm mx-auto md:max-w-none bg-white p-4 md:p-8 rounded-xl md:rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
       <div class="absolute -right-4 -top-4 w-24 h-24 bg-slate-50 rounded-full"></div>
       <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest relative z-10">📚 Books List</p>
-      <h3 class="text-4xl font-black text-slate-800 mt-2 relative z-10"><%= totalBooks %></h3>
+      <h3 class="text-2xl md:text-4xl font-black text-slate-800 mt-2 relative z-10"><%= totalBooks %></h3>
     </div>
 
-    <a href="/User/issued/<%= userId %>" class="group bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden transition-all hover:-translate-y-1">
+    <a href="/User/issued/<%= userId %>" class="w-full max-w-sm mx-auto md:max-w-none group bg-white p-4 md:p-8 rounded-xl md:rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden transition-all hover:-translate-y-1">
        <!-- background circle -->
   <div class="absolute -right-4 -top-4 w-24 h-24 bg-teal-50 rounded-full transition-transform group-hover:scale-110"></div>
 
@@ -69,7 +68,7 @@
     📖 Issued Books
   </p>
       <!-- count -->
-  <h3 class="text-4xl font-black text-slate-800 mt-2 relative z-10">
+  <h3 class="text-2xl md:text-4xl font-black text-slate-800 mt-2 relative z-10">
     <%= issuedCount %>
   </h3>
       <!--fine notification-->
@@ -86,12 +85,12 @@
 <%}%>
     </a>
 
-    <a href="/user/usedBooks" class="group bg-[#2d8a75] p-8 rounded-[2rem] shadow-xl shadow-teal-900/20 relative overflow-hidden transition-all hover:-translate-y-1">
+    <a href="/user/usedBooks" class="w-full max-w-sm mx-auto md:max-w-none group bg-[#2d8a75] p-4 md:p-8 rounded-xl md:rounded-[2rem] shadow-xl shadow-teal-900/20 relative overflow-hidden transition-all hover:-translate-y-1">
       <div class="absolute -right-4 -top-4 w-24 h-24 bg-teal-700/50 rounded-full"></div>
       <p class="text-[10px] font-black text-teal-100 uppercase tracking-widest relative z-10">📘 Total Usage</p>
-      <h3 class="text-4xl font-black text-white mt-2 relative z-10"><%= totalUsedBooks %></h3>
+      <h3 class="text-2xl md:text-4xl font-black text-white mt-2 relative z-10"><%= totalUsedBooks %></h3>
     </a>
-      <a href="/User/category/categoryList" class="group bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden transition-all hover:-translate-y-1">
+      <a href="/User/category/categoryList" class="w-full max-w-sm mx-auto md:max-w-none group bg-white p-4 md:p-8 rounded-xl md:rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden transition-all hover:-translate-y-1">
       <div class="absolute -right-4 -top-4 w-24 h-24 bg-teal-50 rounded-full transition-transform group-hover:scale-110"></div>
       <p class="text-[10px] font-black text-teal-600 uppercase tracking-widest relative z-10">📖Library Collections </p>
       <h5 class="text-xl font-black text-slate-800 mt-2 relative z-10">E-Book Reader</h5>
@@ -114,21 +113,21 @@
       </div>
     </div>
 
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto px-2 md:px-0">
       <table class="w-full text-left border-separate border-spacing-0">
         <thead>
           <tr class="bg-slate-50/50">
-            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Book Title</th>
-            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Author</th>
-            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">ISBN</th>
-            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
-            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Arrival</th>
+            <th class="px-4 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Book Title</th>
+            <th class="px-4 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Author</th>
+            <th class="px-4 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">ISBN</th>
+            <th class="px-4 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
+            <th class="px-4 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Arrival</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-50">
           <% books.forEach((b, index)=> { %>
             <tr class="book-row group transition-colors <%= Number(b.quantity) === 0 ? 'bg-slate-50/50 cursor-not-allowed' : 'hover:bg-teal-50/30' %>">
-              <td class="px-8 py-5 book-name">
+              <td class="px-4 md:px-8 py-3 md:py-5 book-name">
                 <% if(Number(b.quantity) === 0) { %>
                   <span class="text-sm font-bold text-slate-400"><%= b.title %></span>
                 <% } else { %>
@@ -137,10 +136,10 @@
                   </a>
                 <% } %>
               </td>
-              <td class="px-8 py-5 text-sm font-medium text-slate-500"><%= b.author %></td>
-              <td class="px-8 py-5 font-mono text-xs text-slate-400"><%= b.isbn %></td>
+              <td class="px-4 md:px-8 py-3 md:py-5 text-sm font-medium text-slate-500"><%= b.author %></td>
+              <td class="px-4 md:px-8 py-3 md:py-5 font-mono text-xs text-slate-400"><%= b.isbn %></td>
               
-              <td class="px-8 py-5 text-center whitespace-nowrap">
+              <td class="px-4 md:px-8 py-3 md:py-5 text-center whitespace-nowrap">
                 <% if (b.availableCopies === 0) { %>
                   <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-rose-50 text-rose-600 border border-rose-100">
                     <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-rose-500 animate-pulse"></span>
@@ -159,14 +158,14 @@
                 <% } %>
               </td>
 
-              <td class="px-8 py-5 text-xs text-slate-400 font-medium"><%= new Date(b.createdAt).toLocaleDateString() %></td>
+              <td class="px-4 md:px-8 py-3 md:py-5 text-xs text-slate-400 font-medium"><%= new Date(b.createdAt).toLocaleDateString() %></td>
             </tr>
           <% }) %>
         </tbody>
       </table>
     </div>
   </div>
-    <div class="flex items-center justify-between px-8 py-6  border-t border-slate-50">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-8 py-4 md:py-6">
   <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
     Page <%= currentPage %> of <%= totalPages %>
   </div>
@@ -185,7 +184,7 @@
       </span>
     <% } %>
 
-    <div class="flex items-center gap-1 mx-2">
+    <div class="flex flex-wrap justify-center md:justify-start items-center gap-1 mx-2">
       <% for (let i = 1; i <= totalPages; i++) { %>
         <a href="?page=<%= i %>"
            class="w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black transition-all active:scale-90
@@ -199,12 +198,12 @@
 
     <% if (currentPage < totalPages) { %>
       <a href="?page=<%= currentPage + 1 %>" 
-         class="flex items-center justify-center px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-50 border border-slate-200 rounded-xl hover:bg-teal-50 hover:text-teal-600 hover:border-teal-200 transition-all active:scale-95">
+         class="flex items-center justify-center px-3 md:px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-50 border border-slate-200 rounded-xl hover:bg-teal-50 hover:text-teal-600 hover:border-teal-200 transition-all active:scale-95">
         Next
         <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
       </a>
     <% } else { %>
-      <span class="flex items-center justify-center px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-300 bg-slate-50/50 border border-slate-100 rounded-xl cursor-not-allowed">
+      <span class="flex items-center justify-center px-3 md:px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-300 bg-slate-50/50 border border-slate-100 rounded-xl cursor-not-allowed">
         Next
         <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
       </span>
@@ -233,7 +232,7 @@
         <div class="relative">
           <% if (image) { %>
             <img
-              src="/uploads/<%= image %>"
+              src="<%= image %>"
               class="w-28 h-28 rounded-[2rem] object-cover ring-4 ring-teal-50 shadow-lg"
             />
           <% } else { %>

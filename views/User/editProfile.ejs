@@ -51,7 +51,7 @@
           <div class="w-20 h-20 rounded-lg bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
 
             <% if (user.image) { %>
-              <img src="/uploads/<%= user.image %>" class="w-full h-full object-cover">
+              <img src="<%= user.image %>" class="w-full h-full object-cover">
             <% } else { %>
               <span class="text-2xl font-bold">
                 <%= user.username ? user.username.charAt(0) : 'U' %>
