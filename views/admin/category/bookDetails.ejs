@@ -50,12 +50,16 @@
 
       <% if (book.pdf) { %>
         <div class="w-full h-[60vh] md:h-[75vh] rounded-xl overflow-hidden border">
-        <iframe
+        <!-- <iframe
             src="<%= book.pdf %>?fl_attachment=false#toolbar=0&navpanes=0&scrollbar=0"
             class="w-full h-full"
             style="border:none"
-          ></iframe>
-
+          ></iframe> -->
+<iframe
+  src="https://docs.google.com/gview?embedded=true&url=<%= encodeURIComponent(book.pdf) %>"
+  class="w-full h-full"
+  style="border:none"
+></iframe>
         </div>
       <% } else { %>
         <p class="text-slate-400 italic text-sm">
