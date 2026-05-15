@@ -171,8 +171,13 @@ subDoc.subcategories.push({
     bookTitle,
     description,
    
-    image:req.files?.image?.[0]?.filename|| null,
-    pdf:req.files?.pdf?.[0]?.filename|| null
+    image:req.files?.image?.[0]
+  ? '/uploads/' + req.files.image[0].filename
+  : null,
+
+pdf:req.files?.pdf?.[0]
+  ? '/uploads/' + req.files.pdf[0].filename
+  : null
 }) 
 
     
@@ -245,19 +250,56 @@ const deleteSub=async(req,res,next)=>{
      res.redirect(`/admin/category/view/${catId}`);
 }
 //get book details
-const getBookDetails=async(req,res,next)=>{
-  const {catId,subId}=req.params
+const getBookDetails = async (req, res, next) => {
 
-    const category=await Category.findById(catId)
-    const subDoc=await SubCategory.findOne({categoryId:catId})
+  try {
 
-    const book=subDoc.subcategories.id(subId)
+    const { catId, subId } = req.params
 
-    res.render('admin/category/bookDetails',{
-        category,
-        book
+    const category = await Category.findById(catId)
+
+    if (!category) {
+      return next(new NotFoundError('Category not found'))
+    }
+
+    const subDoc = await SubCategory.findOne({
+      categoryId: catId
     })
+
+    if (!subDoc) {
+      return next(new NotFoundError('Sub document not found'))
+    }
+
+    const book = subDoc.subcategories.id(subId)
+
+    if (!book) {
+      return next(new NotFoundError('Book not found'))
+    }
+
+    res.render('admin/category/bookDetails', {
+      category,
+      book
+    })
+
+  } catch (err) {
+    next(err)
+  }
+
 }
+// const getBookDetails=async(req,res,next)=>{
+    
+//   const {catId,subId}=req.params
+
+//     const category=await Category.findById(catId)
+//     const subDoc=await SubCategory.findOne({categoryId:catId})
+
+//     const book=subDoc.subcategories.id(subId)
+
+//     res.render('admin/category/bookDetails',{
+//         category,
+//         book
+//     })
+// }
 export{
     getCategoryList,
     getCategoryForm,

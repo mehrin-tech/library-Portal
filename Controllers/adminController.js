@@ -55,7 +55,7 @@ const loggedForm=async(req,res,next)=>{
     httpOnly:true,
     secure:false,
     sameSite:'lax',
-    maxAge:20*60*1000
+    maxAge:30*24*60*60*1000
    })
    console.log('LOGIN USERNAME:', username)
 console.log('LOGIN PASSWORD:', password)
