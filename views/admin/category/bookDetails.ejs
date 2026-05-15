@@ -51,7 +51,7 @@
       <% if (book.pdf) { %>
         <div class="w-full h-[60vh] md:h-[75vh] rounded-xl overflow-hidden border">
         <iframe
-            src="/uploads/<%= book.pdf %>#toolbar=0&navpanes=0&scrollbar=0"
+            src="<%= book.pdf %>#toolbar=0&navpanes=0&scrollbar=0"
             class="w-full h-full"
             style="border:none"
           ></iframe>
