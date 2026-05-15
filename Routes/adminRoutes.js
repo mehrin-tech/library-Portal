@@ -2,7 +2,7 @@ import {Router} from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import multer from 'multer'
+import upload from '../config/multerCloudinary.js'
 import {  loginForm, loggedForm, dashboard, getBooksList, addBookForm, addBook, viewBook, editBook, updateBook, deleteBook,  StdList,  profileStd, issuedBook, postIssuedBook, issuedList, returnBook,getChatList,getChat,logout,getOnelineReaders, markFinePaid } from '../Controllers/adminController.js'
 
 const __filename=fileURLToPath(import.meta.url)
@@ -11,17 +11,17 @@ const __dirname=path.dirname(__filename)
 const router=Router()
 import {requireAuth,preventLogin} from '../Utils/adminMiddleware.js'
 //====================multer file upload mddlwr=========================
-const storage=multer.diskStorage({
-    destination:function(req,file,cb){
-        cb(null,'./uploads')
-    },
-    filename:function(req,file,cb){
+// const storage=multer.diskStorage({
+//     destination:function(req,file,cb){
+//         cb(null,'./uploads')
+//     },
+//     filename:function(req,file,cb){
       
-    cb(null,`${Date.now()}-${file.originalname}`);
-    }
-})
+//     cb(null,`${Date.now()}-${file.originalname}`);
+//     }
+// })
 
-const upload=multer({storage})
+// const upload=multer({storage})
 //===============routes in admin========================//
 router.get('/login',preventLogin,loginForm)
 router.post('/login',loggedForm)

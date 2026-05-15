@@ -57,7 +57,7 @@ const postAdd=async(req,res,next)=>{
     await Category.create({
         category:category.trim(),
         
-        image:req.file?'/uploads/'+req.file.filename:null
+        image:req.file ? req.file.path : null
     })
    
   
@@ -90,7 +90,7 @@ const postUpdate=async(req,res,next)=>{
         category:category.trim()
     }
     if(req.file){
-        updateData.image='/uploads/'+req.file.filename
+        updateData.image=req.file.path
         console.log(req.file)
     }
   await Category.findByIdAndUpdate(req.params.id,
@@ -171,13 +171,9 @@ subDoc.subcategories.push({
     bookTitle,
     description,
    
-    image:req.files?.image?.[0]
-  ? '/uploads/' + req.files.image[0].filename
-  : null,
+   image:req.files?.image?.[0]?.path || null,
 
-pdf:req.files?.pdf?.[0]
-  ? '/uploads/' + req.files.pdf[0].filename
-  : null
+pdf:req.files?.pdf?.[0]?.path || null
 }) 
 
     
@@ -227,11 +223,11 @@ const updateSub=async(req,res,next)=>{
   book.description=req.body.description
 
 if (req.files?.image?.length) {
-  book.image = '/uploads/' + req.files.image[0].filename
+  book.image = req.files.image[0].path
 }
   
   if(req.files?.pdf?.length){
-    book.pdf='/uploads/'+req.files.pdf[0].filename
+    book.pdf=req.files.pdf[0].path
   }
         await subDoc.save()
     res.redirect(`/admin/category/view/${catId}`)

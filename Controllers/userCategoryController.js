@@ -129,7 +129,7 @@ const stopOnlineReading=async(req,res,next)=>{
      
 
     const reading=await ReadOnline.findOne({
-        studentId,
+        student:studentId,
         bookId,
         isActive:true
     })

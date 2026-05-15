@@ -64,9 +64,9 @@ const loggedForm=async(req,res,next)=>{
     const token=tokenCreate(student)
     res.cookie('token',token,{
         httpOnly:true,
-        secure:true,
+        secure:false,
         sameSite:'lax',
-        maxAge:20*60*1000
+        maxAge:30*24*60*60*1000
     })
         return res.redirect(`/User/dashboard/${student._id}`)
     
@@ -247,7 +247,7 @@ return next(new NotFoundError('student not found'))
 let image=user.image
 
 if(req.file){
-    image='/uploads/'+req.file.filename
+    image=req.file.path
 }
  
     user.username=req.body.username

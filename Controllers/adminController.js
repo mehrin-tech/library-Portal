@@ -219,8 +219,9 @@ const addBook=async(req,res,next)=>{
     try{
 const {bookname,author,isbn,quantity,date}=req.body
 
-const image = req.file ? '/' + req.file.path.replace(/\\/g,"/"): '/images/atomichabits.jpg';
-
+const image = req.file
+  ? req.file.path
+  : '/images/atomichabits.jpg';
 //check is isbn arleady exists
 const bookExists=await Book.findOne({isbn})
 if(bookExists){
@@ -292,7 +293,7 @@ const updateBook=async(req,res,next)=>{
     book.publishedDate= req.body.publishedDate;
 
     if(req.file){
-        book.image='/'+req.file.path.replace(/\\/g,"/")
+        book.image='/'+req.file.path
 
     }
     await book.save()

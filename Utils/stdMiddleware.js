@@ -9,7 +9,7 @@ function tokenCreate(student){
         username:student.username,
         role:'student'},
         JWT_SECRET,
-        {expiresIn:'1hr'}
+        {expiresIn:'30'}
     )
 }
 function requireStdAuth(req,res,next){

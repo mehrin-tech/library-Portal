@@ -1,22 +1,22 @@
 import {Router} from 'express'
-
-import multer from 'multer'
+import upload from '../config/multerCloudinary.js'
+// import multer from 'multer'
 import { signupUser,loginForm, loggedForm, getDashboard, editStd, updated, viewBooks, issued, returnRqst,getChat, getUsedBooks,getProfile,logout, payFine } from '../Controllers/userController.js'
 const router=Router()
 import {requireStdAuth,preventStdLogin} from '../Utils/stdMiddleware.js'
 
 import {sendContactMessage} from '../Controllers/userController.js'
 
-const storage=multer.diskStorage({
-    destination:function(req,file,cb){
-        cb(null,'./uploads')
-    },
-    filename:function(req,file,cb){
-        const cleanName=file.originalname.replace(/\s+/g,'-').toLocaleLowerCase()
-        cb(null,`${Date.now()}-${cleanName}`)
-    }
-})
-const upload=multer({storage})
+// const storage=multer.diskStorage({
+//     destination:function(req,file,cb){
+//         cb(null,'./uploads')
+//     },
+//     filename:function(req,file,cb){
+//         const cleanName=file.originalname.replace(/\s+/g,'-').toLocaleLowerCase()
+//         cb(null,`${Date.now()}-${cleanName}`)
+//     }
+// })
+// const upload=multer({storage})
 //=================user route===============
 router.get('/login',preventStdLogin,loginForm)
 router.post('/login',loggedForm)

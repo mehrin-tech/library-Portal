@@ -1,14 +1,15 @@
 import {Router} from 'express'
-import multer from "multer"
+// import multer from "multer"
+import upload from '../config/multerCloudinary.js'
 const router=Router()
 
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "./uploads"),
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname)
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => cb(null, "./uploads"),
+//   filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname)
+// });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 
 import {requireAuth,preventLogin} from '../Utils/adminMiddleware.js'
