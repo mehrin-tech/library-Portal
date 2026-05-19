@@ -12,12 +12,12 @@
   <%- include('../partials/userSidebar') %>
 
   <!-- ✅ FIXED MAIN -->
-  <main class="ml-0 md:ml-20 flex items-center justify-center min-h-screen p-4 md:p-8">
+  <main class="ml-0 md:ml-20 flex items-center justify-center min-h-screen p-3 sm:p-5 lg:p-8">
 
     <!-- ✅ CENTER CONTROL -->
-    <div class="w-full max-w-lg mx-auto bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+    <div class="w-full max-w-lg mx-auto bg-white rounded-2xl sm:rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
 
-      <div class="p-6 md:p-8">
+      <div class="p-5 sm:p-6 md:p-8">
 
         <!-- HEADER -->
         <div class="flex flex-col md:flex-row items-center gap-5 mb-8 pb-6 border-b border-slate-50 text-center md:text-left">
@@ -26,12 +26,12 @@
             <img
               src="<%= student.image %>"
               alt="Student Photo"
-              class="w-24 h-24 rounded-2xl object-cover ring-2 ring-teal-50 shadow-md"
+              class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover ring-2 ring-teal-50 shadow-md"
             />
           </div>
 
           <div>
-            <h2 class="text-2xl font-bold text-slate-800">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-800">
               <%= student.username %>
             </h2>
           </div>
@@ -39,31 +39,31 @@
         </div>
 
         <!-- DETAILS -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8 text-center md:text-left">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 mb-8 text-center md:text-left">
 
           <div>
-            <p class="text-sm font-semibold text-slate-400">Department</p>
+            <p class="text-xs sm:text-sm font-semibold text-slate-400">Department</p>
             <p class="text-base font-semibold text-slate-700">
               <%= student.department %>
             </p>
           </div>
 
           <div>
-            <p class="text-sm font-semibold text-slate-400">Semester</p>
+            <p class="text-xs sm:text-sm font-semibold text-slate-400">Semester</p>
             <p class="text-base font-semibold text-slate-700">
               Semester <%= student.semester %>
             </p>
           </div>
 
           <div>
-            <p class="text-sm font-semibold text-slate-400">Email</p>
+            <p class="text-xs sm:text-sm font-semibold text-slate-400">Email</p>
             <p class="text-base font-semibold text-slate-700">
               <%= student.email %>
             </p>
           </div>
 
           <div>
-            <p class="text-sm font-semibold text-slate-400">Status</p>
+            <p class="text-xs sm:text-sm font-semibold text-slate-400">Status</p>
 
             <span class="inline-flex items-center justify-center md:justify-start gap-1 px-3 py-1 rounded-full text-sm font-semibold
               <%= student.status === 'Active'
@@ -85,12 +85,12 @@
         <div class="flex flex-col md:flex-row gap-3">
 
           <a href="/User/dashboard/<%=student.id%>"
-            class="flex-1 px-6 py-3 rounded-xl border border-slate-200 text-slate-500 text-sm font-semibold hover:bg-slate-50 transition text-center">
+            class="flex-1 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl border border-slate-200 text-slate-500 text-sm font-semibold hover:bg-slate-50  text-center transition-all duration-300 active:scale-[0.98]">
             Return to Dashboard
           </a>
 
           <a href="/User/edit/<%=student.id%>"
-            class="flex-1 px-6 py-3 rounded-xl bg-[#2d8a75] text-white text-sm font-semibold shadow-md hover:bg-teal-700 transition text-center">
+            class="flex-1 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-[#2d8a75] text-white text-sm font-semibold shadow-md hover:bg-teal-700  text-center transition-all duration-300 active:scale-[0.98]">
             Update Profile
           </a>
 

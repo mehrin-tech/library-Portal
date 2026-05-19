@@ -19,18 +19,18 @@
 
 <%- include('../partials/userSidebar') %>
 
-<main class="ml-0 md:ml-20 p-4 md:p-8">
+<main class="ml-0 md:ml-20 p-3 sm:p-5 lg:p-8">
 
 <!-- HEADER -->
 <header class="flex flex-col md:flex-row justify-between items-center gap-4 mb-10 text-center md:text-left">
 
 <div>
-<h1 class="text-3xl font-black text-slate-800">
+<h1 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-800">
 Read <span class="text-[#2d8a75]">Books List</span>
 </h1>
 </div>
 
-<div class="bg-white px-6 py-3 rounded-2xl border shadow-sm">
+<div class="bg-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl border shadow-sm">
 <p class="text-xs font-bold text-slate-400 uppercase">Total Books</p>
 <p class="text-lg font-bold"><%= usedBooks.length %></p>
 </div>
@@ -38,20 +38,20 @@ Read <span class="text-[#2d8a75]">Books List</span>
 </header>
 
 <!-- TABLE -->
-<div class="bg-white rounded-3xl shadow-xl border overflow-hidden">
+<div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl border overflow-hidden">
 
 <div class="overflow-x-auto scrollbar-hide px-2 md:px-0">
 
-<table class="w-full">
+<table class="min-w-[850px] w-full">
 
 <thead class="bg-slate-50">
 <tr>
-  <th class="px-4 md:px-8 py-3 md:py-5 text-left text-xs uppercase text-slate-400">ID</th>
+  <th class="px-4 md:px-8 py-3 md:py-5 text-left text-[10px] sm:text-xs uppercase text-slate-400">ID</th>
 
-<th class="px-4 md:px-8 py-3 md:py-5 text-left text-xs uppercase text-slate-400">Title</th>
-<th class="px-4 md:px-8 py-3 md:py-5 text-center text-xs uppercase text-slate-400">Issue Date</th>
-<th class="px-4 md:px-8 py-3 md:py-5 text-center text-xs uppercase text-slate-400">Return Date</th>
-<th class="px-4 md:px-8 py-3 md:py-5 text-right text-xs uppercase text-slate-400">Status</th>
+<th class="px-3 sm:px-4 md:px-8 py-3 md:py-5 text-left text-[10px] sm:text-xs uppercase text-slate-400">Title</th>
+<th class="px-3 sm:px-4 md:px-8 py-3 md:py-5 text-center text-[10px] sm:text-xs uppercase text-slate-400">Issue Date</th>
+<th class="px-3 sm:px-4 md:px-8 py-3 md:py-5 text-center text-[10px] sm:text-xs uppercase text-slate-400">Return Date</th>
+<th class="px-3 sm:px-4 md:px-8 py-3 md:py-5 text-right text-[10px] sm:text-xs uppercase text-slate-400">Status</th>
 </tr>
 </thead>
 
@@ -74,15 +74,20 @@ No history found
 <tr class="border-t hover:bg-slate-50 transition">
 
   <td>
-    <span class="px-8 py-6 text-center text-sm font-semibold text-slate-600">
+    <span class="px-4 sm:px-6 md:px-8
+py-4 sm:py-5 md:py-6
+text-center text-xs sm:text-sm
+font-semibold text-slate-600">
 ID: <%= i.book ? index+1 : '' %>
 </span>
   </td>
 <!-- BOOK -->
-<td class="px-8 py-6">
+<td class="px-4 sm:px-6 md:px-8
+py-4 sm:py-5 md:py-6">
 <div class="flex flex-col">
 
-<span class="font-bold text-slate-800">
+<span class="text-xs sm:text-sm
+font-bold text-slate-800">
 <%= i.book ? i.book.title : 'Removed Book' %>
 </span>
 
@@ -92,21 +97,29 @@ ID: <%= i.book ? index+1 : '' %>
 </td>
 
 <!-- ISSUE DATE -->
-<td class="px-8 py-6 text-center text-sm font-semibold text-slate-600">
+<td class="px-4 sm:px-6 md:px-8
+py-4 sm:py-5 md:py-6
+text-center text-xs sm:text-sm
+font-semibold text-slate-600">
 <%= i.issueDate ? new Date(i.issueDate).toLocaleDateString() : '—' %>
 </td>
 
 <!-- RETURN DATE -->
-<td class="px-8 py-6 text-center text-sm font-semibold text-slate-600">
+<td class="px-4 sm:px-6 md:px-8
+py-4 sm:py-5 md:py-6
+text-center text-xs sm:text-sm
+font-semibold text-slate-600">
 <%= i.actualReturnDate ? new Date(i.actualReturnDate).toLocaleDateString() : '—' %>
 </td>
 
 <!-- STATUS -->
-<td class="px-8 py-6 text-right">
+<td class="px-4 sm:px-6 md:px-8
+py-4 sm:py-5 md:py-6 text-right">
 
 <% if (i.status === 'issued') { %>
 
-<span class="px-3 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-600">
+<span class="px-2.5 sm:px-3 py-1
+text-[10px] sm:text-xs font-bold rounded-full bg-blue-100 text-blue-600">
 Borrowed
 </span>
 
@@ -137,18 +150,18 @@ Returned
 Page <%= currentPage %> of <%= totalPages %>
 </p>
 
-<div class="flex gap-2">
+<div class="flex flex-wrap justify-center gap-2">
 
 <% if (currentPage > 1) { %>
 <a href="?page=<%= currentPage-1 %>"
-class="px-3 md:px-4 py-2 border rounded-lg text-sm hover:bg-teal-50">
+class="px-3 sm:px-4 py-2 border rounded-lg text-sm hover:bg-teal-50">
 Prev
 </a>
 <% } %>
 
 <% if (currentPage < totalPages) { %>
 <a href="?page=<%= currentPage+1 %>"
-class="px-3 md:px-4 py-2 border rounded-lg text-sm hover:bg-teal-50">
+class="px-3 sm:px-4 py-2 border rounded-lg text-sm hover:bg-teal-50">
 Next
 </a>
 <% } %>
