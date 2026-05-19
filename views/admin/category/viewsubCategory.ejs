@@ -10,7 +10,7 @@
 <body class="bg-slate-50 h-screen font-sans  ">
 <%- include('../../partials/adminSidebar') %>
 
-<main class="ml-20 p-8">
+<main class="ml-0 md:ml-20 p-3 md:p-8">
   <div class="max-w-full mx-auto px-6 ">
 
 
@@ -40,18 +40,18 @@
 
 
   <!-- TABLE -->
-  <div class="bg-white rounded-3xl shadow border overflow-hidden">
+  <div class="bg-white rounded-3xl shadow border overflow-x-auto">
  
     <% if (sub && sub.length > 0) { %>
-    <table class="w-full">
+    <table class="min-w-[900px]  w-full">
       <thead class="bg-slate-50">
         <tr>
-          <th class="px-6 py-4 text-xs text-slate-400">ID</th>
-          <th class="px-6 py-4 text-xs text-slate-400">Cover</th>
-          <th class="px-6 py-4 text-xs text-slate-400">Author</th>
-          <th class="px-6 py-4 text-xs text-slate-400">Book Title</th>
-          <th class="px-6 py-4 text-xs text-slate-400">Description</th>
-          <th class="px-6 py-4 text-xs text-slate-400 text-center">Control</th>
+          <th class="px-3 md:px-6 py-4 text-xs text-slate-400">ID</th>
+          <th class="px-3 md:px-6 py-4 text-xs text-slate-400">Cover</th>
+          <th class="px-3 md:px-6 py-4 text-xs text-slate-400">Author</th>
+          <th class="px-3 md:px-6 py-4 text-xs text-slate-400">Book Title</th>
+          <th class="hidden lg:table-cell px-3 md:px-6 py-4 text-xs text-slate-400">Description</th>
+          <th class="px-3 md:px-6 py-4 text-xs text-slate-400 text-center">Control</th>
         </tr>
       </thead>
 
@@ -59,13 +59,13 @@
       <% sub.forEach((s,i )=> { %>
         <tr class="border-t hover:bg-slate-50">
 
-          <td class="px-6 py-5 text-sm text-slate-500">#<%= i+1 %></td>
+          <td class="px-6 py-5 text-xs md:text-sm text-slate-500">#<%= i+1 %></td>
 
           <td class="px-6 py-5">
             <% if (s.image) { %>
              <a href="/admin/category/<%=category._id%>/book/<%=s._id%>"><img
                 src="<%= s.image %>"
-                class="w-14 h-20 object-cover rounded-xl shadow cursor-pointer"
+                class="w-12 h-16 md:w-14 md:h-20 object-cover rounded-xl shadow cursor-pointer"
                 data-image="<%= s.image %>"
                 data-title="<%= s.bookTitle %>"
                 data-description="<%= s.description || 'No description available' %>"
@@ -81,11 +81,12 @@
           <td class="px-6 py-5 text-sm font-semibold"><%= s.author %></td>
           <td class="px-6 py-5 text-sm"><%= s.bookTitle %></td>
             <!-- <td class="px-6 py-5 text-sm"><%= s.author %></td> -->
-          <td class="px-6 py-5 text-xs text-slate-500 max-w-xs italic">
+          <td class="hidden lg:table-cell px-6 py-5 text-xs text-slate-500 max-w-xs italic">
             "<%= s.description ? s.description.substring(0, 60) + '...' : 'No description' %>"
           </td>
 
-        <td class="px-6 py-5 text-center space-x-2">
+       <td class="px-6 py-5">
+  <div class="flex flex-col md:flex-row gap-2 justify-center">
 
   <!-- EDIT -->
   <a
@@ -114,7 +115,7 @@
   >
     Delete
   </button>
-
+</div>
 </td>
 
 
