@@ -11,7 +11,7 @@
  <body class="bg-slate-50 min-h-screen font-sans overflow-x-hidden">
 <%- include('../../partials/adminSidebar')%>
  <main class="ml-0 md:ml-20 p-3 sm:p-5 md:p-8 min-h-screen">
-<div class="max-w-full mx-auto px-6 ">
+<!-- <div class="max-w-full mx-auto px-6 ">
 
   <div class="bg-teal-800 rounded-2xl p-4 sm:p-5 md:p-6 mb-8 md:mb-12 shadow-2xl shadow-slate-900/20 relative overflow-hidden">
     <div class="absolute -top-24 -right-24 w-64 h-20 bg-teal-500/10 rounded-full blur-3xl"></div>
@@ -47,9 +47,44 @@
         Add New
       </a>
     </div>
-  </div> 
+  </div>  -->
 
+ <div class="max-w-7xl mx-auto 
+              bg-white/80 backdrop-blur-xl 
+              shadow-[0_32px_64px_-15px_rgba(13,27,42,0.12)]
+              rounded-2xl md:rounded-[2.5rem] overflow-hidden 
+              border border-white">
 
+    <!-- HEADER -->
+    <div class="px-4 md:px-8 py-4 md:py-5 border-b 
+                flex flex-col md:flex-row justify-between gap-4">
+
+      <h1 class="text-lg md:text-[22px] font-black text-slate-800">
+        Collection <span class="text-[#2D8B75]">Categories</span>
+      </h1>
+
+      <div class="flex flex-col sm:flex-row gap-2 sm:items-center w-full sm:w-auto">
+
+        <div class="relative w-full sm:w-64">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+            🔍
+          </span>
+
+          <input
+            type="text"
+            id="searchCategory"
+            placeholder="Search categories, authors, or IDs......"
+            class="w-full pl-9 pr-3 py-2 bg-slate-50 border rounded-xl text-sm focus:ring-2 focus:ring-[#2D8B75]"
+          />
+        </div>
+
+        <a href="/admin/category/add"
+           class="bg-[#2D8B75] text-white px-4 py-2 rounded-xl text-sm text-center">
+          Add
+        </a>
+
+      </div>
+    </div>
    
 
         
