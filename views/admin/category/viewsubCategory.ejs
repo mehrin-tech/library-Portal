@@ -11,7 +11,7 @@
 <%- include('../../partials/adminSidebar') %>
 
 <main class="ml-0 md:ml-20 p-3 md:p-8">
-  <div class="max-w-full mx-auto px-6 ">
+  <!-- <div class="max-w-full mx-auto px-6 ">
 
 
 
@@ -36,8 +36,34 @@
     Add Subcategory
   </a>
 
-</div> 
+</div>  -->
+<div class="max-w-7xl mx-auto 
+              bg-white/80 backdrop-blur-xl 
+              shadow-[0_32px_64px_-15px_rgba(13,27,42,0.12)]
+              rounded-2xl md:rounded-[2.5rem] overflow-hidden 
+              border border-white">
 
+    <!-- HEADER -->
+    <div class="px-4 md:px-8 py-4 md:py-5 border-b 
+                flex flex-col md:flex-row justify-between gap-4">
+
+       <div> 
+    <h1 class="text-lg font-black font-extrabold"><%= category.category %></h1>
+   
+   </div> 
+
+      <div class="flex flex-col sm:flex-row gap-2 sm:items-center w-full sm:w-auto">
+
+       
+
+        <a href="/admin/category/<%= category._id %>/sub/add"
+           class="bg-[#2D8B75] text-white px-4 py-2 rounded-xl text-sm text-center">
+          Add
+        </a>
+
+      </div>
+    </div>
+   
 
   <!-- TABLE -->
   <div class="bg-white rounded-3xl shadow border overflow-x-auto">
