@@ -5,17 +5,14 @@ const sendContactEmail=async(fullname,email,message)=>{
 
 const transporter=nodemailer.createTransport({
      host:"smtp.gmail.com",
-     port:587,
-     secure:false,
+     port:465,
+     secure:true,
     
     
     //service:"gmail",
     auth:{
         user:process.env.EMAIL_USER,
         pass:process.env.EMAIL_PASS
-    },
-    tls:{
-        rejectUnauthorized:false
     }
 })
 
@@ -35,6 +32,7 @@ const transporter=nodemailer.createTransport({
     };
 
     await transporter.sendMail(mailOptions)
+    console.log('mail send successfully')
 
 }
 export{sendContactEmail}
