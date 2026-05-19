@@ -11,23 +11,29 @@
 
 <%- include('../partials/adminSidebar') %>
 
-<main class="ml-20 px-8 pt-2 pb-8">
+<main class="ml-0 md:ml-20
+px-3 sm:px-5 lg:px-8
+pt-16 md:pt-2
+pb-6 lg:pb-8">
 
-  <div class="max-w-6xl mx-auto px-6 pt-0 pb-10">
+  <div class="max-w-6xl mx-auto
+px-0 sm:px-2 lg:px-6
+pt-0 pb-6 sm:pb-10">
 
     <!-- HEADER -->
     <div class="flex items-center justify-between mb-8">
-      <h1 class="text-4xl font-black tracking-tighter text-slate-900">
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tighter text-slate-900">
        Chat <span class="text-teal-600">Lists</span>
       </h1>
     </div>
 
     <!-- CARD -->
-    <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50
+    <div class="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-2xl shadow-slate-200/50
                 border border-slate-100 overflow-hidden">
 
       <!-- SEARCH BAR -->
-      <div class="px-10 py-8 border-b border-slate-100
+      <div class="px-4 sm:px-6 lg:px-10
+py-5 sm:py-6 lg:py-8 border-b border-slate-100
                   flex flex-col md:flex-row items-center gap-6">
 
         <div class="relative w-full md:w-96">
@@ -44,7 +50,9 @@
             type="text"
             id="searchInp"
             placeholder="Search by name or student ID..."
-            class="w-full pl-12 pr-6 py-4 bg-slate-50 border border-slate-200
+            class="w-full pl-10 sm:pl-12
+pr-4 sm:pr-6
+py-3 sm:py-4 bg-slate-50 border border-slate-200
                    rounded-2xl text-sm font-semibold
                    focus:outline-none focus:ring-4
                    focus:ring-teal-500/10 focus:border-teal-500
@@ -66,14 +74,16 @@
 
         <% users.forEach((user) => { %>
           <a href="/admin/adminChat/<%= user.id %>"
-             class="flex items-center gap-6 px-10 py-6
+             class="flex items-center gap-3 sm:gap-4 lg:gap-6
+px-4 sm:px-6 lg:px-10
+py-4 sm:py-5 lg:py-6
                     transition-all duration-200
                     hover:bg-teal-50 hover:translate-x-1">
 
             <!-- AVATAR -->
-            <div class="w-14 h-14 rounded-full bg-teal-600 text-white
+            <div class="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-teal-600 text-white
                         flex items-center justify-center
-                        text-xl font-semibold font-black shadow-lg
+                        text-sm sm:text-base lg:text-xl font-semibold font-black shadow-lg
                         shadow-teal-900/20
                         transition-transform
                         hover:scale-105">
@@ -82,7 +92,7 @@
 
             <!-- NAME -->
             <div class="flex-1">
-              <h3 class="student-name text-md font-semibold font-black text-slate-800
+              <h3 class="student-name text-sm sm:text-base font-semibold font-black text-slate-800
                          tracking-tight transition-colors
                          hover:text-teal-700">
                 <%= user.username %>
@@ -96,11 +106,13 @@
     </div>
      <!-- PAGINATION -->
   <% if (totalPages > 1) { %>
-    <div class="flex justify-center items-center gap-2 py-10">
+    <div class="flex flex-wrap justify-center items-center
+gap-2
+py-6 sm:py-10">
 
       <% if (currentPage > 1) { %>
         <a href="/admin/chatList?page=<%= currentPage - 1 %>"
-           class="px-4 py-2 rounded-xl text-sm font-bold
+           class="px-3 sm:px-4 py-2 rounded-xl text-sm font-bold
                   bg-slate-100 text-slate-600
                   hover:bg-teal-100">
           Prev
