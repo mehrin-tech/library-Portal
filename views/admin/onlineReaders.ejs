@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Online Readers</title>
 
-  <!-- Tailwind -->
+ 
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -15,7 +15,7 @@
 <main class="ml-20 p-8">
   <div class="max-w-6xl mx-auto p-8">
 
-    <!-- Page Title -->
+   
     <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
     Online<span class="text-teal-600">Readers</span>
     </h2>
@@ -67,5 +67,211 @@
 
   </div>
 </main>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Online Readers</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#f6faf9] text-slate-800 font-sans">
+
+<%- include('../partials/adminSidebar') %>
+
+<!-- MAIN -->
+<main class="ml-0 md:ml-20 p-3 sm:p-5 lg:p-8">
+
+  <div class="max-w-6xl mx-auto">
+
+    <!-- HEADER -->
+    <div class="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl
+                 font-black tracking-tight
+                 text-slate-800 text-center sm:text-left">
+
+        Online <span class="text-teal-600">Readers</span>
+
+      </h2>
+
+      <!-- OPTIONAL COUNT -->
+      <div class="bg-white border border-slate-200
+                  rounded-2xl
+                  px-4 sm:px-5
+                  py-2.5 sm:py-3
+                  shadow-sm">
+
+        <p class="text-[10px] sm:text-xs
+                  font-bold uppercase
+                  text-slate-400 tracking-wider">
+
+          Active Readers
+
+        </p>
+
+        <p class="text-lg font-black text-slate-700">
+          <%= readers.length %>
+        </p>
+
+      </div>
+
+    </div>
+
+    <% if (readers.length === 0) { %>
+
+      <!-- EMPTY STATE -->
+      <div class="bg-white border border-slate-200
+                  rounded-2xl sm:rounded-3xl
+                  p-8 sm:p-10
+                  text-center text-slate-500
+                  shadow-sm">
+
+        No students are reading online right now.
+
+      </div>
+
+    <% } else { %>
+
+      <!-- TABLE CARD -->
+      <div class="bg-white
+                  border border-slate-200
+                  rounded-2xl sm:rounded-3xl
+                  shadow-xl shadow-slate-200/50
+                  overflow-hidden">
+
+        <!-- TABLE WRAPPER -->
+        <div class="overflow-x-auto">
+
+          <table class="min-w-[850px] w-full text-left">
+
+            <!-- TABLE HEAD -->
+            <thead class="bg-[#E8F2EE]">
+
+              <tr>
+
+                <th class="px-4 sm:px-6 md:px-8
+                           py-3 sm:py-4 md:py-5
+                           text-[10px] sm:text-xs
+                           font-black uppercase
+                           tracking-wider
+                           text-slate-600">
+
+                  Student
+
+                </th>
+
+                <th class="px-4 sm:px-6 md:px-8
+                           py-3 sm:py-4 md:py-5
+                           text-[10px] sm:text-xs
+                           font-black uppercase
+                           tracking-wider
+                           text-slate-600">
+
+                  Department
+
+                </th>
+
+                <th class="px-4 sm:px-6 md:px-8
+                           py-3 sm:py-4 md:py-5
+                           text-[10px] sm:text-xs
+                           font-black uppercase
+                           tracking-wider
+                           text-slate-600">
+
+                  Book
+
+                </th>
+
+                <th class="px-4 sm:px-6 md:px-8
+                           py-3 sm:py-4 md:py-5
+                           text-[10px] sm:text-xs
+                           font-black uppercase
+                           tracking-wider
+                           text-slate-600">
+
+                  Started At
+
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <!-- TABLE BODY -->
+            <tbody class="divide-y divide-slate-100">
+
+              <% readers.forEach(r => { %>
+
+                <tr class="hover:bg-[#F8FBFA]
+                           transition-all duration-300">
+
+                  <!-- STUDENT -->
+                  <td class="px-4 sm:px-6 md:px-8
+                             py-4 sm:py-5 md:py-6
+                             text-xs sm:text-sm
+                             font-bold
+                             text-slate-700">
+
+                    <%= r.studentname %>
+
+                  </td>
+
+                  <!-- DEPARTMENT -->
+                  <td class="px-4 sm:px-6 md:px-8
+                             py-4 sm:py-5 md:py-6
+                             text-xs sm:text-sm
+                             font-semibold
+                             text-slate-600">
+
+                    <%= r.department %>
+
+                  </td>
+
+                  <!-- BOOK -->
+                  <td class="px-4 sm:px-6 md:px-8
+                             py-4 sm:py-5 md:py-6
+                             text-xs sm:text-sm
+                             font-semibold
+                             text-slate-700">
+
+                    <%= r.bookName %>
+
+                  </td>
+
+                  <!-- START TIME -->
+                  <td class="px-4 sm:px-6 md:px-8
+                             py-4 sm:py-5 md:py-6
+                             text-[11px] sm:text-sm
+                             font-medium
+                             text-slate-500">
+
+                    <%= new Date(r.startTime).toLocaleString() %>
+
+                  </td>
+
+                </tr>
+
+              <% }) %>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    <% } %>
+
+  </div>
+
+</main>
+
 </body>
 </html>
