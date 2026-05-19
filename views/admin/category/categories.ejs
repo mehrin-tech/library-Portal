@@ -8,15 +8,15 @@
 
 </head>
 
- <body class="bg-slate-50 min-h-screen font-sans overflow-y-auto md:overflow-hidden ">
+ <body class="bg-slate-50 min-h-screen font-sans overflow-x-hidden">
 <%- include('../../partials/adminSidebar')%>
- <main class="ml-0 md:ml-20 p-4 sm:p-6 md:p-8 h-auto md:h-screen overflow-y-auto">
+ <main class="ml-0 md:ml-20 p-3 sm:p-5 md:p-8 min-h-screen">
 <div class="max-w-full mx-auto px-6 ">
 
   <div class="bg-teal-800 rounded-lg p-5 mb-12 shadow-2xl shadow-slate-900/20 relative overflow-hidden">
     <div class="absolute -top-24 -right-24 w-64 h-20 bg-teal-500/10 rounded-full blur-3xl"></div>
     
-    <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-5">
       <div>
         <h1 class="text-xl font-black text-slate-900 tracking-tight">
           Collection <span class="text-white">Categories</span>
@@ -24,7 +24,7 @@
         
       </div>
 
-      <div class="flex-1 max-w-xl">
+      <div class="w-full xl:flex-1 xl:max-w-xl">
         <div class="relative">
           <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <a href="/admin/category/add" class="bg-teal-primary text-white px-6 py-2.5 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-lg shadow-teal-900/40 flex items-center justify-center gap-2 active:scale-95">
+      <a href="/admin/category/add" class="w-full sm:w-auto bg-teal-600 text-white px-6 py-3 rounded-2xl hover:bg-teal-700 transition-all font-bold shadow-lg shadow-teal-900/40 flex items-center justify-center gap-2 active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
         </svg>
@@ -58,14 +58,14 @@
 
 
   <!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-6"> -->
-<div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-7">
 
     <% if (categories && categories.length > 0) { %>
       <% categories.forEach((cat,i) => { %>
 
         <div class="category-card group bg-white rounded-lg shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden transition-all duration-300 hover:-translate-y-2">
           
-          <div class="relative h-48 overflow-hidden">
+          <div class="relative h-52 sm:h-56 lg:h-60 overflow-hidden">
             <% if (cat.image) { %>
               <a href="/admin/category/view/<%= cat.id %>">
                 <img
@@ -100,9 +100,9 @@
             </a>
           </div>
 
-          <div class="p-6">
+          <div class="p-4 sm:p-6">
             <div class="flex justify-between items-start mb-2">
-              <h2 class="text-xl font-bold text-slate-800 tracking-tight"><%= cat.category %></h2>
+              <h2 class="text-lg sm:text-xl font-bold text-slate-800 tracking-tight"><%= cat.category %></h2>
               <span class="text-[10px] font-mono font-black text-slate-300 bg-slate-50 px-2 py-0.5 rounded">#<%= i+1 %></span>
             </div>
 
@@ -146,7 +146,7 @@
   <!---pagination-->
 
   <%if(totalPages>1){%>
-<div class="flex justify-center items-center gap-2 py-10">
+<div class="flex flex-wrap justify-center items-center gap-2 py-8">
 
 
   <!--prev button-->
