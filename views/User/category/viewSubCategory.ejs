@@ -13,101 +13,211 @@
 <%- include('../../partials/userSidebar') %>
 
 <!-- HEADER -->
-<header class="ml-20 bg-white border-b border-slate-100 sticky top-0 z-40">
-  <div class="px-6 py-5 flex justify-between items-center">
+<header class="ml-0 md:ml-20 bg-white border-b border-slate-100 sticky top-0 z-40">
 
-    <div>
-      <h1 class="text-2xl font-bold text-slate-800">
+  <div class="px-3 sm:px-5 lg:px-8
+              py-4 sm:py-5
+              flex flex-col sm:flex-row
+              justify-between items-center
+              gap-4">
+
+    <div class="text-center sm:text-left">
+
+      <h1 class="text-xl sm:text-2xl lg:text-3xl
+                 font-bold text-slate-800">
+
         <%= category.category %>
+
       </h1>
-     
+
     </div>
 
   </div>
+
 </header>
 
 
 <!-- MAIN -->
-<main class="ml-20 p-8">
+<main class="ml-0 md:ml-20
+             p-3 sm:p-5 lg:p-8">
 
 <div class="max-w-6xl mx-auto">
 
   <!-- TABLE CARD -->
-  <div class="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden">
+  <div class="bg-white
+              rounded-2xl sm:rounded-3xl
+              shadow-xl shadow-slate-200/50
+              border border-slate-100
+              overflow-hidden">
 
     <% if (sub && sub.length > 0) { %>
 
-    <table class="w-full">
+    <!-- RESPONSIVE TABLE -->
+    <div class="overflow-x-auto">
 
-      <!-- TABLE HEADER -->
-      <thead class="bg-slate-50 text-slate-400 uppercase text-[11px] tracking-widest">
-        <tr>
-          <th class="px-6 py-4 text-left">ID</th>
-          <th class="px-6 py-4 text-left">Cover</th>
-          <th class="px-6 py-4 text-left">Author</th>
-          <th class="px-6 py-4 text-left">Book Title</th>
-          <th class="px-6 py-4 text-left">Overview</th>
-        </tr>
-      </thead>
+      <table class="min-w-[850px] w-full">
 
-      <!-- TABLE BODY -->
-      <tbody class="divide-y divide-slate-100">
+        <!-- TABLE HEADER -->
+        <thead class="bg-slate-50 text-slate-400 uppercase tracking-widest">
 
-      <% sub.forEach((s,i) => { %>
+          <tr>
 
-        <tr class="hover:bg-teal-50/40 transition">
+            <th class="px-4 sm:px-6 md:px-8
+                       py-3 sm:py-4 md:py-5
+                       text-[10px] sm:text-xs
+                       text-left">
 
-          <!-- ID -->
-          <td class="px-6 py-5 text-sm text-slate-500 font-semibold">
-            #<%= i+1 %>
-          </td>
+              ID
 
-          <!-- COVER -->
-          <td class="px-6 py-5">
-            <% if (s.image) { %>
+            </th>
 
-              <a href="/User/category/<%=category.id%>/book/<%=s.id%>">
-                <img
-                  src="<%= s.image %>"
-                  class="w-14 h-20 object-cover rounded-lg shadow-sm hover:scale-105 transition"
-                >
-              </a>
+            <th class="px-4 sm:px-6 md:px-8
+                       py-3 sm:py-4 md:py-5
+                       text-[10px] sm:text-xs
+                       text-left">
 
-            <% } else { %>
+              Cover
 
-              <div class="w-14 h-20 bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400">
-                Empty
-              </div>
+            </th>
 
-            <% } %>
-          </td>
+            <th class="px-4 sm:px-6 md:px-8
+                       py-3 sm:py-4 md:py-5
+                       text-[10px] sm:text-xs
+                       text-left">
 
-          <!-- AUTHOR -->
-          <td class="px-6 py-5 text-sm font-semibold text-slate-700">
-            <%= s.author %>
-          </td>
+              Author
 
-          <!-- BOOK TITLE -->
-          <td class="px-6 py-5 text-sm font-bold text-slate-800">
-            <%= s.bookTitle %>
-          </td>
+            </th>
 
-          <!-- DESCRIPTION -->
-          <td class="px-6 py-5 text-xs text-slate-500 italic max-w-xs">
-            "<%= s.description ? s.description.substring(0, 70) + '...' : 'No description available' %>"
-          </td>
+            <th class="px-4 sm:px-6 md:px-8
+                       py-3 sm:py-4 md:py-5
+                       text-[10px] sm:text-xs
+                       text-left">
 
-        </tr>
+              Book Title
 
-      <% }) %>
+            </th>
 
-      </tbody>
-    </table>
+            <th class="px-4 sm:px-6 md:px-8
+                       py-3 sm:py-4 md:py-5
+                       text-[10px] sm:text-xs
+                       text-left">
+
+              Overview
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <!-- TABLE BODY -->
+        <tbody class="divide-y divide-slate-100">
+
+        <% sub.forEach((s,i) => { %>
+
+          <tr class="hover:bg-teal-50/40
+                     transition-all duration-300">
+
+            <!-- ID -->
+            <td class="px-4 sm:px-6 md:px-8
+                       py-4 sm:py-5
+                       text-xs sm:text-sm
+                       text-slate-500
+                       font-semibold">
+
+              #<%= i+1 %>
+
+            </td>
+
+            <!-- COVER -->
+            <td class="px-4 sm:px-6 md:px-8
+                       py-4 sm:py-5">
+
+              <% if (s.image) { %>
+
+                <a href="/User/category/<%=category.id%>/book/<%=s.id%>">
+
+                  <img
+                    src="<%= s.image %>"
+                    class="w-12 h-16
+                           sm:w-14 sm:h-20
+                           object-cover
+                           rounded-lg shadow-sm
+                           hover:scale-105
+                           transition-all duration-500"
+                  >
+
+                </a>
+
+              <% } else { %>
+
+                <div class="w-12 h-16 sm:w-14 sm:h-20
+                            bg-slate-100 rounded-lg
+                            flex items-center justify-center
+                            text-[10px] sm:text-xs
+                            text-slate-400">
+
+                  Empty
+
+                </div>
+
+              <% } %>
+
+            </td>
+
+            <!-- AUTHOR -->
+            <td class="px-4 sm:px-6 md:px-8
+                       py-4 sm:py-5
+                       text-xs sm:text-sm
+                       font-semibold
+                       text-slate-700">
+
+              <%= s.author %>
+
+            </td>
+
+            <!-- BOOK TITLE -->
+            <td class="px-4 sm:px-6 md:px-8
+                       py-4 sm:py-5
+                       text-xs sm:text-sm
+                       font-bold
+                       text-slate-800">
+
+              <%= s.bookTitle %>
+
+            </td>
+
+            <!-- DESCRIPTION -->
+            <td class="px-4 sm:px-6 md:px-8
+                       py-4 sm:py-5
+                       text-[11px] sm:text-xs
+                       text-slate-500 italic
+                       max-w-xs">
+
+              "<%= s.description ? s.description.substring(0, 70) + '...' : 'No description available' %>"
+
+            </td>
+
+          </tr>
+
+        <% }) %>
+
+        </tbody>
+
+      </table>
+
+    </div>
 
     <% } else { %>
 
-      <div class="p-12 text-center text-slate-400 font-semibold">
+      <div class="p-8 sm:p-12
+                  text-center
+                  text-slate-400
+                  font-semibold">
+
         No books found in this category
+
       </div>
 
     <% } %>
@@ -116,39 +226,74 @@
 
 </div>
 </main>
+
+
+<!-- PAGINATION -->
 <% if(totalPages > 1){ %>
 
-<div class="flex justify-center mt-10">
+<div class="flex justify-center mt-6 sm:mt-10">
 
-  <div class="flex items-center gap-2">
+  <div class="flex flex-wrap items-center justify-center gap-2">
 
     <!-- PREV -->
     <% if(currentPage > 1){ %>
+
       <a href="?page=<%= currentPage - 1 %>"
-         class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-teal-100 transition">
+         class="px-3 sm:px-4
+                py-2
+                rounded-xl
+                text-xs sm:text-sm
+                font-bold
+                bg-slate-100 text-slate-600
+                hover:bg-teal-100
+                transition-all duration-300
+                active:scale-[0.97]">
+
         Prev
+
       </a>
+
     <% } %>
 
     <!-- PAGE NUMBERS -->
     <% for(let i = 1; i <= totalPages; i++){ %>
 
       <a href="?page=<%= i %>"
-         class="px-4 py-2 rounded-xl text-xs font-bold transition
-         <%= i === currentPage 
-           ? 'bg-teal-600 text-white'
-           : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>">
+         class="px-3 sm:px-4
+                py-2
+                rounded-xl
+                text-xs sm:text-sm
+                font-bold
+                transition-all duration-300
+                active:scale-[0.97]
+                <%= i === currentPage 
+                  ? 'bg-teal-600 text-white'
+                  : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>">
+
         <%= i %>
+
       </a>
 
     <% } %>
 
     <!-- NEXT -->
     <% if(currentPage < totalPages){ %>
+
       <a href="?page=<%= currentPage + 1 %>"
-         class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-teal-100 transition">
+         class="px-3 sm:px-4
+                py-2
+                rounded-xl
+                text-xs sm:text-sm
+                font-bold
+                bg-slate-100 text-slate-600
+                hover:bg-teal-100
+                transition-all duration-300
+                active:scale-[0.97]">
+
         Next
+
       </a>
+
     <% } %>
 
   </div>
@@ -156,7 +301,6 @@
 </div>
 
 <% } %>
-
 
 </body>
 </html>

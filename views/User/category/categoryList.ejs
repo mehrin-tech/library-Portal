@@ -5,13 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Category Registry | Library System</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- <style>
-    :root { --primary-teal: #008080; }
-    .bg-teal-primary { background-color: var(--primary-teal); }
-    .text-teal-primary { color: var(--primary-teal); }
-    .category-card:hover .category-image { transform: scale(1.05); }
-    .focus-ring-teal:focus { --tw-ring-color: var(--primary-teal); border-color: var(--primary-teal); }
-  </style> -->
+ 
 </head>
 
 <body class="bg-slate-50 min-h-screen font-sans">
@@ -21,27 +15,33 @@
 
 
 <!-- Header -->
-<header class="ml-20 bg-white border-b border-slate-100 sticky top-0 z-40">
-  <div class="px-8 py-5 flex justify-between items-center">
+<header class="ml-0 md:ml-20
+bg-white border-b border-slate-100
+sticky top-0 z-40">
+  <div class="px-3 sm:px-5 lg:px-8
+py-4 sm:py-5
+flex flex-col sm:flex-row
+justify-between items-center
+gap-4">
 
-    <div>
-      <h1 class="text-2xl font-bold text-slate-800">
+    <div class="text-center sm:text-left">
+      <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800">
         Category <span class="text-teal-600">Collection</span>
       </h1>
      
     </div>
 
     <!-- Search -->
-    <div class="w-80 relative">
+    <div class="w-full sm:w-80 relative">
       <input
         type="text"
         id="searchCategory"
         placeholder="Search category..."
-        class="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg border border-slate-200 focus:border-teal-600 focus:ring-2 focus:ring-teal-100 outline-none"
+        class="w-full pl-10 pr-4 py-2.5 sm:py-3 text-xs sm:text-sm rounded-lg border border-slate-200 focus:border-teal-600 focus:ring-2 focus:ring-teal-100 outline-none"
       />
 
       <svg xmlns="http://www.w3.org/2000/svg"
-           class="absolute left-3 top-3.5 h-4 w-4 text-slate-400"
+           class="absolute left-3 top-3 sm:top-3.5 h-4 w-4 text-slate-400"
            fill="none"
            viewBox="0 0 24 24"
            stroke="currentColor">
@@ -56,27 +56,32 @@
 
 
 <!-- Main -->
-<main class="ml-20 p-8 overflow-hidden">
+<main class="ml-0 md:ml-20
+p-3 sm:p-5 lg:p-8
+overflow-hidden">
 
   <div class="max-w-7xl mx-auto">
 
 
     <!-- Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-4 gap-6 overflow-hidden">
+    <div class="grid grid-cols-1 sm:grid-cols-2
+md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 overflow-hidden">
 
       <% if (categories && categories.length > 0) { %>
 
         <% categories.forEach((cat,i)=>{ %>
 
-          <div class="category-card bg-white rounded-xl border border-slate-100 shadow hover:shadow-md transition overflow-hidden">
+          <div class="category-card bg-white rounded-2xl border border-slate-100 shadow hover:shadow-xl
+hover:-translate-y-1
+transition-all duration-300 transition overflow-hidden">
 
             <!-- Image -->
-            <div class="h-40 overflow-hidden">
+            <div class="h-44 sm:h-48 overflow-hidden">
               <% if(cat.image){ %>
 
                 <a href="/User/category/view/<%= cat.id %>">
                   <img src="<%= cat.image %>"
-                       class="w-full h-full object-contain bg-slate-50 hover:scale-105 transition duration-300">
+                       class="w-full h-full object-cover bg-slate-50 hover:scale-105 transition-all duration-500">
                 </a>
 
               <% } else { %>
@@ -90,10 +95,10 @@
 
 
             <!-- Content -->
-            <div class="p-4 space-y-1">
+            <div class="p-3 sm:p-4 space-y-1">
 
               <div class="flex justify-between">
-                <h2 class="font-semibold text-slate-800">
+                <h2 class="text-sm sm:text-base lg:text-lg font-semibold text-slate-800">
                   <%= cat.category %>
                 </h2>
 
@@ -130,18 +135,23 @@
    <!---pagination-->
 
   <%if(totalPages>1){%>
-<div class="flex justify-center items-center gap-2 py-10">
+<div class="flex flex-wrap
+justify-center items-center
+gap-2
+py-6 sm:py-10">
 
 
   <!--prev button-->
   <%if(currentPage>1){%>
-      <a href="/User/category/categoryList?page=<%=currentPage -1 %>"  class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Prev</a>
+      <a href="/User/category/categoryList?page=<%=currentPage -1 %>"  class="px-3 sm:px-4
+py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Prev</a>
 
  <% }%>
 
  <!--page number-->
  <%for(let i=1;i<=totalPages;i++){%>
-   <a href="/User/category/categoryList?page=<%=i%>"class="px-4 py-2 rounded-xl text-sm font-bold
+   <a href="/User/category/categoryList?page=<%=i%>"class="px-3 sm:px-4
+py-2 rounded-xl text-sm font-bold
          <%= i === currentPage 
             ? 'bg-teal-600 text-white' 
             : 'bg-slate-100 text-slate-600 hover:bg-teal-100' %>"><%=i%></a>
@@ -151,7 +161,8 @@
 
  <!--next button-->
  <%if(currentPage< totalPages){%>
-      <a href="/User/category/categoryList?page=<%=currentPage+1%>" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Next</a>
+      <a href="/User/category/categoryList?page=<%=currentPage+1%>" class="px-3 sm:px-4
+py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 hover:bg-teal-100">Next</a>
 
  <%}%>
 </div>
