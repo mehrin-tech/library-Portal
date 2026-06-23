@@ -45,6 +45,9 @@ const loggedForm=async(req,res,next)=>{
   }
 
    //compare password
+   console.log("INPUT:", password)
+console.log("DB:", admin.password)
+   //const isMatch = password === admin.password
    const isMatch=await bcrypt.compare(password,admin.password)
     console.log('BCRYPT MATCH RESULT:', isMatch)
    if(!isMatch){
